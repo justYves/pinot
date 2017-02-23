@@ -67,6 +67,21 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.18</version>
         </plugin>
+        <plugin>
+          <groupId>com.github.klieber</groupId>
+          <artifactId>phantomjs-maven-plugin</artifactId>
+          <version>${phantomjs-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>install</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <version>1.9.7</version>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
