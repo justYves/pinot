@@ -190,7 +190,7 @@ public class AlertTaskRunner implements TaskRunner {
         templateData.put("reportStartDateTime", reportStartTs);
       }
 
-      Template template = freemarkerConfig.getTemplate("anomaly-report.ftl");
+      Template template = freemarkerConfig.getTemplate("anomaly-report-v2.ftl");
       template.process(templateData, out);
     } catch (Exception e) {
       throw new JobExecutionException(e);
