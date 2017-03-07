@@ -3,10 +3,16 @@
 var page = require('webpage').create();
 var system = require('system');
 var args = require('system').args;
+var options = {
+  anomalyRoute: args[1],
+  output: args[2],
+  width: args[3],
+  height: args[4],
+};
 
 page.viewportSize = {
-  width: 480,
-  height: 800
+  width: options.width || 800,
+  height: options.height || 1600
 };
 page.settings.resourceTimeout = 1000000;
 
@@ -46,32 +52,8 @@ page.onResourceReceived = function (response) {
   system.stderr.writeLine(requestsArray.length + ' pending requests');
 };
 
-// function onPageReady() {
-//     var htmlContent = page.evaluate(function () {
-//         return document.documentElement.outerHTML;
-//     });
 
-//     console.log(htmlContent);
-
-//     phantom.exit();
-// }
-
-page.open('http://localhost:1426/thirdeye#anomalies?anomaliesSearchMode=id&pageNumber=1&anomalyIds=2828648', function(status) {
-  // function checkReadyState() {
-  //       setTimeout(function () {
-  //           var readyState = page.evaluate(function () {
-  //               return document.readyState;
-  //           });
-
-  //           if ("complete" === readyState) {
-  //               onPageReady();
-  //           } else {
-  //               checkReadyState();
-  //           }
-  //       });
-  //   }
-
-    // checkReadyState();
+page.open(options.anomalyRoute, function(status) {
   system.stderr.writeLine('= onOpen()');
   system.stderr.writeLine(' PhantomJS version: ' + JSON.stringify(phantom.version));
   system.stderr.writeLine(' PhantomJS page settings: ' + JSON.stringify(page.settings));
@@ -90,7 +72,9 @@ page.onLoadFinished = function(status) {
 
     if (requestsArray.length === 0) {
       clearInterval(interval);
-      var clipRect = page.evaluate(function () { return document.querySelector('#anomaly-chart-0').getBoundingClientRect(); });
+      var clipRect = page.evaluate(function () {
+        return document.querySelector('#anomaly-chart-0').getBoundingClientRect();
+      });
       // var clipRect = document.querySelector('#anomaly-chart-0').getBoundingClientRect();
       page.clipRect = {
         top:    clipRect.top,
@@ -98,7 +82,7 @@ page.onLoadFinished = function(status) {
         width:  clipRect.width,
         height: clipRect.height
       };
-      page.render('capture.png');
+      page.render(options.output);
       phantom.exit();
     }
   }, 500);
