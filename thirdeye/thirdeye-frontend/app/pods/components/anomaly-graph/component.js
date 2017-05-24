@@ -14,22 +14,26 @@ export default Ember.Component.extend({
         ],
         type: 'line',
         x: 'date',
-        xFormat: '%Y-%m-%d %H:%M'
+        xFormat: '%Y-%m-%d %H:%M',
+        style: 'dashed'
       }
     }
   ),
-  axis: {
-    y: {
-      show: true
-    }, 
-    x: {
-      type: 'timeseries',
-      show: true,
-      tick: {
-        fit: false
+  axis: Ember.computed('anomaly', function (){
+    return {
+      y: {
+        show: true
+      }, 
+      x: {
+        type: 'timeseries',
+        show: true,
+        tick: {
+          fit: false
+        },
+        extent: [...this.get('anomaly.dates')].slice(1,20)
       }
     }
-  },
+  }),
   regions: Ember.computed('anomaly', function() {
     return [{
       axis: 'x',
@@ -39,5 +43,13 @@ export default Ember.Component.extend({
         format : '%m %d %Y'
       }
     }]
-  })
+  }),
+
+  color: {
+    pattern: ['#cccccc']
+  },
+
+  subchart: {
+    show: true
+  }
 });
