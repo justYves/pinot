@@ -30,7 +30,7 @@ export default Ember.Component.extend({
         tick: {
           fit: false
         },
-        extent: [...this.get('anomaly.dates')].slice(1,20)
+        // extent: [...this.get('anomaly.dates')].slice(1,2)
       }
     }
   }),
