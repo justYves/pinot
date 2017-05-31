@@ -21,31 +21,51 @@ const INITIAL_STATE = {
   failed: false,
 
   /**
-   * List the anomaly ids in order
+   * The primary metric Id
    */
-  ids: [],
+  id: null,
 
   /**
-   * Items in hash map
+   * The primary anomaly
    */
-  entities: {}
+  entity: {},
+
+  /**
+   * Lost of related Metric
+   */
+  relatedMetricIds: [],
+
+  relatedMetricEntities: {},
+
+  //data points
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case ActionTypes.LOAD: {
-      const anomalyList = action.payload.anomalyDetailsList;
-      const ids = anomalyList.map((anomaly) => anomaly.anomalyId);
-      const entities = anomalyList.reduce((entities, anomaly) => {
-        entities[anomaly.anomalyId] = anomaly;
-        return entities;
-      }, {});
+      const anomalyList = action.payload;
+      let id = null;
+      let entity = {};
+      // new: 
+      try {
+        id = anomalyList[0].metricId;
+        entity = anomalyList[0];
+      } catch(e) {
+        return new Error();
+      }
+      // const ids = anomalyList.map((anomaly) => anomaly.metricId);
+      // const entities = anomalyList.reduce((entities, anomaly) => {
+      //   entities[anomaly.metricId] = anomaly;
+      //   return entities;
+      // }, {});
 
       return Object.assign(state, {
         loading: false,
         loaded: true,
-        ids,
-        entities,
+        // ids,
+        // entities,
+        id,
+        entity
       });
     }
     case ActionTypes.LOADING:
@@ -59,6 +79,29 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         loading: false,
         failed: true
       });
+    
+    case ActionTypes.LOAD_METRIC_IDS: {
+      const relatedMetrics = action.payload;
+      const relatedMetricIds = relatedMetrics.map((metric) => metric.urn.split('thirdeye:metric:')[1])
+      // const relatedMetricEntities = relatedMetrics.reduce((entities, metric) => {
+      //   const id = metric.urn.split('thirdeye:metric:')[1];
+      //   entities[id] = metric;
+      //   return entities;
+      // },{})
+      return Object.assign(state, {
+        // relatedMetricEntities,
+        relatedMetricIds
+      });
+    }
+
+    case ActionTypes.LOAD_METRIC_DATA: {
+      const relatedMetricEntities = Object.assign({}, action.payload);
+
+      return Object.assign(state, {
+        relatedMetricEntities
+      })
+    }
   }
+  
   return state;
 }
