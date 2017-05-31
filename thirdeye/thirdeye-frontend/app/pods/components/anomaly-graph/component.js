@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'ul',
+  tagName: 'div',
   classNames: ['anomaly-graph'],
   data: Ember.computed(
     'anomaly',
@@ -51,5 +51,10 @@ export default Ember.Component.extend({
 
   subchart: {
     show: true
+  },
+  actions: {
+    onSelection() {
+      this.attrs.onSelection(...arguments);
+    }
   }
 });

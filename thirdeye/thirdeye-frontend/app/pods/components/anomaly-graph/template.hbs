@@ -1,6 +1,15 @@
-<li><strong>Name:</strong> {{anomaly.anomalyFunctionName}}</li>
+{{!--<li><strong>Name:</strong> {{anomaly.anomalyFunctionName}}</li>
 <li><strong>Current Start</strong> {{anomaly.currentStart}}</li>
-<li><strong>Current End</strong> {{anomaly.currentEnd}}</li>
+<li><strong>Current End</strong> {{anomaly.currentEnd}}</li>--}}
+<h2>Primary Metric</h2>
+{{input type="checkbox" checked=true click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}
+<h2>Related Metrics</h2>
+{{#each relatedMetrics as |metric|}}
+    <div>{{input type="checkbox" checked=true}} {{metric.metricName}} </div>
+{{else}}
+    No Related Metrics.
+{{/each}}
+
 {{c3-chart 
     data=data 
     axis=axis 

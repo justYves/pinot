@@ -24,3 +24,12 @@
   <h1>Example</h1>
   <p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>
 </main>
+
+  {{#if anomalyList.loaded}}
+      {{anomaly-graph anomaly=anomalyList.anomaly relatedMetrics=anomalyList.relatedMetrics onSelection=actions.onSelection}}
+    {{!--{{else}}
+      No anomalies found.
+    {{/each}}--}}
+  {{/if}}
+{{/containers/anomaly-container}}
+
