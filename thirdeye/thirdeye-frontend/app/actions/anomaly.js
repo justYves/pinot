@@ -70,39 +70,39 @@ function fetchData(id) {
   }  
 }
 
-function fetchRelatedMetricIds() {
-  return (dispatch, getState) => {
-    const metricId = getState().anomaly.id;
-    if (!metricId) { return; }
-    return fetch(`/rootcause/queryRelatedMetrics?current=1496152799999&baseline=1495609199999&windowSize=79199999&metricUrn=thirdeye:metric:${metricId}`)
-      .then(res => res.json())
-      .then(res => dispatch(loadRelatedMetricIds(res)))
-      .catch(() => {
-        // Todo: dispatch an error message
-      })
-  }
-}
+// function fetchRelatedMetricIds() {
+//   return (dispatch, getState) => {
+//     const metricId = getState().anomaly.id;
+//     if (!metricId) { return; }
+//     return fetch(`/rootcause/queryRelatedMetrics?current=1496152799999&baseline=1495609199999&windowSize=79199999&metricUrn=thirdeye:metric:${metricId}`)
+//       .then(res => res.json())
+//       .then(res => dispatch(loadRelatedMetricIds(res)))
+//       .catch(() => {
+//         // Todo: dispatch an error message
+//       })
+//   }
+// }
 
-function fetchRelatedMetricData() {
-  return (dispatch, getState) => {
-    const AnomalyEntity = getState().anomaly;
-    const { relatedMetricIds, primaryMetricId } = AnomalyEntity;
-    const metricIds = [primaryMetricId, ...relatedMetricIds];
-    if (!metricIds.length) { return; }
-      const promiseHash = metricIds.reduce((hash,id) => {
-          const url = `/timeseries/compare/${id}/1492564800000/1492593000000/1491960000000/1491988200000?dimension=All&granularity=MINUTES`
-          hash[id] = fetch(url).then(res => res.json());
+// function fetchRelatedMetricData() {
+//   return (dispatch, getState) => {
+//     const AnomalyEntity = getState().anomaly;
+//     const { relatedMetricIds, primaryMetricId } = AnomalyEntity;
+//     const metricIds = [primaryMetricId, ...relatedMetricIds];
+//     if (!metricIds.length) { return; }
+//       const promiseHash = metricIds.reduce((hash,id) => {
+//           const url = `/timeseries/compare/${id}/1492564800000/1492593000000/1491960000000/1491988200000?dimension=All&granularity=MINUTES`
+//           hash[id] = fetch(url).then(res => res.json());
 
-          return hash;
-      }, {})
+//           return hash;
+//       }, {})
 
-      return Ember.RSVP.hash(promiseHash)
-        .then(res => dispatch(loadRelatedMetricsData(res)))
-        .catch(() => {
-          // Todo: dispatch an error message
-        })
-  }
-}
+//       return Ember.RSVP.hash(promiseHash)
+//         .then(res => dispatch(loadRelatedMetricsData(res)))
+//         .catch(() => {
+//           // Todo: dispatch an error message
+//         })
+//   }
+// }
 
 export const Actions = {
   request,
@@ -110,7 +110,7 @@ export const Actions = {
   loadAnomaly,
   requestFail,
   loadRelatedMetricIds,
-  fetchData,
-  fetchRelatedMetricIds,
-  fetchRelatedMetricData
+  fetchData
+  // fetchRelatedMetricIds,
+  // fetchRelatedMetricData
 };

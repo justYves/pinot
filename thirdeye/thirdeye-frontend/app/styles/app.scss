@@ -10,9 +10,13 @@
 .c3-lines {
   stroke-width: 2px;
 }
-.c3-chart-line:nth-child(odd) > .c3-lines {
+.c3-chart-line:nth-child(even) > .c3-lines {
     stroke-dasharray: 1%;
 }
+
+// .c3-legend-item:nth-child(even) > .c3-legend-item-tile {
+//     stroke-dasharray: 1;
+// }
 
 .anomaly-graph {
     box-sizing: border-box;
@@ -41,4 +45,3 @@
 .c3-region__blue {
   fill: blue;
 }
-
