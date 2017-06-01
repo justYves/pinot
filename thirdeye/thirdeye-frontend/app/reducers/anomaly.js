@@ -84,29 +84,29 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         failed: true
       });
     
-    case ActionTypes.LOAD_METRIC_IDS: {
-      const relatedMetrics = action.payload;
-      const relatedMetricIds = relatedMetrics
-        .sort((prev, next) => next.score > prev.score)
-        .map((metric) => metric.urn.split('thirdeye:metric:')[1])
-      // const relatedMetricEntities = relatedMetrics.reduce((entities, metric) => {
-      //   const id = metric.urn.split('thirdeye:metric:')[1];
-      //   entities[id] = metric;
-      //   return entities;
-      // },{})
-      return Object.assign(state, {
-        // relatedMetricEntities,
-        relatedMetricIds
-      });
-    }
+  //   case ActionTypes.LOAD_METRIC_IDS: {
+  //     const relatedMetrics = action.payload;
+  //     const relatedMetricIds = relatedMetrics
+  //       .sort((prev, next) => next.score > prev.score)
+  //       .map((metric) => metric.urn.split('thirdeye:metric:')[1])
+  //     // const relatedMetricEntities = relatedMetrics.reduce((entities, metric) => {
+  //     //   const id = metric.urn.split('thirdeye:metric:')[1];
+  //     //   entities[id] = metric;
+  //     //   return entities;
+  //     // },{})
+  //     return Object.assign(state, {
+  //       // relatedMetricEntities,
+  //       relatedMetricIds
+  //     });
+  //   }
 
-    case ActionTypes.LOAD_METRIC_DATA: {
-      const relatedMetricEntities = Object.assign({}, action.payload);
+  //   case ActionTypes.LOAD_METRIC_DATA: {
+  //     const relatedMetricEntities = Object.assign({}, action.payload);
 
-      return Object.assign(state, {
-        relatedMetricEntities
-      })
-    }
+  //     return Object.assign(state, {
+  //       relatedMetricEntities
+  //     })
+  //   }
   }
   
   return state;

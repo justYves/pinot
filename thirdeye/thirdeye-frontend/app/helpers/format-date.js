@@ -17,15 +17,3 @@ export default Ember.Helper.helper(formatDate);
  * @param {string} date A date
  * @return {string} human readable date
  */
-// Handlebars.registerHelper('formatDate', function (granularity, date) {
-  // var tz = getTimeZone();
-  // const dateFormat = 'M/D hh:mm a';
-  
-  // const dateFormat = {
-  //   'DAYS': 'M/D',
-  //   'HOURS': 'M/D ha',
-  //   '5_MINUTES': 'M/D hh:mm a'
-  // }[granularity];
-
-  // return moment(date).format(dateFormat);
-// });

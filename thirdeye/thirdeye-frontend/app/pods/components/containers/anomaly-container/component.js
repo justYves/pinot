@@ -8,9 +8,13 @@ function select(store) {
     loading, 
     loaded, 
     failed,
+    primaryMetricId
+ } = store.anomaly;
+
+ const {
     relatedMetricEntities,
-    primaryMetricId,
-    relatedMetricIds } = store.anomaly;
+    relatedMetricIds
+ } = store.metrics;
 
   return {
     loading,
@@ -18,7 +22,10 @@ function select(store) {
     failed,
     entity,
     primaryMetric: [relatedMetricEntities[primaryMetricId]],
-    relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id]).filter(metric => metric)
+    relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id]).filter(metric => {
+      debugger;
+      return metric;
+    })
   };
 }
 

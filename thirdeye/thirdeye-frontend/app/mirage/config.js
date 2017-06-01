@@ -43,7 +43,7 @@ export default function() {
   this.get('/timeseries/compare/:id/:currentStart/:currentEnd/:baselineStart/:baselineEnd', () => {
     return {
 metricName: "pageViews",
-metricId: 194591,
+metricId: 4344011,
 start: 1496174400000,
 end: 1496246400000,
 timeBucketsCurrent: [
