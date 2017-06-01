@@ -85,7 +85,9 @@ function fetchRelatedMetricIds() {
 
 function fetchRelatedMetricData() {
   return (dispatch, getState) => {
-    const metricIds = getState().anomaly.relatedMetricIds;
+    const AnomalyEntity = getState().anomaly;
+    const { relatedMetricIds, primaryMetricId } = AnomalyEntity;
+    const metricIds = [primaryMetricId, ...relatedMetricIds];
     if (!metricIds.length) { return; }
       const promiseHash = metricIds.reduce((hash,id) => {
           const url = `/timeseries/compare/${id}/1492564800000/1492593000000/1491960000000/1491988200000?dimension=All&granularity=MINUTES`

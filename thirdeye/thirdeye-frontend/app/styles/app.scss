@@ -5,3 +5,40 @@
 @import 'wrapper/styles';
 
 @import "ember-bootstrap/bootstrap";
+@import 'percentage-table';
+
+.c3-lines {
+  stroke-width: 2px;
+}
+.c3-chart-line:nth-child(odd) > .c3-lines {
+    stroke-dasharray: 1%;
+}
+
+.anomaly-graph {
+    box-sizing: border-box;
+    display: flex;
+    border: 1px solid #CCC;
+    padding: 14px;
+}
+
+.anomaly-graph__filter-item {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.left-panel { 
+    flex-basis: 25%;
+    flex-grow: 1;
+    overflow: scroll;
+}
+
+.right-panel { 
+    flex-basis: 75%;
+    width: 75%;
+}
+
+.c3-region__blue {
+  fill: blue;
+}
+
