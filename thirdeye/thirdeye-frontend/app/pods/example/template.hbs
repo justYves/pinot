@@ -21,7 +21,7 @@
 </section>
 
 <main class="content">
-  <h1>Example</h1>
+  <h1>Metric Correlation</h1>
   <p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>
 </main>
 
@@ -31,7 +31,9 @@
       No anomalies found.
     {{/each}}--}}
   {{/if}}
-
+  <h3>Primary Metric</h3>
+  {{percentage-table metrics=anomalyList.primaryMetric}}
+  <h3>Correlated Metric</h3>
   {{percentage-table metrics=anomalyList.relatedMetrics}}
 {{/containers/anomaly-container}}
 

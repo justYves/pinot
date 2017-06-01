@@ -13,7 +13,7 @@ module.exports = function(defaults) {
     sassOptions: {
       extension: 'scss',
       includePaths:[
-       'bower_components/source-sans-pro'
+        'bower_components/source-sans-pro'
       ]
     },
     sourcemaps: {

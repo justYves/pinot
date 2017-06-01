@@ -35,6 +35,7 @@ const INITIAL_STATE = {
    */
   relatedMetricIds: [],
 
+  primaryMetricId: null,
   relatedMetricEntities: {},
 
   //data points
@@ -46,9 +47,11 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const anomalyList = action.payload;
       let id = null;
       let entity = {};
+      let primaryMetricId = null;
       // new: 
       try {
         id = anomalyList[0].metricId;
+        primaryMetricId = anomalyList[0].metricId;
         entity = anomalyList[0];
       } catch(e) {
         return new Error();
@@ -65,7 +68,8 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         // ids,
         // entities,
         id,
-        entity
+        entity,
+        primaryMetricId
       });
     }
     case ActionTypes.LOADING:
@@ -82,7 +86,9 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     
     case ActionTypes.LOAD_METRIC_IDS: {
       const relatedMetrics = action.payload;
-      const relatedMetricIds = relatedMetrics.map((metric) => metric.urn.split('thirdeye:metric:')[1])
+      const relatedMetricIds = relatedMetrics
+        .sort((prev, next) => next.score > prev.score)
+        .map((metric) => metric.urn.split('thirdeye:metric:')[1])
       // const relatedMetricEntities = relatedMetrics.reduce((entities, metric) => {
       //   const id = metric.urn.split('thirdeye:metric:')[1];
       //   entities[id] = metric;

@@ -9,6 +9,7 @@ function select(store) {
     loaded, 
     failed,
     relatedMetricEntities,
+    primaryMetricId,
     relatedMetricIds } = store.anomaly;
 
   return {
@@ -16,7 +17,8 @@ function select(store) {
     loaded,
     failed,
     entity,
-    relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id])
+    primaryMetric: [relatedMetricEntities[primaryMetricId]],
+    relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id]).filter(metric => metric)
   };
 }
 
@@ -34,7 +36,8 @@ function actions(dispatch) {
       dispatch(Actions.request(params));
     },
     onSelection(selection) { 
-      debugger;
+      
+      // dispatch()
     }
   };
 }
