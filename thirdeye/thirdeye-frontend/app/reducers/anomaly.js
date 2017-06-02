@@ -44,29 +44,14 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case ActionTypes.LOAD: {
-      const anomalyList = action.payload;
-      let id = null;
-      let entity = {};
-      let primaryMetricId = null;
-      // new: 
-      try {
-        id = anomalyList[0].metricId;
-        primaryMetricId = anomalyList[0].metricId;
-        entity = anomalyList[0];
-      } catch(e) {
-        return new Error();
-      }
-      // const ids = anomalyList.map((anomaly) => anomaly.metricId);
-      // const entities = anomalyList.reduce((entities, anomaly) => {
-      //   entities[anomaly.metricId] = anomaly;
-      //   return entities;
-      // }, {});
+      const entity = action.payload.pop() || {};
+
+      const id = entity.metricId;
+      const primaryMetricId = entity.metricId;
 
       return Object.assign(state, {
         loading: false,
         loaded: true,
-        // ids,
-        // entities,
         id,
         entity,
         primaryMetricId
@@ -83,30 +68,6 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         loading: false,
         failed: true
       });
-    
-  //   case ActionTypes.LOAD_METRIC_IDS: {
-  //     const relatedMetrics = action.payload;
-  //     const relatedMetricIds = relatedMetrics
-  //       .sort((prev, next) => next.score > prev.score)
-  //       .map((metric) => metric.urn.split('thirdeye:metric:')[1])
-  //     // const relatedMetricEntities = relatedMetrics.reduce((entities, metric) => {
-  //     //   const id = metric.urn.split('thirdeye:metric:')[1];
-  //     //   entities[id] = metric;
-  //     //   return entities;
-  //     // },{})
-  //     return Object.assign(state, {
-  //       // relatedMetricEntities,
-  //       relatedMetricIds
-  //     });
-  //   }
-
-  //   case ActionTypes.LOAD_METRIC_DATA: {
-  //     const relatedMetricEntities = Object.assign({}, action.payload);
-
-  //     return Object.assign(state, {
-  //       relatedMetricEntities
-  //     })
-  //   }
   }
   
   return state;

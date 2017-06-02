@@ -16,14 +16,18 @@ function select(store) {
     relatedMetricIds
  } = store.metrics;
 
+// TODO: place this in another file
+//  if (entity) {
+//   entity.isSelected = true;
+//  }
+
   return {
     loading,
     loaded,
     failed,
-    entity,
+    entity: Object.assign({isSelected: true}, entity),
     primaryMetric: [relatedMetricEntities[primaryMetricId]],
     relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id]).filter(metric => {
-      debugger;
       return metric;
     })
   };

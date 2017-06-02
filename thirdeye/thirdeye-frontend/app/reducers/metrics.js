@@ -38,19 +38,13 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const relatedMetricIds = relatedMetrics
         .sort((prev, next) => next.score > prev.score)
         .map((metric) => metric.urn.split('thirdeye:metric:')[1])
-      // const relatedMetricEntities = relatedMetrics.reduce((entities, metric) => {
-      //   const id = metric.urn.split('thirdeye:metric:')[1];
-      //   entities[id] = metric;
-      //   return entities;
-      // },{})
+
       return Object.assign(state,  {
-        // relatedMetricEntities,
         relatedMetricIds
       });
     }
 
     case ActionTypes.LOAD_DATA: {
-      debugger;
       const relatedMetricEntities = Object.assign({}, action.payload);
 
       return Object.assign(state, {
