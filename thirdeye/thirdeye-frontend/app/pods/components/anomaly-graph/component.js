@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   }),
 
   relatedMetricsColumn: Ember.computed(
-    // 'relatedMetrics',
+    'relatedMetrics',
     'relatedMetrics.@each.isSelected',
     function() {
       const columns = [];
@@ -34,22 +34,39 @@ export default Ember.Component.extend({
     }
   ),
 
+  chartDates: Ember.computed(
+    'anomaly.dates',
+    function() {
+      
+      return ['date', ...this.get('anomaly.dates')];
+    }
+  ),
+
   primaryMetricColumn: Ember.computed(
+    'anomaly',
     'anomaly.isSelected', 
     function() {
+      const anomaly = this.get('anomaly');
 
+      if (!anomaly.isSelected) {
+        return [];
+      }
+      return [
+        ['current', ...anomaly.currentValues],
+        ['baseline', ...anomaly.baselineValues]
+      ]
     }
   ),
 
   data: Ember.computed(
-    'anomaly',
+    'primaryMetricColumn',
     'relatedMetricsColumn',
+    'chartDates',
     function() {
       return {
         columns: [
-          ['date', ...this.get('anomaly.dates')],
-          ['current', ...this.get('anomaly.currentValues')],
-          ['baseline', ...this.get('anomaly.baselineValues')],
+          this.get('chartDates'),
+          ...this.get('primaryMetricColumn'),
           ...this.get('relatedMetricsColumn')
         ],
         type: 'line',

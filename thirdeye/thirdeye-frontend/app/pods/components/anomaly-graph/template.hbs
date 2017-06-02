@@ -4,12 +4,12 @@
 <div class="left-panel">
   <div class="anomaly_graph__filters">
     {{input type="checkbox" checked=showLegend}} show legend
-    <h2>Primary Metric</h2>
+    <h3>Primary Metric</h3>
     <div class="anomaly-graph__filter-item">
-      {{input type="checkbox" id="primary-metric" checked=metric.isSelected click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}
+      {{input type="checkbox" id="primary-metric" checked=anomaly.isSelected click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}
       <label for="primary-metric"> {{metric.metricName}} </label>
     </div>
-    <h2>Related Metrics</h2>
+    <h3>Related Metrics</h3>
     {{#each relatedMetrics as |metric index|}}
       <div class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=metric.isSelected}}
         <label for="related-metric-{{index}}"> {{metric.metricName}} </label>

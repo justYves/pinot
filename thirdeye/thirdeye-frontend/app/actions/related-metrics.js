@@ -25,7 +25,6 @@ function loadRelatedMetricsData(response) {
 
 function fetchRelatedMetricIds() {
   return (dispatch, getState) => {
-    debugger;
     const metricId = getState().anomaly.id;
     if (!metricId) { return; }
     return fetch(`/rootcause/queryRelatedMetrics?current=1496152799999&baseline=1495609199999&windowSize=79199999&metricUrn=thirdeye:metric:${metricId}`)
@@ -42,22 +41,22 @@ function fetchRelatedMetricData() {
     const store = getState();
     const { primaryMetricId } = store.anomaly;
     const { relatedMetricIds } = store.metrics;
-
+    let filters = {};
     const metricIds = [primaryMetricId, ...relatedMetricIds];
-    debugger;
+
     if (!metricIds.length) { return; }
-      const promiseHash = metricIds.reduce((hash,id) => {
-          const url = `/timeseries/compare/${id}/1492564800000/1492593000000/1491960000000/1491988200000?dimension=All&granularity=MINUTES`
-          hash[id] = fetch(url).then(res => res.json());
+    const promiseHash = metricIds.reduce((hash,id) => {
+        const url = `/timeseries/compare/${id}/1492564800000/1492593000000/1491960000000/1491988200000?dimension=All&granularity=MINUTES&filters=${JSON.stringify(filters)}`
+        hash[id] = fetch(url).then(res => res.json());
 
-          return hash;
-      }, {})
+        return hash;
+    }, {})
 
-      return Ember.RSVP.hash(promiseHash)
-        .then(res => dispatch(loadRelatedMetricsData(res)))
-        .catch(() => {
-          // Todo: dispatch an error message
-        })
+    return Ember.RSVP.hash(promiseHash)
+      .then(res => dispatch(loadRelatedMetricsData(res)))
+      .catch(() => {
+        // Todo: dispatch an error message
+      })
   }
 }
 
