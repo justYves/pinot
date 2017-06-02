@@ -52,6 +52,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       return Object.assign(state, {
         loading: false,
         loaded: true,
+        failed: false,
         id,
         entity,
         primaryMetricId
@@ -60,7 +61,8 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.LOADING:
       return Object.assign(state, {
         loading: true,
-        loaded: false
+        loaded: false,
+        failed: false
       });
 
     case ActionTypes.REQUEST_FAIL:

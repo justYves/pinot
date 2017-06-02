@@ -33,6 +33,20 @@ const INITIAL_STATE = {
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
+
+    case ActionTypes.LOADING:
+      return Object.assign(state, {
+        loading: true,
+        loaded: false,
+        failed: false
+      });
+
+    case ActionTypes.REQUEST_FAIL:
+      return Object.assign(state, {
+        loading: false,
+        failed: true
+      });
+
     case ActionTypes.LOAD_IDS: {
       const relatedMetrics = action.payload;
       const relatedMetricIds = relatedMetrics
@@ -48,6 +62,9 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const relatedMetricEntities = Object.assign({}, action.payload);
 
       return Object.assign(state, {
+        loading: false,
+        loaded: true,
+        failed: false,
         relatedMetricEntities
       })
     }

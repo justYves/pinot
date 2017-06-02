@@ -5,9 +5,23 @@ import Ember from 'ember';
  * Define the action types
  */
 export const ActionTypes = {
+  LOADING: type('[Metric] Loading'),
+  REQUEST_FAIL: type('[Metric] Request Fail'),
   LOAD_IDS: type('[Metric] Load related Metric Ids'),
   LOAD_DATA: type('[Metric] Load related Metric Data'),
 };
+
+function loading() {
+  return {
+    type: ActionTypes.LOADING
+  };
+}
+
+function requestFail() {
+  return {
+    type: ActionTypes.REQUEST_FAIL,
+  };
+}
 
 function loadRelatedMetricIds(response) {
   return {
@@ -25,6 +39,7 @@ function loadRelatedMetricsData(response) {
 
 function fetchRelatedMetricIds() {
   return (dispatch, getState) => {
+    dispatch(loading());
     const metricId = getState().anomaly.id;
     if (!metricId) { return; }
     return fetch(`/rootcause/queryRelatedMetrics?current=1496152799999&baseline=1495609199999&windowSize=79199999&metricUrn=thirdeye:metric:${metricId}`)
@@ -41,7 +56,7 @@ function fetchRelatedMetricData() {
     const store = getState();
     const { primaryMetricId } = store.anomaly;
     const { relatedMetricIds } = store.metrics;
-    let filters = {};
+    const filters = {};
     const metricIds = [primaryMetricId, ...relatedMetricIds];
 
     if (!metricIds.length) { return; }
@@ -54,6 +69,7 @@ function fetchRelatedMetricData() {
 
     return Ember.RSVP.hash(promiseHash)
       .then(res => dispatch(loadRelatedMetricsData(res)))
+      .then()
       .catch(() => {
         // Todo: dispatch an error message
       })
@@ -61,6 +77,8 @@ function fetchRelatedMetricData() {
 }
 
 export const Actions = {
+  loading,
+  requestFail,
   fetchRelatedMetricData,
   fetchRelatedMetricIds,
 };
