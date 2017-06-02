@@ -12,6 +12,8 @@ function select(store) {
  } = store.anomaly;
 
  const {
+    loading: metricLoading,
+    failed: metricFailed,
     relatedMetricEntities,
     relatedMetricIds
  } = store.metrics;
@@ -25,6 +27,8 @@ function select(store) {
     loading,
     loaded,
     failed,
+    metricLoading,
+    metricFailed,
     entity: Object.assign({isSelected: true}, entity),
     primaryMetric: [relatedMetricEntities[primaryMetricId]],
     relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id]).filter(metric => {
