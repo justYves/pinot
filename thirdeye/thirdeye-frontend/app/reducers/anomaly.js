@@ -1,5 +1,5 @@
 import { ActionTypes } from '../actions/anomaly';
-
+import moment from 'moment';
 /**
  * Define the schema
  */
@@ -31,14 +31,12 @@ const INITIAL_STATE = {
   entity: {},
 
   /**
-   * Lost of related Metric
+   * List of related Metric
    */
   relatedMetricIds: [],
-
-  primaryMetricId: null,
-  relatedMetricEntities: {},
-
-  //data points
+  startDate: moment(),
+  endDate: moment(),
+  granularity: 'DAYS'
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
@@ -55,7 +53,13 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         failed: false,
         id,
         entity,
-        primaryMetricId
+        primaryMetricId,
+        granularity: entity.timeUnit,
+        filters: entity.anomalyFunctionDimension,
+        currentEnd: moment(entity.currentEnd).valueOf(),
+        currentStart: moment(entity.currentStart).valueOf(),
+        anomalyRegionStart: moment(entity.anomalyRegionStart).valueOf(),
+        anomalyRegionEnd: moment(entity.anomalyRegionEnd).valueOf()
       });
     }
     case ActionTypes.LOADING:
