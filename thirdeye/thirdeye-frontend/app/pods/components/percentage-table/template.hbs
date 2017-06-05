@@ -6,7 +6,8 @@
         <th class="analysis-table__anchor"></th>
         {{#each dates as |date|}}
           <th class="analysis-table__header">
-            {{format-date date}}
+            {{!--todo: set date format based on granularity--}}
+            {{moment-format date 'M/D hh:mm a'}}
           </th>
         {{/each}}
       </tr>
