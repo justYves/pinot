@@ -27,13 +27,13 @@ const INITIAL_STATE = {
 
   primaryMetricId: null,
   relatedMetricEntities: {},
+  regions: {},
 
   //data points
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-
     case ActionTypes.LOADING:
       return Object.assign(state, {
         loading: true,
@@ -58,15 +58,28 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       });
     }
 
+    case ActionTypes.LOAD_REGIONS: {
+      const payload = action.payload;
+      const regions = Object.keys(payload).reduce((aggr, id) => {
+        aggr[id] = {regions: payload[id]}
+        return aggr;
+      }, {});
+
+      return Object.assign(state, {
+        regions
+      });
+    }
+
     case ActionTypes.LOAD_DATA: {
       const relatedMetricEntities = Object.assign({}, action.payload);
 
+      debugger;
       return Object.assign(state, {
         loading: false,
         loaded: true,
         failed: false,
         relatedMetricEntities
-      })
+      });
     }
   }
   

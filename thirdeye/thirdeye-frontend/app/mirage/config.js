@@ -37,8 +37,24 @@ export default function() {
       label: "traffic-top20-cc/L0proxy_query_volume_WoW:_Belgium_be",
       type: "Metric",
       link: "javascript:alert('thirdeye:metric:4344011');"
-      }]
+    }]
+  });
+
+  this.get('/data/anomalies/ranges', (server, request) => {
+    const { metricIds, start, end, filters } = request.queryParams;
+
+    const regions = metricIds
+      .split(',')
+      .reduce((regions, id) => {
+        regions[id] = [];
+
+        return regions;
+      }, {})
+
+    return regions;
   })
+
+
 
   this.get('/timeseries/compare/:id/:currentStart/:currentEnd/:baselineStart/:baselineEnd', () => {
     return {

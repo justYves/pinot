@@ -6,9 +6,9 @@ const makeDates = (dataPointsNum = 100) => {
   const dateArray = []; 
   const startDate = moment().subtract(14, 'days');
   while (i++ < dataPointsNum) {
-  let newDate = startDate.clone().format('YYYY-MM-DD HH:MM');
-  dateArray.push(newDate);
-  startDate.add(1, 'hours');
+    let newDate = startDate.clone().format('YYYY-MM-DD HH:MM');
+    dateArray.push(newDate);
+    startDate.add(1, 'hours');
   }
   return dateArray; 
 }
@@ -17,8 +17,8 @@ const makeValues = (dataPointsNum = 100) => {
   const valueArray = [];
   let i = 0;
   while (i++ < dataPointsNum) {
-  let newValue = faker.random.number({min:1, max:100})
-  valueArray.push(newValue);
+    let newValue = faker.random.number({min:1, max:100})
+    valueArray.push(newValue);
   }
   return valueArray; 
 }
@@ -39,6 +39,8 @@ export default Factory.extend({
   metricId: 1234,
   baselineValues: valueArray,
   currentValues() {
-    return this.baselineValues.map(value => value + 20);
+    return this.baselineValues.map(value => {
+      return value + faker.random.number({min:-50, max:50});
+    });
   }
 });

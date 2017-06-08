@@ -1,6 +1,7 @@
 import Ember from 'ember';
-import connect from 'ember-redux/components/connect';
+import { connect } from 'ember-redux';
 import { Actions } from 'thirdeye-frontend/actions/anomaly';
+import _ from 'lodash';
 
 function select(store) {
   const { 
@@ -9,19 +10,23 @@ function select(store) {
     loaded, 
     failed,
     primaryMetricId
- } = store.anomaly;
+  } = store.anomaly;
 
- const {
+  const {
     loading: metricLoading,
     failed: metricFailed,
     relatedMetricEntities,
-    relatedMetricIds
- } = store.metrics;
+    relatedMetricIds,
+    regions
+  } = store.metrics;
 
 // TODO: place this in another file
 //  if (entity) {
 //   entity.isSelected = true;
 //  }
+
+  const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
+  // const relateMetric = relatedMetricEntities
 
   return {
     loading,
@@ -31,7 +36,7 @@ function select(store) {
     metricFailed,
     entity: Object.assign({isSelected: true}, entity),
     primaryMetric: [relatedMetricEntities[primaryMetricId]],
-    relatedMetrics: relatedMetricIds.map(id => relatedMetricEntities[id]).filter(metric => {
+    relatedMetrics: relatedMetricIds.map(id => uiRelatedMetric[id]).filter(metric => {
       return metric;
     })
   };
