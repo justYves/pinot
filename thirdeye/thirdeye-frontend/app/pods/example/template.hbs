@@ -34,11 +34,12 @@
   {{#if anomalyList.failed}}
     Oops, something went wrong...
   {{/if}}
-  
-  {{#if (and anomalyList.loaded metricList.relatedMetrics.length)}}
-    {{#if splitView}}
+
+  {{#if metricList.loaded}}
+    {{#if metricList.loaded}}
+        {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
       {{#each metricList.relatedMetrics as |metric|}}
-        {{anomaly-graph relatedMetrics=metric}}
+        {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
       {{/each}}
     {{else}}
       {{anomaly-graph anomaly=anomalyList.anomaly primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}

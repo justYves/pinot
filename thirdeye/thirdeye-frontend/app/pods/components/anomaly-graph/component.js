@@ -8,9 +8,6 @@ export default Ember.Component.extend({
   showGraphLegend: false,
 
   c3chart: null,
-  size: {
-    height: 400
-  },
 
   showLegend: false,
   legend: Ember.computed('showLegend', function() {
@@ -21,19 +18,26 @@ export default Ember.Component.extend({
     }
   }),
 
+  zoom: {
+    enabled: true
+  },
+
   relatedMetricsColumn: Ember.computed(
     'relatedMetrics',
     'relatedMetrics.@each.isSelected',
     function() {
       const columns = [];
-      this.get('relatedMetrics')
-      .filterBy('isSelected')
-      .forEach((metric)  => {
-        if (!metric) { return }
-        const { baselineValues, currentValues } = metric.subDimensionContributionMap['All'];
-        columns.push([`${metric.metricName}-current`, ...currentValues])
-        columns.push([`${metric.metricName}-baseline`, ...baselineValues])
-      })
+      const relatedMetrics = this.get('relatedMetrics') || [];
+
+      
+      relatedMetrics
+        .filterBy('isSelected')
+        .forEach((metric)  => {
+          if (!metric) { return }
+          const { baselineValues, currentValues } = metric.subDimensionContributionMap['All'];
+          columns.push([`${metric.metricName}-current`, ...currentValues])
+          columns.push([`${metric.metricName}-baseline`, ...baselineValues])
+        })
       return columns;
     }
   ),
@@ -41,7 +45,6 @@ export default Ember.Component.extend({
   chartDates: Ember.computed(
     'primaryMetric.timeBucketsCurrent',
     function() {
-      
       return ['date', ...this.get('primaryMetric.timeBucketsCurrent')];
     }
   ),
@@ -52,9 +55,9 @@ export default Ember.Component.extend({
     function() {
       const primaryMetric = this.get('primaryMetric');
 
-      if (!primaryMetric.isSelected) {
-        return [];
-      }
+      // if (!primaryMetric.isSelected) {
+      //   return [];
+      // }
       const { baselineValues, currentValues } = primaryMetric.subDimensionContributionMap['All'];
       return [
         [`${primaryMetric.metricName}-current`, ...currentValues],
@@ -104,24 +107,39 @@ export default Ember.Component.extend({
     }
   }),
   regions: Ember.computed('anomaly', function() {
-    return [{
-      axis: 'x',
-      start: this.get('anomaly.anomalyRegionStart'),
-      end: this.get('anomaly.anomalyRegionEnd'),
-      tick : {
-        format : '%m %d %Y'
-      },
-      class: 'c3-region__blue'
-    }]
+    return [];
+    // return [{
+    //   axis: 'x',
+    //   start: this.get('anomaly.anomalyRegionStart'),
+    //   end: this.get('anomaly.anomalyRegionEnd'),
+    //   tick : {
+    //     format : '%m %d %Y'
+    //   },
+    //   class: 'c3-region__blue'
+    // }]
   }),
 
   color: {
     pattern: ['#1f77b4', '#1f77b4', '#aec7e8', '#aec7e8', '#ff7f0e', '#ff7f0e', '#ffbb78', '#ffbb78', '#2ca02c', '#2ca02c', '#98df8a', '#98df8a', '#d62728', '#d62728', '#ff9896', '#ff9896', '#9467bd', '#9467bd', '#c5b0d5', '#c5b0d5', '#8c564b', '#8c564b', '#c49c94', '#c49c94', '#e377c2', '#e377c2', '#f7b6d2', '#f7b6d2', '#7f7f7f', '#7f7f7f', '#c7c7c7', '#c7c7c7', '#bcbd22', '#bcbd22', '#dbdb8d', '#dbdb8d', '#17becf', '#17becf', '#9edae5', '#9edae5']
   },
 
-  subchart: {
-    show: true
-  },
+  subchart: Ember.computed('showGraphLegend',
+    function() {
+      return {
+        show: this.get('showGragphLegend')
+      }
+    }
+  ),
+
+  size: Ember.computed('showGraphLegend',
+    function() {
+      const height = this.get('showGraghLegend') ? 400 : 200;
+      return {
+        height
+      }
+    }
+  ),
+
   actions: {
     onSelection() {
       this.attrs.onSelection(...arguments);
