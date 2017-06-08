@@ -21,8 +21,12 @@
 </section>
 
 <main class="content">
+
   <h3 class="rca-title">Metric Correlation</h3>
-  {{!--<p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>--}}
+  <div style="text-align: right;">
+    <a href="#" {{action "onToggleSplitView"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+  </div>
+{{!--<p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>--}}
 
 {{#containers/anomaly-container as |anomalyList metricList actions|}}
   {{#if metricList.loading}}
@@ -36,7 +40,7 @@
   {{/if}}
 
   {{#if metricList.loaded}}
-    {{#if metricList.loaded}}
+    {{#if splitView}}
         {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
       {{#each metricList.relatedMetrics as |metric|}}
         {{anomaly-graph primaryMetric=metric showGraphLegend=false}}

@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['anomaly-graph'],
   primaryMetric: null,
   relatedMetrics: null,
-  showGraphLegend: false,
+  showGraphLegend: true,
 
   c3chart: null,
 
@@ -91,21 +91,25 @@ export default Ember.Component.extend({
   ),
 
   // color: Ember.computed('primary')
-  axis: Ember.computed('primaryMetric', function (){
-    return {
-      y: {
-        show: true
-      }, 
-      x: {
-        type: 'timeseries',
-        show: true,
-        tick: {
-          fit: false
-        },
-        // extent: [...this.get('anomaly.dates')].slice(1,2)
+  axis: Ember.computed(
+    'primaryMetric', 
+    'showGraphLegend',
+    function () {
+      return {
+        y: {
+          show: true
+        }, 
+        x: {
+          type: 'timeseries',
+          show: !this.get('showGraphLegend'),
+          tick: {
+            fit: false
+          },
+          // extent: [...this.get('anomaly.dates')].slice(1,2)
+        }
       }
     }
-  }),
+  ),
   regions: Ember.computed('anomaly', function() {
     return [];
     // return [{
@@ -126,14 +130,14 @@ export default Ember.Component.extend({
   subchart: Ember.computed('showGraphLegend',
     function() {
       return {
-        show: this.get('showGragphLegend')
+        show: this.get('showGraphLegend')
       }
     }
   ),
 
   size: Ember.computed('showGraphLegend',
     function() {
-      const height = this.get('showGraghLegend') ? 400 : 200;
+      const height = this.get('showGraphLegend') ? 400 : 200;
       return {
         height
       }
