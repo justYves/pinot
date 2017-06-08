@@ -35,7 +35,7 @@ function select(store) {
     metricLoading,
     metricFailed,
     entity: Object.assign({isSelected: true}, entity),
-    primaryMetric: [relatedMetricEntities[primaryMetricId]],
+    primaryMetric: relatedMetricEntities[primaryMetricId],
     relatedMetrics: relatedMetricIds.map(id => uiRelatedMetric[id]).filter(metric => {
       return metric;
     })
@@ -56,7 +56,7 @@ function actions(dispatch) {
       dispatch(Actions.request(params));
     },
     onSelection(selection) { 
-      
+      debugger;
       // dispatch()
     }
   };

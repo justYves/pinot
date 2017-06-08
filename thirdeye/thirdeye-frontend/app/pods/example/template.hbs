@@ -4,7 +4,6 @@
       Loading...
     {{/if}}
 
-<<<<<<< HEAD
     {{#if anomalyList.failed}}
       Oops, something went wrong...
     {{/if}}
@@ -22,8 +21,8 @@
 </section>
 
 <main class="content">
-  <h1>Metric Correlation</h1>
-  <p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>
+  <h3 class="rca-title">Metric Correlation</h3>
+  {{!--<p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>--}}
 
 {{#containers/anomaly-container as |anomalyList metricList actions|}}
   {{#if metricList.loading}}
@@ -48,7 +47,8 @@
       No anomalies found.
     {{/each}}--}}
   {{/if}}
-  <h3>Primary Metric</h3>
+
+  {{!--<h3>Primary Metric</h3>
   {{#if metricList.loading}}
     <div style="position:relative;">
       {{ember-spinner}}
@@ -69,7 +69,32 @@
       </div>
     {{else if metricList.relatedMetrics.length}}
       {{percentage-table metrics=metricList.relatedMetrics}}
-    {{/if}}
+    {{/if}}--}}
+
+
+  <div class="contribution-table">
+    <div class="contribution-table__header">
+      <div><a href="#">% Change</a></div>
+      <div><a href="#">Raw Numbers</a></div>
+    </div>
+    <div class="contribution-table__body">
+      <h5 class="contribution-table__title">Primary Metric</h5>
+      {{#if metricList.loading}}
+        <div style="position:relative;">
+          {{ember-spinner}}
+        </div>
+      {{/if}}
+      {{percentage-table metrics=metricList.primaryMetric}}
+      <h5 class="contribution-table__title">Correlated Metric</h5>
+        {{#if metricList.loading}}
+        <div style="position:relative;">
+          {{ember-spinner}}
+        </div>
+      {{/if}}
+      {{percentage-table metrics=metricList.relatedMetrics}}
+    </div>
+  </div>
+
 {{/containers/anomaly-container}}
 </main>
 
