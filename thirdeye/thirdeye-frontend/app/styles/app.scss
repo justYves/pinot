@@ -40,6 +40,7 @@
 
 .right-panel { 
     flex-basis: 75%;
+    flex-grow: 1;
     width: 75%;
     padding: 14px;
 }
@@ -50,9 +51,66 @@
 
 .anomaly_graph__filters {
     position: absolute;
-    padding: 14px;
+    // padding: 14px;
     top: 0; 
     bottom: 0; 
     right: 0;
     left: 0;
 }
+
+.container {
+    width: 75%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 24px;
+}
+
+.contribution-table {
+    // padding: 14px;
+    border: 1px solid #CCC;
+    margin-top: 24px;
+}
+.contribution-table__header,
+.contribution-table__body {
+    padding: 14px;
+}
+
+.contribution-table__title {
+    padding: 14px 0;
+    margin: 0;
+}
+
+.anomaly-graph__filter-group {
+    padding-left: 14px;
+}
+
+.anomaly-graph__filter-item {
+    // padding: 14px;
+}
+
+.legend-title {
+    padding: 8px 14px;
+    color: darken(#CCC, 20%);
+    margin: 0;
+}
+
+.rca-title {
+    margin: 0;
+    margin-bottom: 24px;
+    font-weight: normal;
+}
+
+
+
+
+
+
+
+.legend-title {
+    background-color: lighten(#CCC, 15%);
+}
+body {
+    background-color: lighten(#CCC, 15%);
+}
+// import last overrides
+@import 'wrapper/styles'

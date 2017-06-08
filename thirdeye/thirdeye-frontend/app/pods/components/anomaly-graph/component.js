@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   classNames: ['anomaly-graph'],
   primaryMetric: null,
   relatedMetrics: null,
+  showGraphLegend: false,
 
   c3chart: null,
   size: {
@@ -38,25 +39,26 @@ export default Ember.Component.extend({
   ),
 
   chartDates: Ember.computed(
-    'primaryMetric.dates',
+    'primaryMetric.timeBucketsCurrent',
     function() {
       
-      return ['date', ...this.get('anomaly.dates')];
+      return ['date', ...this.get('primaryMetric.timeBucketsCurrent')];
     }
   ),
 
   primaryMetricColumn: Ember.computed(
-    'anomaly',
-    'anomaly.isSelected', 
+    'primaryMetric',
+    'primaryMetric.isSelected',
     function() {
-      const anomaly = this.get('anomaly');
+      const primaryMetric = this.get('primaryMetric');
 
-      if (!anomaly.isSelected) {
+      if (!primaryMetric.isSelected) {
         return [];
       }
+      const { baselineValues, currentValues } = primaryMetric.subDimensionContributionMap['All'];
       return [
-        ['current', ...anomaly.currentValues],
-        ['baseline', ...anomaly.baselineValues]
+        [`${primaryMetric.metricName}-current`, ...currentValues],
+        [`${primaryMetric.metricName}-baseline`, ...baselineValues]
       ]
     }
   ),
@@ -76,14 +78,17 @@ export default Ember.Component.extend({
         x: 'date',
         xFormat: '%Y-%m-%d %H:%M',
         style: 'dashed',
-        colors: {
-          current: '#006097',
-          baseline: '#006097',
-        },
+        //  ideally we'll do this:
+        // colors: {
+        //     current: '#006097',
+        //     baseline: '#006097',
+        // },
       }
     }
   ),
-  axis: Ember.computed('anomaly', function (){
+
+  // color: Ember.computed('primary')
+  axis: Ember.computed('primaryMetric', function (){
     return {
       y: {
         show: true
@@ -111,7 +116,7 @@ export default Ember.Component.extend({
   }),
 
   color: {
-    // pattern: ['#006097', '#006097', '#b74700', '#b74700']
+    pattern: ['#1f77b4', '#1f77b4', '#aec7e8', '#aec7e8', '#ff7f0e', '#ff7f0e', '#ffbb78', '#ffbb78', '#2ca02c', '#2ca02c', '#98df8a', '#98df8a', '#d62728', '#d62728', '#ff9896', '#ff9896', '#9467bd', '#9467bd', '#c5b0d5', '#c5b0d5', '#8c564b', '#8c564b', '#c49c94', '#c49c94', '#e377c2', '#e377c2', '#f7b6d2', '#f7b6d2', '#7f7f7f', '#7f7f7f', '#c7c7c7', '#c7c7c7', '#bcbd22', '#bcbd22', '#dbdb8d', '#dbdb8d', '#17becf', '#17becf', '#9edae5', '#9edae5']
   },
 
   subchart: {
@@ -121,8 +126,8 @@ export default Ember.Component.extend({
     onSelection() {
       this.attrs.onSelection(...arguments);
     },
-    // onmouseover() {
-    //   debugger;
-    // }
+    onToggle() {
+      this.toggleProperty('showGraphLegend');
+    }
   }
 });

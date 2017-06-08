@@ -1,25 +1,38 @@
 {{!--<li><strong>Name:</strong> {{anomaly.anomalyFunctionName}}</li>
 <li><strong>Current Start</strong> {{anomaly.currentStart}}</li>
 <li><strong>Current End</strong> {{anomaly.currentEnd}}</li>--}}
-<div class="left-panel">
-  <div class="anomaly_graph__filters">
-    {{input type="checkbox" checked=showLegend}} show legend
-    <h3>Primary Metric</h3>
-    <div class="anomaly-graph__filter-item">
-      {{input type="checkbox" id="primary-metric" checked=anomaly.isSelected click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}
-      <label for="primary-metric"> {{metric.metricName}} </label>
+
+{{#if showGraphLegend}}
+  <div class="left-panel">
+    <div class="anomaly_graph__filters">
+      {{input type="checkbox" checked=showLegend}} show legend
+      <h5 class="legend-title">Primary Metric</h5>
+      <ul class="anomaly-graph__filter-group">
+        <li class="anomaly-graph__filter-item">
+          {{input type="checkbox" id="primary-metric" checked=primaryMetric.isSelected click=(action "onSelection" anomaly)}} {{primaryMetric.metricName}}
+          {{!--{{input type="checkbox" id="primary-metric" checked=true click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}--}}
+          <label for="primary-metric"> {{metric.metricName}} </label>
+        </li>
+      </ul>
+      <h5 class="legend-title">Related Metrics</h5>
+      <ul class="anomaly-graph__filter-group">
+      {{#each relatedMetrics as |metric index|}}
+        <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=metric.isSelected}}
+        {{!--<div class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=false}}--}}
+          <label for="related-metric-{{index}}"> {{metric.metricName}} </label>
+        </li>
+      {{else}}
+        {{#unless relatedMetrics.length}}
+          <div style="position:relative;">
+            {{ember-spinner}}
+          </div>
+        {{/unless}}
+      {{/each}}
+      </ul>
     </div>
-    <h3>Related Metrics</h3>
-    {{#each relatedMetrics as |metric index|}}
-      <div class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=metric.isSelected}}
-        <label for="related-metric-{{index}}"> {{metric.metricName}} </label>
-      </div>
-    {{else}}
-      No Related Metrics found.
-    {{/each}}
   </div>
-</div>
 <div class="right-panel">
+  <a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>
   {{thirdeye-chart 
     data=data 
     axis=axis 
@@ -29,3 +42,7 @@
     color=color
     subchart=subchart}}
 </div>
+{{else}}
+  <h5>{{anomaly.anomalyFunctionName}}</h5>
+  <a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>
+{{/if}}
