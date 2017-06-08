@@ -17,16 +17,17 @@
 .analysis-table>tfoot>tr>td {} .analysis-table {
     border: none !important;
 }
-.analysis-table>thead>tr>th {
+
+.analysis-table__header {
     font-weight: 300;
-    font-size: 11px;
+    font-size: 14px;
     text-align: center;
     white-space: nowrap;
     background-color: #E4E8EC;
 }
 .analysis-table>tbody>tr>td {
     font-weight: 300;
-    font-size: 11px;
+    font-size: 14px;
     white-space: nowrap;
     background-color: white;
 }
@@ -50,6 +51,7 @@
   position: sticky;
   /* offset the table border*/
   left: -1px;
+  width: 130px;
 }
 
 
@@ -74,6 +76,9 @@
   border: 0;
 }
 
+.analysis-table__cell--primary { 
+  justify-content: flex-start;
+}
 .analysis-table__item {
   width: 35%;
   flex: none;
@@ -91,4 +96,8 @@
 .analysis-table__item--large {
   width: 100%;
   justify-content: center;
+}
+
+.analysis-table__anchor--white { 
+  background-color: white;
 }
