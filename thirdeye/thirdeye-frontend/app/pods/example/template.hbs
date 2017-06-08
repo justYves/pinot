@@ -22,12 +22,23 @@
 
 <main class="content">
 
+<div class="rca-header">
   <h3 class="rca-title">Metric Correlation</h3>
-  <div style="text-align: right;">
+  <div>
+    <select>
+    {{!--{{#each vehicles as |vehicleChoice|}}--}}
+      {{!--<option value={{vehicleChoice}} selected={{eq vehicle vehicleChoice}}>{{vehicleChoice}}</option>--}}
+      <option value=1 selected=true>WoW</option>
+      <option value=2>Wo2W</option>
+      <option value=3>Wo3W</option>
+      <option value=4>Wo4W</option>
+    {{!--{{/each}}--}}
+  </select>
+
     <a href="#" {{action "onToggleSplitView"}}>{{if splitView 'Combine View' 'Split View'}}</a>
   </div>
 {{!--<p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>--}}
-
+</div>
 {{#containers/anomaly-container as |anomalyList metricList actions|}}
   {{#if metricList.loading}}
     <div style="position:relative;">
@@ -79,8 +90,8 @@
 
   <div class="contribution-table">
     <div class="contribution-table__header">
-      <div><a href="#">% Change</a></div>
-      <div><a href="#">Raw Numbers</a></div>
+      <div class="contribution-table__subnav"><a class="thirdeye-link thirdeye-link--active" href="#">% Change</a></div>
+      {{!--<div class="contribution-table__subnav"><a class="thirdeye-link" href="#">Raw Numbers</a></div>--}}
     </div>
     <div class="contribution-table__body">
       <h5 class="contribution-table__title">Primary Metric</h5>

@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'div',
   classNames: ['anomaly-graph'],
-  primaryMetric: null,
-  relatedMetrics: null,
+  primaryMetric: {},
+  relatedMetrics: [],
   showGraphLegend: true,
 
   c3chart: null,
@@ -19,7 +19,12 @@ export default Ember.Component.extend({
   }),
 
   zoom: {
-    enabled: true
+    enabled: true,
+    // rescale: true
+    // onzoom: function() {
+      // debugger;
+      // this.actions.onZoom();
+    // }
   },
 
   point: Ember.computed(
@@ -118,8 +123,19 @@ export default Ember.Component.extend({
       }
     }
   ),
-  regions: Ember.computed('anomaly', function() {
-    return [];
+  primaryRegions: Ember.computed('primaryMetric', function() {
+    const primaryMetric = this.get('primaryMetric');
+    return primaryMetric.regions.map((region) => {
+      return {
+        axis: 'x',
+        start: region.start,
+        end: region.end,
+        tick: {
+          format: '%m %d %Y'
+        }
+      }
+
+    })
     // return [{
     //   axis: 'x',
     //   start: this.get('anomaly.anomalyRegionStart'),
@@ -127,8 +143,36 @@ export default Ember.Component.extend({
     //   tick : {
     //     format : '%m %d %Y'
     //   },
-    //   class: 'c3-region__blue'
+    //   // class: 'c3-region__blue'
     // }]
+  }),
+
+  relatedRegions: Ember.computed('relatedMetrics',
+      'relatedMetrics.@each.isSelected', function() {
+    const relatedMetrics = this.get('relatedMetrics');
+    const regions = [];
+    relatedMetrics
+    .filterBy('isSelected')
+    .forEach((metric)=> {
+      const metricRegions = metric.regions.map((region) => {
+        return {
+          axis: 'x',
+          start: region.start,
+          end: region.end,
+          tick: {
+            format: '%m %d %Y'
+          },
+          class: 'c3-region__orange'
+        }
+      })
+      regions.push(...metricRegions);
+    })
+    return regions;
+  }),
+
+
+  regions: Ember.computed('primaryRegions', 'relatedRegions', function() {
+    return [...this.get('primaryRegions'), ...this.get('relatedRegions')];
   }),
 
   color: {
@@ -179,6 +223,9 @@ export default Ember.Component.extend({
     },
     onToggle() {
       this.toggleProperty('showGraphLegend');
+    },
+    onZoom() {
+      alert('working');
     }
   }
 });
