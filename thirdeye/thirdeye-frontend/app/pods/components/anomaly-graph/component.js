@@ -3,6 +3,9 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'div',
   classNames: ['anomaly-graph'],
+  primaryMetric: null,
+  relatedMetrics: null,
+
   c3chart: null,
   size: {
     height: 400
@@ -35,7 +38,7 @@ export default Ember.Component.extend({
   ),
 
   chartDates: Ember.computed(
-    'anomaly.dates',
+    'primaryMetric.dates',
     function() {
       
       return ['date', ...this.get('anomaly.dates')];
@@ -74,8 +77,8 @@ export default Ember.Component.extend({
         xFormat: '%Y-%m-%d %H:%M',
         style: 'dashed',
         colors: {
-            current: '#006097',
-            baseline: '#006097',
+          current: '#006097',
+          baseline: '#006097',
         },
       }
     }
@@ -118,8 +121,8 @@ export default Ember.Component.extend({
     onSelection() {
       this.attrs.onSelection(...arguments);
     },
-    onmouseover() {
-      debugger;
-    }
+    // onmouseover() {
+    //   debugger;
+    // }
   }
 });

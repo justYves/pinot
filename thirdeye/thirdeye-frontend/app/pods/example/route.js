@@ -12,7 +12,9 @@ export default Ember.Route.extend({
 
     redux.dispatch(AnomalyActions.fetchData(id))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricIds(res)))
+      .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)))
     return {};
   }
 });
+
