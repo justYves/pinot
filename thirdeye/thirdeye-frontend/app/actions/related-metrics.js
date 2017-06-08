@@ -72,13 +72,12 @@ function fetchRelatedMetricIds() {
 function fetchRegions() {
   return (dispatch, getState) => {
     const store = getState();
-    const { primaryMetricId, filters, startDate, endDate } = store.anomaly;
+    const { primaryMetricId, filters, currentStart, currentEnd } = store.anomaly;
     const { relatedMetricIds } = store.metrics;
 
     const metricIds = [primaryMetricId, ...relatedMetricIds].join(',');
-    debugger;
      // todo: identify better way for query params
-    return fetch(`/data/anomalies/ranges?metricIds=${metricIds}&start=${startDate}&end=${endDate}&filters=${filters}`)
+    return fetch(`/data/anomalies/ranges?metricIds=${metricIds}&start=${currentStart}&end=${currentEnd}&filters=${filters}`)
       .then(res => res.json())
       .then(res => dispatch(loadRegions(res)))
       .catch(() => {
@@ -91,16 +90,18 @@ function fetchRegions() {
 function fetchRelatedMetricData() {
   return (dispatch, getState) => {
     const store = getState();
-    const { primaryMetricId, filters, granularity} = store.anomaly;
+    const { primaryMetricId, filters, granularity, currentStart, currentEnd} = store.anomaly;
     const { relatedMetricIds } = store.metrics;
 
     //get start date and end date from here
     // const { start, end } = store.anomaly;
     const metricIds = [primaryMetricId, ...relatedMetricIds];
+    const baselineStart = moment(currentStart).subtract(1, 'week').valueOf();
+    const baselineEnd = moment(currentEnd).subtract(1, 'week').valueOf();
 
     if (!metricIds.length) { return; }
     const promiseHash = metricIds.reduce((hash,id) => {
-      const url = `/timeseries/compare/${id}/1492564800000/1492593000000/1491960000000/1491988200000?dimension=All&granularity=${granularity}&filters=${filters}`
+      const url = `/timeseries/compare/${id}/${currentStart}/${currentEnd}/${baselineStart}/${baselineEnd}?dimension=All&granularity=${granularity}&filters=${filters}`
       hash[id] = fetch(url).then(res => res.json());
 
       return hash;

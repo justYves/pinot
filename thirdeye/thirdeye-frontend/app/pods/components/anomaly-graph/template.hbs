@@ -9,9 +9,9 @@
       <h5 class="legend-title">Primary Metric</h5>
       <ul class="anomaly-graph__filter-group">
         <li class="anomaly-graph__filter-item">
-          {{input type="checkbox" id="primary-metric" checked=primaryMetric.isSelected click=(action "onSelection" anomaly)}} {{primaryMetric.metricName}}
+          {{input type="checkbox" id=(concat "metric-" metric.id) checked=true click=(action "onSelection" anomaly)}} {{primaryMetric.metricName}}
           {{!--{{input type="checkbox" id="primary-metric" checked=true click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}--}}
-          <label for="primary-metric"> {{metric.metricName}} </label>
+          <label for="metric-{{metric.id}}"> {{metric.metricName}} </label>
         </li>
       </ul>
       <h5 class="legend-title">Related Metrics</h5>
@@ -31,8 +31,12 @@
       </ul>
     </div>
   </div>
+{{/if}}
 <div class="right-panel">
-  <a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>
+  {{!--<a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>--}}
+  {{#unless showGraphLegend}}
+    <h5>{{primaryMetric.metricId}} {{primaryMetric.metricName}}</h5>
+  {{/unless}}
   {{thirdeye-chart 
     data=data 
     axis=axis 
@@ -40,9 +44,12 @@
     regions=regions
     size=size
     color=color
+    zoom=zoom
     subchart=subchart}}
 </div>
-{{else}}
+{{!--{{else}}
+
+  
   <h5>{{anomaly.anomalyFunctionName}}</h5>
   <a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>
-{{/if}}
+{{/if}}--}}
