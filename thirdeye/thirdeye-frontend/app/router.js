@@ -9,9 +9,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('example', { path: 'example/:id' });
 
-  this.route('rca', function() {
-    this.route('metric-id', { path: '/:id'});
-  });
+  this.route('rca');
 });
 
 export default Router;

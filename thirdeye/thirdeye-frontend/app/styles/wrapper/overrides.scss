@@ -1,0 +1,42 @@
+/* Overriding Bootstrap buttons*/
+.thirdeye-btn, 
+.thirdeye-btn:hover  {
+  color: white;
+  font-weight: 600;
+  background-color: #0084bf;
+  font-size: 17px;
+  padding: 0 16px;
+  line-height: 32px;
+  border-radius: 2px;
+}
+
+.thirdeye-btn:hover,
+.thirdeye-btn:focus {
+  background-color: #0073b1;
+  font-weight: 600;
+  color: white;
+}
+
+.thirdeye-btn:active {
+  color: white;
+  background-color: #006097;
+}
+
+.thirdeye-btn--secondary {
+  background-color: transparent;
+  border-color: rgb(157, 157, 157);
+  font-weight: 500;
+}
+
+.thirdeye-btn--secondary:hover,
+.thirdeye-btn--secondary:focus {
+  background-color: rgba(255,255,255,.1);
+  border-color: white;
+  font-weight: 500;
+}
+
+.thirdeye-btn--secondary:active {
+  background-color: rgba(255,255,255,.3);
+  border-color: white;
+  font-weight: 500;
+}
