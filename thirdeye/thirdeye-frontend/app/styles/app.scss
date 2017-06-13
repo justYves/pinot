@@ -151,6 +151,11 @@
 body {
     background-color: lighten(#CCC, 15%);
 }
+
+// power select component
+@import 'ember-power-select/themes/bootstrap';
+@import "ember-power-select";
+
 // import last overrides
 @import 'wrapper/styles';
-@import "ember-power-select";
+

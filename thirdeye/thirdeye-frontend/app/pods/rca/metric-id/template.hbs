@@ -1,7 +1,7 @@
 Search for Metric:
 {{#power-select 
-  selected=selection
-  onchange=(action "onChange")
+  selected=primaryMetric
+  onchange=(action "onMetricChange")
   search=(perform searchMetrics)
   searchPlaceholder="Search for a metric"
   as |metric|
@@ -9,13 +9,32 @@ Search for Metric:
   {{metric.alias}}
 {{/power-select}}
 
-{{#if selection}}
+{{#if primaryMetric}}
   {{date-range-picker
     label="Date Range"
     start=startDate
     end=EndDate
     timePicker=true
   }}
+
+  {{#power-select
+    selected=selecteGranularity
+    options=granularities
+    onchange=(action "onGranularityChange") 
+    as |granularity|
+  }}
+    {{granularity}}
+  {{/power-select}}
+
+  {{#power-select-multiple
+    options=filterOptions
+    placeholder="Select Filters"
+    onchange=(action "onGranularityChange") 
+    as |filter|
+  }}
+    {{filter}}
+  {{/power-select-multiple}}
+
 {{/if}}
 
 {{outlet}}

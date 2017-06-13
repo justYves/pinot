@@ -5,7 +5,16 @@ import moment from 'moment';
 
 
 export default Ember.Controller.extend({
-  selection: null,
+  primaryMetric: Ember.computed.reads('model.primaryMetric'),
+  granularities: Ember.computed.reads('model.granularities'),
+
+  selecteGranularity: Ember.computed.reads('granularities.firstObject'),
+
+
+
+  filters: Ember.computed.reads('model.filters'),
+  maxTime: Ember.computed.reads('model.maxTime'),
+
   endDate: Ember.computed(function() {
     return moment().subtract('1', 'days').endOf('days');
   }),
@@ -26,8 +35,11 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
-    onChange(metric) {
-      this.set('selection', metric);
+    onMetricChange(metric) {
+      this.transitionToRoute('rca.metric-id', metric.id);
+    },
+    onGranularityChange(granularity) {
+      this.set('selecteGranularity', granularity);
     },
   }
 });

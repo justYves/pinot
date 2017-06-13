@@ -1,10 +1,46 @@
-
+Search for Metric:
 {{#power-select 
-  selected=selection
-  onchange=(action "onChange")
-  search=(action "onSearch")
+  selected=primaryMetric
+  onchange=(action "onMetricChange")
+  search=(perform searchMetrics)
   searchPlaceholder="Search for a metric"
   as |metric|
 }}
   {{metric.alias}}
 {{/power-select}}
+
+{{#if primaryMetric}}
+  {{date-range-picker
+    label="Date Range"
+    start=startDate
+    end=EndDate
+    timePicker=true
+  }}
+
+  Granularity: 
+
+  {{#power-select
+    selected=selecteGranularity
+    options=granularities
+    onchange=(action "onGranularityChange") 
+    as |granularity|
+  }}
+    {{granularity}}
+  {{/power-select}}
+
+
+  {{!--{{#power-select 
+    selected=selectedFilter
+    options=filterGroups
+    onchange=(action "onFilterSelection")
+    search=(action "onfilterSearch")
+    searchPlaceholder="Search for a filter"
+    as |filters|
+  }}
+    {{filter}}
+  {{/power-select}}--}}
+
+  <button>Apply</button>
+{{/if}}
+
+{{outlet}}
