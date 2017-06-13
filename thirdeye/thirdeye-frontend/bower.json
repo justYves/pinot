@@ -3,6 +3,7 @@
   "dependencies": {
     "d3": "^3.5.17",
     "c3": "~0.4.10",
-    "source-sans-pro": "https://github.com/adobe-fonts/source-sans-pro.git#release"
+    "source-sans-pro": "https://github.com/adobe-fonts/source-sans-pro.git#release",
+    "bootstrap": "^3.3.7"
   }
 }

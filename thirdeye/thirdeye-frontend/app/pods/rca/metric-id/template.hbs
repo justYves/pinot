@@ -1,5 +1,21 @@
-Metrid_ID
+Search for Metric:
+{{#power-select 
+  selected=selection
+  onchange=(action "onChange")
+  search=(perform searchMetrics)
+  searchPlaceholder="Search for a metric"
+  as |metric|
+}}
+  {{metric.alias}}
+{{/power-select}}
 
-{{model.id}}
+{{#if selection}}
+  {{date-range-picker
+    label="Date Range"
+    start=startDate
+    end=EndDate
+    timePicker=true
+  }}
+{{/if}}
 
 {{outlet}}

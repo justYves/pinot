@@ -16,6 +16,10 @@
 //     stroke-dasharray: 1;
 // }
 
+.hide {
+    display: none;
+}
+
 .anomaly-graph {
     box-sizing: border-box;
     display: flex;
@@ -148,5 +152,5 @@ body {
     background-color: lighten(#CCC, 15%);
 }
 // import last overrides
-@import 'wrapper/styles'
-
+@import 'wrapper/styles';
+@import "ember-power-select";

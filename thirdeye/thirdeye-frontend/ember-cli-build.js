@@ -9,32 +9,42 @@ module.exports = function(defaults) {
     'ember-cli-babel': {
       includePolyfill: true
     },
+
     fingerprint: {
       prepend: '/app/'
     },
+
     sassOptions: {
       extension: 'scss',
       // includePaths:[
       //   'bower_components/source-sans-pro'
       // ]
     },
+
     sourcemaps: {
       enabled: EmberApp.env() !== 'production',
       extensions: ['js', 'css']
     },
+
     babel: {
       sourceMaps: 'inline'
     },
   });
+  
+  app.import('bower_components/source-sans-pro/source-sans-pro.css');
+  app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css');
 
-  const sourceSansProFontTree = new Funnel('bower_components/source-sans-pro', {
+  const sourceSansProFontTree = new Funnel(app.bowerDirectory  + '/source-sans-pro', {
     srcDir: '/',
     include: ['**/*.woff2', '**/*.woff', '**/*.ttf'],
     destDir: '/assets'
   });
 
-  app.import('bower_components/source-sans-pro/source-sans-pro.css')
-
+  const bootstrapFontTree = new Funnel(app.bowerDirectory + '/bootstrap/dist/fonts/', {
+    srcDir: '/',
+    include: ['**/*.woff2', '**/*.woff', '**/*.ttf'],
+    destDir: 'fonts'
+  })
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
@@ -55,5 +65,5 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
   // return app.toTree();
 
-  return app.toTree(new MergeTrees([sourceSansProFontTree]));
+  return app.toTree(new MergeTrees([sourceSansProFontTree, bootstrapFontTree]));
 };

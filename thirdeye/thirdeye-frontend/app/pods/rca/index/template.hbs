@@ -1,0 +1,10 @@
+
+{{#power-select 
+  selected=selection
+  onchange=(action "onChange")
+  search=(action "onSearch")
+  searchPlaceholder="Search for a metric"
+  as |metric|
+}}
+  {{metric.alias}}
+{{/power-select}}
