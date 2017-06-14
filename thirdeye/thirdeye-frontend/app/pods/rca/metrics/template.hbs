@@ -1,0 +1,93 @@
+<main>
+<div class="rca-header">
+  <h3 class="rca-title">Metric Correlation</h3>
+  <div>
+    <select>
+    {{!--{{#each vehicles as |vehicleChoice|}}--}}
+      {{!--<option value={{vehicleChoice}} selected={{eq vehicle vehicleChoice}}>{{vehicleChoice}}</option>--}}
+      <option value=1 selected=true>WoW</option>
+      <option value=2>Wo2W</option>
+      <option value=3>Wo3W</option>
+      <option value=4>Wo4W</option>
+    {{!--{{/each}}--}}
+  </select>
+
+    <a href="#" {{action "onToggleSplitView"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+  </div>
+{{!--<p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>--}}
+</div>
+{{#containers/metric-container as |metricList actions|}}
+  {{#if metricList.loading}}
+    <div style="position:relative;">
+      {{ember-spinner}}
+    </div>
+  {{/if}}
+
+  {{#if metricList.failed}}
+    Oops, something went wrong...
+  {{/if}}
+
+  {{#if metricList.loaded}}
+    {{#if splitView}}
+        {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
+      {{#each metricList.relatedMetrics as |metric|}}
+        {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
+      {{/each}}
+    {{else}}
+      {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}
+    {{/if}}
+    {{!--{{else}}
+      No anomalies found.
+    {{/each}}--}}
+  {{/if}}
+
+  {{!--<h3>Primary Metric</h3>
+  {{#if metricList.loading}}
+    <div style="position:relative;">
+      {{ember-spinner}}
+    </div>
+  {{/if}}
+  {{percentage-table metrics=metricList.primaryMetric}}
+  <h3>Correlated Metric</h3>
+    {{#if metricList.loading}}
+      <div style="position:relative;">å
+        {{ember-spinner}}
+      </div>
+    {{/if}}
+    {{percentage-table metrics=metricList.primaryMetric}}
+    <h3>Correlated Metric</h3>
+      {{#if metricList.loading}}
+      <div style="position:relative;">
+        {{ember-spinner}}
+      </div>
+    {{else if metricList.relatedMetrics.length}}
+      {{percentage-table metrics=metricList.relatedMetrics}}
+    {{/if}}--}}
+
+
+  <div class="contribution-table">
+    <div class="contribution-table__header">
+      <div class="contribution-table__subnav"><a class="thirdeye-link thirdeye-link--active" href="#">% Change</a></div>
+      {{!--<div class="contribution-table__subnav"><a class="thirdeye-link" href="#">Raw Numbers</a></div>--}}
+    </div>
+    <div class="contribution-table__body">
+      <h5 class="contribution-table__title">Primary Metric</h5>
+      {{#if metricList.loading}}
+        <div style="position:relative;">
+          {{ember-spinner}}
+        </div>
+      {{/if}}
+      {{percentage-table metrics=metricList.primaryMetric}}
+      <h5 class="contribution-table__title">Correlated Metric</h5>
+        {{#if metricList.loading}}
+        <div style="position:relative;">
+          {{ember-spinner}}
+        </div>
+      {{/if}}
+      {{percentage-table metrics=metricList.relatedMetrics}}
+    </div>
+  </div>
+
+{{/containers/metric-container}}
+</main>
+

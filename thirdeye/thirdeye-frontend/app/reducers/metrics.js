@@ -1,4 +1,5 @@
 import { ActionTypes } from '../actions/related-metrics';
+import moment from 'moment';
 
 /**
  * Define the schema
@@ -28,8 +29,10 @@ const INITIAL_STATE = {
   primaryMetricId: null,
   relatedMetricEntities: {},
   regions: {},
-
-  //data points
+  currentStart: null,
+  currentEnd: moment().subtract(1, 'week').valueOf(),
+  filters: {},
+  granularity: 'DAYS'
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
@@ -40,6 +43,27 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         loaded: false,
         failed: false
       });
+
+    case ActionTypes.LOAD_PRIMARY_METRIC: {
+      let { 
+        id, 
+        startDate,
+        endDate,
+        filters = "{}",
+        granularity
+      } = action.payload;
+
+      startDate = Number(startDate);
+      endDate = Number(endDate);
+
+      return Object.assign(state, {
+        primaryMetricId: id,
+        currentStart: startDate,
+        currentEnd: endDate,
+        filters,
+        granularity
+      })
+    }
 
     case ActionTypes.REQUEST_FAIL:
       return Object.assign(state, {
@@ -73,7 +97,6 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.LOAD_DATA: {
       const relatedMetricEntities = Object.assign({}, action.payload);
 
-      debugger;
       return Object.assign(state, {
         loading: false,
         loaded: true,

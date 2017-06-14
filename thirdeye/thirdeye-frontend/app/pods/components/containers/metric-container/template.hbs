@@ -1,0 +1,12 @@
+{{yield (hash
+  loading=loading
+  loaded=loaded
+  failed=failed
+  relatedMetrics=relatedMetrics
+  primaryMetric=primaryMetric
+) (hash
+  onRequest=(action "onRequest")
+  onLoad=(action "onLoad")
+  onLoading=(action "onLoading")
+  onSelection=(action "onSelection")
+)}}
