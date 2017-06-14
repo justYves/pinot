@@ -2,6 +2,7 @@
 <li><strong>Current Start</strong> {{anomaly.currentStart}}</li>
 <li><strong>Current End</strong> {{anomaly.currentEnd}}</li>--}}
 
+{{!-- TODO: move legend into own component--}}
 {{#if showGraphLegend}}
   <div class="left-panel">
     <div class="anomaly_graph__filters">
@@ -22,16 +23,13 @@
           <label for="related-metric-{{index}}"> {{metric.metricName}} </label>
         </li>
       {{else}}
-        {{#unless relatedMetrics.length}}
-          <div style="position:relative;">
-            {{ember-spinner}}
-          </div>
-        {{/unless}}
+        No Related Metrics.
       {{/each}}
       </ul>
     </div>
   </div>
 {{/if}}
+
 <div class="right-panel">
   {{!--<a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>--}}
   {{#unless showGraphLegend}}

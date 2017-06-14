@@ -1,9 +1,27 @@
 import Ember from 'ember';
 import moment from 'moment';
-import { Actions as MetricsActions } from 'thirdeye-frontend/actions/related-metrics';
+import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
 
 
 export default Ember.Route.extend({
+  queryParams: {
+    startDate: {
+      refreshModel: true
+    },
+    endDate: {
+      refreshModel: true
+    },
+    granularity: {
+      refreshModel: true
+    },
+    filters: {
+      refreshModel: true
+    },
+    compareMode: {
+      refreshModel: true
+    }
+  },
+
   redux: Ember.inject.service(),
 
   model(params, transition) {
@@ -19,7 +37,7 @@ export default Ember.Route.extend({
     const queryParams  = Object.assign(defaultQueryParams, transition.queryParams);
     const metricParams = Object.assign({}, params, queryParams)
 
-    // redux.dispatch(MetricsActions.fetchRelatedMetricIds(metricParams))
+    debugger;
     redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricIds(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))

@@ -18,7 +18,7 @@ function select(store) {
     failed: metricFailed,
     relatedMetricEntities = {},
     relatedMetricIds,
-    regions
+    regions,
   } = store.metrics;
 
 // TODO: place this in another file

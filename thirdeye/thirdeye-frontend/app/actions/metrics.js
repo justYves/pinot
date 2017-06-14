@@ -11,8 +11,17 @@ export const ActionTypes = {
   LOAD_IDS: type('[Metric] Load related Metric Ids'),
   LOAD_DATA: type('[Metric] Load related Metric Data'),
   LOAD_REGIONS: type('[Metric] Load Metric Regions'),
-  LOAD_PRIMARY_METRIC: type('[Metric] Load Primary Metric')
+  LOAD_PRIMARY_METRIC: type('[Metric] Load Primary Metric'),
+  UPDATE_COMPARE_MODE: type('[Metric] Update Compare Mode'),
+  // TOGGLE_SPLIT_VIEW: type('[Metric] Toggling Split View')
 };
+
+const COMPARE_MODE_MAPPING = {
+  WoW: 1,
+  Wo2W: 2,
+  Wo3W: 3,
+  Wo4W: 4
+}
 
 function loading() {
   return {
@@ -54,6 +63,20 @@ function setPrimaryMetricData(response) {
   }
 }
 
+function updateCompareMode(response) {
+  return {
+    type: ActionTypes.UPDATE_COMPARE_MODE,
+    payload: response
+  }
+}
+
+// function toggleSplitView(response) {
+//   return {
+//     type: ActionTypes.TOGGLE_SPLIT_VIEW,
+//     payload: response
+//   }
+// }
+
 function fetchRelatedMetricIds() {
   return (dispatch, getState) => {
     dispatch(loading());
@@ -70,8 +93,6 @@ function fetchRelatedMetricIds() {
 
     const baselineStart = moment(startDate).subtract(1, 'week').valueOf();
     const windowSize = Math.max(endDate - startDate, 0);
-
-    debugger;
  
     if (!metricId) {
       return Promise.reject(new Error("Must provide a metricId"));
@@ -104,7 +125,6 @@ function fetchRegions() {
       currentEnd 
     } = store.metrics;
 
-    debugger;
     const metricIds = [primaryMetricId, ...relatedMetricIds].join(',');
      // todo: identify better way for query params
     return fetch(`/data/anomalies/ranges?metricIds=${metricIds}&start=${currentStart}&end=${currentEnd}&filters=${filters}`)
@@ -120,13 +140,23 @@ function fetchRegions() {
 function fetchRelatedMetricData() {
   return (dispatch, getState) => {
     const store = getState();
-    const { primaryMetricId, filters, granularity, currentStart, currentEnd, relatedMetricIds } = store.metrics;
+    const { 
+      primaryMetricId, 
+      filters, 
+      granularity, 
+      currentStart, 
+      currentEnd, 
+      relatedMetricIds,
+      compareMode
+    } = store.metrics;
 
     //get start date and end date from here
     // const { start, end } = store.anomaly;
+
+    const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
     const metricIds = [primaryMetricId, ...relatedMetricIds];
-    const baselineStart = moment(currentStart).subtract(1, 'week').valueOf();
-    const baselineEnd = moment(currentEnd).subtract(1, 'week').valueOf();
+    const baselineStart = moment(currentStart).subtract(offset, 'week').valueOf();
+    const baselineEnd = moment(currentEnd).subtract(offset, 'week').valueOf();
 
     if (!metricIds.length) { return; }
     const promiseHash = metricIds.reduce((hash,id) => {
@@ -151,6 +181,7 @@ export const Actions = {
   fetchRelatedMetricData,
   fetchRelatedMetricIds,
   fetchRegions,
-  setPrimaryMetric
+  setPrimaryMetric,
+  updateCompareMode,
 };
 

@@ -64,53 +64,6 @@
     {{/each}}--}}
   {{/if}}
 
-  {{!--<h3>Primary Metric</h3>
-  {{#if metricList.loading}}
-    <div style="position:relative;">
-      {{ember-spinner}}
-    </div>
-  {{/if}}
-  {{percentage-table metrics=metricList.primaryMetric}}
-  <h3>Correlated Metric</h3>
-    {{#if metricList.loading}}
-      <div style="position:relative;">å
-        {{ember-spinner}}
-      </div>
-    {{/if}}
-    {{percentage-table metrics=metricList.primaryMetric}}
-    <h3>Correlated Metric</h3>
-      {{#if metricList.loading}}
-      <div style="position:relative;">
-        {{ember-spinner}}
-      </div>
-    {{else if metricList.relatedMetrics.length}}
-      {{percentage-table metrics=metricList.relatedMetrics}}
-    {{/if}}--}}
-
-
-  <div class="contribution-table">
-    <div class="contribution-table__header">
-      <div class="contribution-table__subnav"><a class="thirdeye-link thirdeye-link--active" href="#">% Change</a></div>
-      {{!--<div class="contribution-table__subnav"><a class="thirdeye-link" href="#">Raw Numbers</a></div>--}}
-    </div>
-    <div class="contribution-table__body">
-      <h5 class="contribution-table__title">Primary Metric</h5>
-      {{#if metricList.loading}}
-        <div style="position:relative;">
-          {{ember-spinner}}
-        </div>
-      {{/if}}
-      {{percentage-table metrics=metricList.primaryMetric}}
-      <h5 class="contribution-table__title">Correlated Metric</h5>
-        {{#if metricList.loading}}
-        <div style="position:relative;">
-          {{ember-spinner}}
-        </div>
-      {{/if}}
-      {{percentage-table metrics=metricList.relatedMetrics}}
-    </div>
-  </div>
-
 {{/containers/anomaly-container}}
 </main>
 

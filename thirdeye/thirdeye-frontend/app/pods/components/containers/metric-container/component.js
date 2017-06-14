@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions } from 'thirdeye-frontend/actions/related-metrics';
+import { Actions } from 'thirdeye-frontend/actions/metrics';
 import _ from 'lodash';
 
 function select(store) {
@@ -11,7 +11,8 @@ function select(store) {
     relatedMetricEntities = {},
     relatedMetricIds,
     regions,
-    primaryMetricId
+    primaryMetricId,
+    compareMode,
   } = store.metrics;
 
 // TODO: place this in another file
@@ -27,7 +28,8 @@ function select(store) {
     loading,
     loaded,
     failed,
-    // entity: Object.assign({isSelected: true}, entity),
+    compareMode,
+    // entity: Object.assign({isSelected: true}, e ntity),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds
       .filter((id) => whiteList.contains(id))
@@ -40,21 +42,12 @@ function select(store) {
 
 function actions(dispatch) {
   return {
-    onLoad() {
-      // dispatch(Actions.loadAnomaly());
+    updateCompareMode(compareMode) {
+      // dispatch(Actions.toggleSplitView(splitView))
     },
     onLoading() {
       // dispatch(Actions.loading());
     },
-    onRequest() {
-      const params = {};
-
-      // dispatch(Actions.request(params));
-    },
-    onSelection(selection) { 
-      // debugger;
-      // dispatch()
-    }
   };
 }
 

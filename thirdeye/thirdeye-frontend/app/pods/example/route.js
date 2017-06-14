@@ -1,7 +1,7 @@
 import Ember from 'ember';
 // import fetch from 'fetch';
 import { Actions as AnomalyActions } from 'thirdeye-frontend/actions/anomaly';
-import { Actions as MetricsActions } from 'thirdeye-frontend/actions/related-metrics';
+import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
 
 export default Ember.Route.extend({
   redux: Ember.inject.service(),

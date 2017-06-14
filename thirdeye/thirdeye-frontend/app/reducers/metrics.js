@@ -1,4 +1,4 @@
-import { ActionTypes } from '../actions/related-metrics';
+import { ActionTypes } from '../actions/metrics';
 import moment from 'moment';
 
 /**
@@ -32,7 +32,9 @@ const INITIAL_STATE = {
   currentStart: null,
   currentEnd: moment().subtract(1, 'week').valueOf(),
   filters: {},
-  granularity: 'DAYS'
+  granularity: 'DAYS',
+  compareMode: 'WoW',
+  splitView: false
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
@@ -50,7 +52,8 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         startDate,
         endDate,
         filters = "{}",
-        granularity
+        granularity,
+        compareMode
       } = action.payload;
 
       startDate = Number(startDate);
@@ -61,7 +64,8 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         currentStart: startDate,
         currentEnd: endDate,
         filters,
-        granularity
+        granularity,
+        compareMode
       })
     }
 
@@ -104,6 +108,22 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         relatedMetricEntities
       });
     }
+
+    case ActionTypes.UPDATE_COMPARE_MODE: {
+      const compareMode = action.payload
+
+      return Object.assign(state, {
+        compareMode
+      })
+    }
+
+    // case ActionTypes.TOGGLE_SPLIT_VIEW: {
+    //   const splitView = !action.payload
+
+    //   return Object.assign(state, {
+    //     splitView
+    //   })
+    // }  
   }
   
   return state;
