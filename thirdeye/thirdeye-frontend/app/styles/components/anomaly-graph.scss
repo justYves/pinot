@@ -19,9 +19,13 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.anomaly-graph__filter-label {
+  font-weight: normal;
+}
 
 .left-panel { 
     flex-basis: 25%;
+    min-width: 250px;
     flex-grow: 1;
     overflow: scroll;
     position: relative;
@@ -43,6 +47,8 @@
     right: 0;
     left: 0;
 }
+
+
 
 
 // TODO: move this colors into wrapper

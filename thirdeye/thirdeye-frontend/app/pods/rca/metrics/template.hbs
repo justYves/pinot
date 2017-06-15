@@ -48,24 +48,24 @@
         {{!--TODO: Refactor to remove template logic--}}
         {{#if (eq selectedTab "change")}}
         {{!--% Change tab--}}
-          <h5 class="contribution-table__title">Primary Metric</h5>
           {{#if metricList.loading}}
             <div style="position:relative;">
               {{ember-spinner}}
             </div>
           {{else}}
             {{contribution-table 
+              title="Primary Metric"
               granularity=metricList.granularity
               metrics=metricList.primaryMetric
             }}
           {{/if}}
-          <h5 class="contribution-table__title">Correlated Metric</h5>
           {{#if metricList.loading}}
             <div style="position:relative;">
               {{ember-spinner}}
             </div>
           {{else if metricList.relatedMetrics.length}}
             {{contribution-table 
+              title="Related Metrics"
               granularity=metricList.granularity
               metrics=metricList.relatedMetrics
             }}
@@ -74,7 +74,6 @@
           {{/if}}
         {{else if (eq selectedTab "number")}}
         {{!--Raw Number Tab--}}
-          <h5 class="contribution-table__title">Primary Metric</h5>
           {{#if metricList.loading}}
             <div style="position:relative;">
               {{ember-spinner}}
@@ -82,17 +81,19 @@
           {{else}}
             {{contribution-table 
               granularity=metricList.granularity
+              title="Primary Metric"
               showDetails=true 
               metrics=metricList.primaryMetric
             }}
           {{/if}}
-          <h5 class="contribution-table__title">Correlated Metric</h5>
           {{#if metricList.loading}}
             <div style="position:relative;">
               {{ember-spinner}}
             </div>
           {{else if metricList.relatedMetrics.length}}
             {{contribution-table
+              title="Related Metrics"
+              granularity=metricList.granularity
               showDetails=true 
               metrics=metricList.relatedMetrics
             }}
