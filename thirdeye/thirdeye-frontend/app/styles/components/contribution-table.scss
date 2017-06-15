@@ -17,7 +17,6 @@
 
 
 .analysis-table-wrapper {
-  max-height: 400px;
   overflow-y: scroll;
 }
 
@@ -76,6 +75,7 @@
   position: sticky;
   top: 34px;
   background-color: white;
+  padding: 8px;
 }
 
 .analysis-table__cell {

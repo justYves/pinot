@@ -4,6 +4,8 @@ export default Ember.Component.extend({
   metrics: null,
   showDetails: false,
   granularity: 'DAYS',
+  primaryMetric: null,
+  relatedMetrics: null,
 
   dateFormat: Ember.computed('granularity', function() {
     const granularity = this.get('granularity');
@@ -15,22 +17,19 @@ export default Ember.Component.extend({
       MINUTES: 'M/D hh:mm a'
     }[granularity]
   }),
+
+  dates: Ember.computed.reads('primaryMetric.timeBucketsCurrent'),
   
-  rows: Ember.computed('metrics', function() {
-    const metrics = this.get('metrics');
+  primaryMetricRows: Ember.computed('primaryMetric', function() {
+    const metrics = this.get('primaryMetric');
 
     return Ember.isArray(metrics) ? metrics : [metrics];
   }),
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    debugger;
-  },
+  relatedMetricRows: Ember.computed('relatedMetrics', function() {
+    const metrics = this.get('relatedMetrics');
 
-  dates: Ember.computed(
-    'metrics', 
-    function() {
-      return this.get('rows.firstObject') && this.get('rows.firstObject').timeBucketsCurrent;
-    }
-  ),
+    return Ember.isArray(metrics) ? metrics : [metrics];
+  }),
+
 });

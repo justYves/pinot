@@ -45,65 +45,21 @@
         </div>
       </div>
       <div class="contribution-table__body">
-        {{!--TODO: Refactor to remove template logic--}}
-        {{#if (eq selectedTab "change")}}
-        {{!--% Change tab--}}
-          {{#if metricList.loading}}
-            <div style="position:relative;">
-              {{ember-spinner}}
-            </div>
-          {{else}}
-            {{contribution-table 
-              title="Primary Metric"
-              granularity=metricList.granularity
-              metrics=metricList.primaryMetric
-            }}
-          {{/if}}
-          {{#if metricList.loading}}
-            <div style="position:relative;">
-              {{ember-spinner}}
-            </div>
-          {{else if metricList.relatedMetrics.length}}
-            {{contribution-table 
-              title="Related Metrics"
-              granularity=metricList.granularity
-              metrics=metricList.relatedMetrics
-            }}
-          {{else}}
-            No Related Metrics.
-          {{/if}}
-        {{else if (eq selectedTab "number")}}
-        {{!--Raw Number Tab--}}
-          {{#if metricList.loading}}
-            <div style="position:relative;">
-              {{ember-spinner}}
-            </div>
-          {{else}}
-            {{contribution-table 
-              granularity=metricList.granularity
-              title="Primary Metric"
-              showDetails=true 
-              metrics=metricList.primaryMetric
-            }}
-          {{/if}}
-          {{#if metricList.loading}}
-            <div style="position:relative;">
-              {{ember-spinner}}
-            </div>
-          {{else if metricList.relatedMetrics.length}}
-            {{contribution-table
-              title="Related Metrics"
-              granularity=metricList.granularity
-              showDetails=true 
-              metrics=metricList.relatedMetrics
-            }}
-          {{else}}
-            No Related Metrics.
-          {{/if}}
+        {{#if metricList.loading}}
+          <div style="position:relative;">
+            {{ember-spinner}}
+          </div>
+        {{else}}
+          {{contribution-table 
+            title="Primary Metric"
+            granularity=metricList.granularity
+            primaryMetric=metricList.primaryMetric
+            relatedMetrics=metricList.relatedMetrics
+            showDetails=(eq selectedTab "number")
+          }}
         {{/if}}
       </div>
     </div>
-
   {{/containers/metric-container}}
 </main>
 
