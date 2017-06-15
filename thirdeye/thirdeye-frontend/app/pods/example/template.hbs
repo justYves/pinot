@@ -21,6 +21,49 @@
 </section>
 
 <main class="content">
-  <h1>Example</h1>
-  <p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>
+
+<div class="rca-header">
+  <h3 class="rca-title">Metric Correlation</h3>
+  <div>
+    <select>
+    {{!--{{#each vehicles as |vehicleChoice|}}--}}
+      {{!--<option value={{vehicleChoice}} selected={{eq vehicle vehicleChoice}}>{{vehicleChoice}}</option>--}}
+      <option value=1 selected=true>WoW</option>
+      <option value=2>Wo2W</option>
+      <option value=3>Wo3W</option>
+      <option value=4>Wo4W</option>
+    {{!--{{/each}}--}}
+  </select>
+
+    <a href="#" {{action "onToggleSplitView"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+  </div>
+{{!--<p>This is a placeholder example page for the new ember app utilizing ember-redux and connecting to the back end at localhost:1426</p>--}}
+</div>
+{{#containers/anomaly-container as |anomalyList metricList actions|}}
+  {{#if metricList.loading}}
+    <div style="position:relative;">
+      {{ember-spinner}}
+    </div>
+  {{/if}}
+
+  {{#if anomalyList.failed}}
+    Oops, something went wrong...
+  {{/if}}
+
+  {{#if metricList.loaded}}
+    {{#if splitView}}
+        {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
+      {{#each metricList.relatedMetrics as |metric|}}
+        {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
+      {{/each}}
+    {{else}}
+      {{anomaly-graph anomaly=anomalyList.anomaly primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}
+    {{/if}}
+    {{!--{{else}}
+      No anomalies found.
+    {{/each}}--}}
+  {{/if}}
+
+{{/containers/anomaly-container}}
 </main>
+
