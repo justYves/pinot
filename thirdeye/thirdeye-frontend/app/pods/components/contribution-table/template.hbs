@@ -118,6 +118,7 @@
 
       {{#if showDetails}}
         {{#each-in metric.subDimensionContributionMap.All.percentageChange as |index percentChange|}}
+          {{!--TODO: remove inline styling--}}
           <td class="analysis-table__data" style="background-color: {{compute-color percentChange}}; color: {{compute-text-color percentChange}};">
             <div class="analysis-table__cell">
               <div class="analysis-table__item">
@@ -147,6 +148,7 @@
             </div>
           </td>
         {{/each}}
+        
       {{/if}}
     </tr>
     {{/each}}
@@ -156,6 +158,7 @@
         <div class="analysis-table__cell analysis-table__cell--primary"></div>
       </td>
     </tr>
+
     </tbody>
   </table>
 </div>

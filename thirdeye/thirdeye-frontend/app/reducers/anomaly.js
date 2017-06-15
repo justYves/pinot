@@ -31,12 +31,23 @@ const INITIAL_STATE = {
   entity: {},
 
   /**
-   * List of related Metric
+   * filters
    */
   filters: {},
-  relatedMetricIds: [],
+
+  /**
+   * anomaly Start date
+   */
   startDate: moment(),
+
+  /**
+   * anomaly end date
+   */
   endDate: moment(),
+
+  /**
+   * 
+   */
   granularity: 'DAYS'
 };
 
@@ -87,7 +98,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         loading: false,
         failed: true
       });
-    }
+  }
   
   return state;
 }

@@ -5,17 +5,4 @@ import chartComponent from 'ember-c3/components/c3-chart'
  * the chart and its internal API
  */
 export default chartComponent.extend({
-    init() {
-        debugger;
-        this._super(...arguments);
-    },
-
-    didReceiveAttrs() { 
-        debugger;
-        this._super(...arguments); 
-    },
-
-    didUpdateAttrs() { 
-        debugger;
-        this._super(...arguments); }
 });

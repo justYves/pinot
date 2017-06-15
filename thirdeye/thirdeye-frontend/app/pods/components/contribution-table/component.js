@@ -1,5 +1,12 @@
 import Ember from 'ember';
 
+// TODO: save this in a constant file
+const GRANULARITY_MAPPING = {
+  DAYS: 'M/D',
+  HOURS: 'M/D hh',
+  MINUTES: 'M/D hh:mm a'
+};
+
 export default Ember.Component.extend({
   metrics: null,
   showDetails: false,
@@ -7,17 +14,17 @@ export default Ember.Component.extend({
   primaryMetric: null,
   relatedMetrics: null,
 
+  /**
+   * Determines the date format based on granularity
+   */
   dateFormat: Ember.computed('granularity', function() {
     const granularity = this.get('granularity');
-
-    // TODO: save this in a constant file
-    return {
-      DAYS: 'M/D',
-      HOURS: 'M/D hh',
-      MINUTES: 'M/D hh:mm a'
-    }[granularity]
+    return GRANULARITY_MAPPING[granularity]
   }),
 
+  /**
+   * Derives dates from the primary metric
+   */
   dates: Ember.computed.reads('primaryMetric.timeBucketsCurrent'),
   
   primaryMetricRows: Ember.computed('primaryMetric', function() {
@@ -28,8 +35,7 @@ export default Ember.Component.extend({
 
   relatedMetricRows: Ember.computed('relatedMetrics', function() {
     const metrics = this.get('relatedMetrics');
-
+    
     return Ember.isArray(metrics) ? metrics : [metrics];
-  }),
-
+  })
 });

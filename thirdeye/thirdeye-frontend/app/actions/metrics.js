@@ -3,7 +3,7 @@ import fetch from 'fetch';
 import Ember from 'ember';
 import moment from 'moment'
 /**
- * Define the action types
+ * Define the metric action types 
  */
 export const ActionTypes = {
   LOADING: type('[Metric] Loading'),
@@ -13,9 +13,9 @@ export const ActionTypes = {
   LOAD_REGIONS: type('[Metric] Load Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Metric] Load Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Metric] Update Compare Mode'),
-  // TOGGLE_SPLIT_VIEW: type('[Metric] Toggling Split View')
 };
 
+// Todo: move this in a constant.js file
 const COMPARE_MODE_MAPPING = {
   WoW: 1,
   Wo2W: 2,
@@ -70,13 +70,9 @@ function updateCompareMode(response) {
   }
 }
 
-// function toggleSplitView(response) {
-//   return {
-//     type: ActionTypes.TOGGLE_SPLIT_VIEW,
-//     payload: response
-//   }
-// }
-
+/**
+ * Get all related metric's id for the primary metric
+ */
 function fetchRelatedMetricIds() {
   return (dispatch, getState) => {
     dispatch(loading());
@@ -107,6 +103,10 @@ function fetchRelatedMetricIds() {
   }
 }
 
+/**
+ * Initialize store with metric data from query params
+ * @param {*} metric 
+ */
 function setPrimaryMetric(metric) {
   return (dispatch) => {
     dispatch(setPrimaryMetricData(metric));
@@ -114,6 +114,9 @@ function setPrimaryMetric(metric) {
   }
 }
 
+/**
+ * Fetches anomaly regions for metrics
+ */
 function fetchRegions() {
   return (dispatch, getState) => {
     const store = getState();
@@ -137,6 +140,9 @@ function fetchRegions() {
   }
 }
 
+/**
+ * Redux Thunk that fetches the data for related Metrics
+ */
 function fetchRelatedMetricData() {
   return (dispatch, getState) => {
     const store = getState();
@@ -150,8 +156,6 @@ function fetchRelatedMetricData() {
       compareMode
     } = store.metrics;
 
-    //get start date and end date from here
-    // const { start, end } = store.anomaly;
 
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
     const metricIds = [primaryMetricId, ...relatedMetricIds];

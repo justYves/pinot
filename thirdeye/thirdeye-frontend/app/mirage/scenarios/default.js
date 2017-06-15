@@ -7,5 +7,8 @@ export default function(server) {
     Make sure to define a factory for each model you want to create.
   */
 
+  /**
+   * Creates a mock anomaly on server start
+   */
   server.createList('anomaly', 1);
 }

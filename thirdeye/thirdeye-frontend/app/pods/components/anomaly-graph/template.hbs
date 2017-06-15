@@ -1,6 +1,6 @@
 {{!-- TODO: move legend into own component--}}
 {{#if showGraphLegend}}
-  <div class="left-panel">
+  <section class="anomaly-graph__left-panel">
     <div class="anomaly_graph__filters">
       <h5 class="legend-title">Primary Metric</h5>
       <ul class="anomaly-graph__filter-group">
@@ -20,10 +20,10 @@
       {{/each}}
       </ul>
     </div>
-  </div>
+  </section>
 {{/if}}
 
-<div class="right-panel">
+<section class="anomaly-graph__right-panel">
   {{#unless showGraphLegend}}
     <h3 class="anomaly-graph__title">#{{primaryMetric.metricId}} {{primaryMetric.metricName}}</h3>
   {{/unless}}
@@ -36,5 +36,6 @@
     color=color
     zoom=zoom
     point=point
-    subchart=subchart}}
-</div>
+    subchart=subchart
+  }}
+</section>

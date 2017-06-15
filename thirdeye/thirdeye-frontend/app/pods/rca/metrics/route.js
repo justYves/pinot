@@ -24,6 +24,9 @@ export default Ember.Route.extend({
 
   redux: Ember.inject.service(),
 
+  /**
+   * Massages Query Params from URL and dispatch redux actions
+   */
   model(params, transition) {
     if (!params.id) { return; }
 

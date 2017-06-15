@@ -1,6 +1,11 @@
 import { Factory, faker } from 'ember-cli-mirage';
 import moment from 'moment';
 
+/**
+ * Builds an Array of dates
+ * @param {Number}    dataPointsNum Data points needed
+ * @return {[String]}               Array of DateString
+ */
 const makeDates = (dataPointsNum = 100) => {
   let i = 0;
   const dateArray = []; 
@@ -13,6 +18,11 @@ const makeDates = (dataPointsNum = 100) => {
   return dateArray; 
 }
 
+/**
+ * Builds an Array of random values
+ * @param {Number}    dataPointsNum Data points needed
+ * @return {[String]}               Array of DateString
+ */
 const makeValues = (dataPointsNum = 100) => {
   const valueArray = [];
   let i = 0;
@@ -26,7 +36,6 @@ const makeValues = (dataPointsNum = 100) => {
 let dateArray = makeDates();
 let valueArray = makeValues();
 
-// const { anomalyIds } = request.queryParams;
 export default Factory.extend({ 
   anomalyFunctionName: 'example_metric_name',
   currentStart: dateArray[0],

@@ -1,14 +1,13 @@
-
 <main>
   {{#containers/metric-container as |metricList actions|}}
     <div class="rca-header">
       <h3 class="rca-title">Metric Correlation</h3>
-      <div>
+      <div class="rca-actions">
         <select onchange={{action "onModeChange" value="target.value"}}>
           {{#each compareModeOptions as |compareMode|}}
             <option value={{compareMode}} selected={{eq compareMode metricList.compareMode}}>{{compareMode}}</option>
           {{/each}}
-      </select>
+        </select>
         <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
       </div>
     </div>
@@ -33,7 +32,7 @@
           {{/each}}
       </section>
       {{else}}
-        {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}
+        {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics}}
       {{/if}}
     {{/if}}
 

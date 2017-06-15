@@ -1,28 +1,14 @@
 import { type } from './utils';
 import fetch from 'fetch';
-import Ember from 'ember';
 
 /**
- * Define the action types
+ * Define the anomaly action types
  */
 export const ActionTypes = {
-  REQUEST_READ: type('[Anomaly] Request Read'),
   LOAD: type('[Anomaly] Load'),
   LOADING: type('[Anomaly] Loading'),
   REQUEST_FAIL: type('[Anomaly] Request Fail'),
-  LOAD_METRIC_IDS: type('[Anomaly] Load related Metric Ids'),
-  LOAD_METRIC_DATA: type('[Anomaly] Load related Metric Data'),
 };
-
-function request(params) {
-  return {
-    type: ActionTypes.REQUEST_READ,
-    payload: {
-      params,
-      source: 'search'
-    }
-  };
-}
 
 function loading() {
   return {
@@ -43,6 +29,10 @@ function requestFail() {
   };
 }
 
+/**
+ * Fetches the anomaly details for one anomaly
+ * 
+ */
 function fetchData(id) {
   return (dispatch) => {
     dispatch(loading());
@@ -56,7 +46,6 @@ function fetchData(id) {
 }
 
 export const Actions = {
-  request,
   loading,
   loadAnomaly,
   requestFail,

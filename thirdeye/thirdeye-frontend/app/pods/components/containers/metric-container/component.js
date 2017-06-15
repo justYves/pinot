@@ -1,7 +1,30 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions } from 'thirdeye-frontend/actions/metrics';
 import _ from 'lodash';
+
+const colors = ['orange', 'teal', 'purple', 'red', 'green', 'pink'];
+/**
+ * Assigns colors to metric in the front end 
+ * @param {Object} elem metric
+ * @param {Number} index 
+ */
+const assignColor = (elem, index) => {
+  elem.color = colors[index % colors.length];
+  return elem;
+};
+
+/**
+ * Determines if a metric should be filtered out
+ * @param {Object} metric 
+ * @returns {Boolean}
+ */
+const filterMetric = (metric) => {
+  return metric 
+  && metric.subDimensionContributionMap['All'].currentValues
+  && metric.subDimensionContributionMap['All'].currentValues.reduce((total, val) => {
+    return total + val;
+  },0)
+}
 
 function select(store) {
   const {
@@ -16,15 +39,8 @@ function select(store) {
     granularity,
   } = store.metrics;
 
-  const colors = ['orange', 'teal', 'purple', 'red', 'green', 'pink'];
-  const assignColor = (elem, index) => {
-    elem.color = colors[index % colors.length];
-    return elem;
-  };
-
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
-  // HACK FOR TESTING MUST DELETE
-  const whiteList = [2132386, 2132385, 2132368, 2132370];
+
   return {
     loading,
     loaded,
@@ -33,24 +49,14 @@ function select(store) {
     granularity,
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds
-      // .filter((id) => whiteList.contains(id))
-      .map(id => {
-        return uiRelatedMetric[id]
-      })
-      .filter(metric => metric)
+      .map(id => uiRelatedMetric[id])
+      .filter(filterMetric)
       .map(assignColor)
   };
 }
 
-function actions(dispatch) {
-  return {
-    updateCompareMode(compareMode) {
-      // dispatch(Actions.toggleSplitView(splitView))
-    },
-    onLoading() {
-      // dispatch(Actions.loading());
-    },
-  };
+function actions() {
+  return {};
 }
 
 export default connect(select, actions)(Ember.Component.extend({

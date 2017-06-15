@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+// Bootstrap
 @import "ember-bootstrap/bootstrap/variables.scss";
 @import "ember-bootstrap/bootstrap/normalize.scss";
 @import "ember-bootstrap/bootstrap/mixins.scss";
@@ -9,55 +10,24 @@
 @import "ember-bootstrap/bootstrap/forms.scss";
 @import "ember-bootstrap/bootstrap/grid.scss";
 @import "ember-bootstrap/bootstrap/tables.scss";
-// @import "ember-bootstrap/bootstrap/type.scss";
 
+
+// Shared
 @import "shared/mixins";
 @import "shared/color";
 @import "shared/variable";
+
+// Wrapper
 @import "wrapper/color";
+@import 'wrapper/styles';
+
+// Components
 @import 'components/anomaly-id';
 @import 'components/anomaly-graph';
 @import 'components/contribution-table';
-@import 'wrapper/styles';
 
-// @import "ember-bootstrap/bootstrap";
+// Pod Pages
+@import 'pods/rca';
 
-.paper-container {
-  // width: 75%;
-  // margin: 0 auto;
-  background-color: white;
-  padding: 24px;
-  border: 1px solid #CCC;
-  margin-bottom: 24px;
-}
 
-.rca-title {
-  @include margin-reset;
-  @include padding-reset;
-
-  margin-bottom: 24px;
-  font-size: 24px;
-  font-weight: normal;
-  color: lighten(black, 25%)
-}
-
-.rca-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-body {
-  font-size: 14px;
-  background-color: lighten(#CCC, 15%);
-  color: lighten(black, 40%);
-}
-
-.spinner-wrapper {
-  margin: 24px;
-  height: 250px;
-  position: relative;
-}
-
-// import last overrides
-@import 'wrapper/styles'
 
