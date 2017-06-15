@@ -1,91 +1,86 @@
-{{!--<div class="col-xs-12">--}}
-{{!--
-  granularity: {{granularity}}
-  showDetails: {{showDetails}}--}}
-  <div class="table-responsive analysis-table-wrapper ">
-    <table class="table table-bordered analysis-table">
-      <thead>
-      <tr>
-        <th class="analysis-table__anchor analysis-table__anchor--white">
-          <h5 class="contribution-table__title">{{title}}</h5>
+<div class="table-responsive analysis-table-wrapper ">
+  <table class="table table-bordered analysis-table">
+    <thead>
+    <tr>
+      <th class="analysis-table__anchor analysis-table__anchor--white">
+        <h5 class="contribution-table__title">{{title}}</h5>
+      </th>
+      {{#each dates as |date|}}
+        <th class="analysis-table__header">
+          {{moment-format date dateFormat}}
         </th>
+      {{/each}}
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      {{#if showDetails}}
+        <td class="analysis-table__anchor analysis-table__anchor--low"></td>
         {{#each dates as |date|}}
-          <th class="analysis-table__header">
-            {{moment-format date dateFormat}}
-          </th>
+        <td class="analysis-table__subheader">
+          <div class="analysis-table__cell">
+            <div class="analysis-table__item">
+              Current
+            </div>
+            <div class="analysis-table__item">
+              Baseline
+            </div>
+            <div class="analysis-table__item analysis-table__item--small">
+              Ratio
+            </div>
+          </div>
+        </td>
         {{/each}}
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        {{#if showDetails}}
-          <td class="analysis-table__anchor analysis-table__anchor--low"></td>
-          {{#each dates as |date|}}
-          <td class="analysis-table__subheader">
+      {{/if}}
+    </tr>
+    {{#each rows as |metric|}}
+    <tr>
+      <td class="analysis-table__dimension">
+        <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>
+      </td>
+
+      {{#if showDetails}}
+        {{#each-in metric.subDimensionContributionMap.All.percentageChange as |index percentChange|}}
+          <td class="analysis-table__data" style="background-color: {{compute-color percentChange}}; color: {{compute-text-color percentChange}};">
             <div class="analysis-table__cell">
               <div class="analysis-table__item">
-                Current
+                {{get metric.subDimensionContributionMap.All.currentValues index}}
               </div>
               <div class="analysis-table__item">
-                Baseline
+                {{get metric.subDimensionContributionMap.All.baselineValues index}}
               </div>
               <div class="analysis-table__item analysis-table__item--small">
-                Ratio
+                <div class="analysis-table__item  analysis-table__item--large">
+                  {{!--<span style="color:{{compute-text-color percentChange}}">--}}
+                    {{percentChange}}%
+                  {{!--</span>--}}
+                </div>
               </div>
             </div>
           </td>
-          {{/each}}
-        {{/if}}
-      </tr>
-      {{#each rows as |metric|}}
-      <tr>
-        <td class="analysis-table__dimension">
-          <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>
-        </td>
+        {{/each-in}}
+      {{else}}
 
-        {{#if showDetails}}
-          {{#each-in metric.subDimensionContributionMap.All.percentageChange as |index percentChange|}}
-            <td class="analysis-table__data" style="background-color: {{compute-color percentChange}}; color: {{compute-text-color percentChange}};">
-              <div class="analysis-table__cell">
-                <div class="analysis-table__item">
-                  {{get metric.subDimensionContributionMap.All.currentValues index}}
-                </div>
-                <div class="analysis-table__item">
-                  {{get metric.subDimensionContributionMap.All.baselineValues index}}
-                </div>
-                <div class="analysis-table__item analysis-table__item--small">
-                  <div class="analysis-table__item  analysis-table__item--large">
-                    {{!--<span style="color:{{compute-text-color percentChange}}">--}}
-                      {{percentChange}}%
-                    {{!--</span>--}}
-                  </div>
-                </div>
+        {{#each metric.subDimensionContributionMap.All.percentageChange as |percentChange index|}}
+          <td class="analysis-table__data" style="background-color: {{compute-color percentChange}}">
+            <div class="analysis-table__cell">
+              <div class="analysis-table__item  analysis-table__item--large">
+                <span style="color:{{compute-text-color percentChange}}">
+                  {{percentChange}}%
+                </span>
               </div>
-            </td>
-          {{/each-in}}
-        {{else}}
-
-          {{#each metric.subDimensionContributionMap.All.percentageChange as |percentChange index|}}
-            <td class="analysis-table__data" style="background-color: {{compute-color percentChange}}">
-              <div class="analysis-table__cell">
-                <div class="analysis-table__item  analysis-table__item--large">
-                  <span style="color:{{compute-text-color percentChange}}">
-                    {{percentChange}}%
-                  </span>
-                </div>
-              </div>
-            </td>
-          {{/each}}
-        {{/if}}
-        {{!--{{/with}}--}}
+            </div>
+          </td>
+        {{/each}}
+      {{/if}}
+      {{!--{{/with}}--}}
+    </tr>
+    {{/each}}
+    <tr>
+      <td class="analysis-table__dimension">
+        <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>
+      </td>
       </tr>
-      {{/each}}
-      <tr>
-       <td class="analysis-table__dimension">
-          <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>
-        </td>
-        </tr>
-     </tbody>
-    </table>
-  </div>
-{{!--</div>--}}
+    </tbody>
+  </table>
+</div>

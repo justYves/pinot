@@ -20,7 +20,23 @@
     overflow: hidden;
 }
 .anomaly-graph__filter-label {
+  cursor: pointer;
+  color: #0091CA;
   font-weight: normal;
+}
+
+
+.anomaly-graph__filter-group {
+    padding-left: 14px;
+    list-style: none;
+}
+
+.legend-title {
+    padding: 8px 14px;
+    color: darken(#CCC, 30%);
+    margin: 0;
+    background-color: #f3f6f8;
+    font-size: 14px;
 }
 
 .left-panel { 
@@ -48,33 +64,55 @@
     left: 0;
 }
 
+// .c3-region--green {
+//   fill: green;
+// }
 
 
+// // TODO: move this colors into wrapper
+// .c3-region--blue {
+//   fill: #CAEDFF;
+// }
 
-// TODO: move this colors into wrapper
-.c3-region--blue {
-  fill: #CAEDFF;
-}
+// .c3-region--orange {
+//   fill: #FDE3D2;
+// }
+// .c3-region--red {
+//   fill: #FFE0DB
+// }
 
-.c3-region--orange {
-  fill: #FDE3D2;
-}
-.c3-region--red {
-  fill: #FFE0DB
-}
+// .c3-region--teal {
+//   fill: #CCF0F3;
+// }
 
-.c3-region--teal {
-  fill: #CCF0F3;
-}
+// .c3-region--purple {
+//   fill: #E6E6FF;
+// }
 
-.c3-region--purple {
-  fill: #E6E6FF
-}
+// .c3-region--green {
+//   fill: #DCF0CB;
+// }
 
-.c3-region--green {
-  fill: #DCF0CB
-}
+// .c3-region--pink {
+//   fill: #FFDFF6;
+// }
 
-.c3-region--pink {
-  fill: #FFDFF6
-}
+$colors:
+	"blue" #0091CA,
+	"orange" #E55800,
+  "teal" #0E95A0,
+  "purple" #827BE9,
+  "red" #FF2C33,
+	"green" #469A1F,
+	"pink" #FF1B90;
+
+// creates .c3-region-"color" classes
+@each $i in $colors{
+	.c3-region--#{nth($i, 1)} {
+		fill: nth($i, 2);
+	}
+
+  .anomaly-graph__filter-label--#{nth($i, 1)} {
+    color: lighten(nth($i, 2), 10%);
+  }
+};

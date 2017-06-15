@@ -74,7 +74,7 @@
 .analysis-table__subheader {
   /* offset the table border*/
   position: sticky;
-  top: 18px;
+  top: 34px;
   background-color: white;
 }
 
@@ -112,6 +112,7 @@
 
 .analysis-table__anchor--white { 
   background-color: white;
+  z-index: 2;
 }
 
 .analysis-table__anchor,
@@ -119,13 +120,6 @@
   // border-color: white!important;
   border:none!important;
   padding: 9px;
-}
-
-.analysis-table__anchor {
-  position: sticky;
-  z-index: 1;
-  left: -1px;
-  top: -1px;
 }
 
 .analysis-table__dimension {

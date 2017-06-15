@@ -30,56 +30,24 @@
     border: 1px solid #CCC;
 }
 
-.anomaly-graph__filter-group {
-    padding-left: 14px;
-}
-
-.anomaly-graph__filter-item {
-    // padding: 14px;
-}
-
-.legend-title {
-    padding: 8px 14px;
-    color: darken(#CCC, 30%);
-    margin: 0;
-}
-
 .rca-title {
     margin: 0;
     margin-bottom: 24px;
     font-weight: normal;
 }
 
-.contribution-table__header {
-    display: flex;
-    border-bottom: 1px solid #CCC;
-    padding: 14px 0;
-}
-
-.contribution-table__subnav {
-    margin: 0 14px;
-}
-
-
 .rca-header {
     display: flex;
     justify-content: space-between;
 }
 
-// body {
-//     font-size: 14px;
-// }
-
-.c3-region__orange {
-    fill: orange;
+body {
+    font-size: 14px;
 }
 
-
-.legend-title {
-    background-color: lighten(#CCC, 15%);
-}
 body {
     background-color: lighten(#CCC, 15%);
 }
 // import last overrides
 @import 'wrapper/styles'
+

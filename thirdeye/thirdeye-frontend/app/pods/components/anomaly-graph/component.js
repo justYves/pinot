@@ -1,6 +1,37 @@
 import Ember from 'ember';
 
+const COLOR_MAPPING = {
+  blue: '#33AADA',
+  orange: '#EF7E37',
+  teal: '#17AFB8',
+  purple: '#9896F2',
+  red: '#FF6C70',
+  green: '#6BAF49',
+  pink: '#FF61b6'
+};
+
+// const setColor = (metric) => {}
+
+
+
 export default Ember.Component.extend({
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    const colors = {};
+    const primaryMetric = this.get('primaryMetric');
+    const relatedMetric = this.get('relatedMetrics');
+    const metrics = [primaryMetric, ...relatedMetric];
+    metrics.forEach((metric) => {
+      const name = metric.metricName;
+      const color = metric.color || 'blue';
+      colors[`${name}-current`] = COLOR_MAPPING[color];
+      colors[`${name}-baseline`] = COLOR_MAPPING[color];
+    })
+    this.set('colors', colors);
+  },
+
+  colors: {},
   tagName: 'div',
   classNames: ['anomaly-graph'],
   primaryMetric: {},
@@ -84,6 +115,7 @@ export default Ember.Component.extend({
     'primaryMetricColumn',
     'relatedMetricsColumn',
     'chartDates',
+    'colors',
     function() {
       return {
         columns: [
@@ -95,11 +127,7 @@ export default Ember.Component.extend({
         x: 'date',
         xFormat: '%Y-%m-%d %H:%M',
         style: 'dashed',
-        //  ideally we'll do this:
-        // colors: {
-        //     current: '#006097',
-        //     baseline: '#006097',
-        // },
+        colors: this.get('colors')
       }
     }
   ),
@@ -132,19 +160,11 @@ export default Ember.Component.extend({
         end: region.end,
         tick: {
           format: '%m %d %Y'
-        }
+        },
+        class: `c3-region--${primaryMetric.color}`
       }
 
     })
-    // return [{
-    //   axis: 'x',
-    //   start: this.get('anomaly.anomalyRegionStart'),
-    //   end: this.get('anomaly.anomalyRegionEnd'),
-    //   tick : {
-    //     format : '%m %d %Y'
-    //   },
-    //   // class: 'c3-region__blue'
-    // }]
   }),
 
   relatedRegions: Ember.computed(
@@ -164,7 +184,7 @@ export default Ember.Component.extend({
             tick: {
               format: '%m %d %Y'
             },
-            class: 'c3-region__orange'
+            class: `c3-region--${metric.color}`
           }
         })
         regions.push(...metricRegions);
@@ -173,35 +193,9 @@ export default Ember.Component.extend({
     }
   ),
 
-
   regions: Ember.computed('primaryRegions', 'relatedRegions', function() {
     return [...this.get('primaryRegions'), ...this.get('relatedRegions')];
   }),
-
-  color: {
-    pattern: [
-      "#1f77b4",
-      "#aec7e8",
-      "#ff7f0e",
-      "#ffbb78",
-      "#2ca02c",
-      "#98df8a",
-      "#d62728",
-      "#ff9896",
-      "#9467bd",
-      "#c5b0d5",
-      "#8c564b",
-      "#c49c94",
-      "#e377c2",
-      "#f7b6d2",
-      "#7f7f7f",
-      "#c7c7c7",
-      "#bcbd22",
-      "#dbdb8d",
-      "#17becf",
-      "#9edae5"
-    ]
-  },
 
   subchart: Ember.computed('showGraphLegend',
     function() {

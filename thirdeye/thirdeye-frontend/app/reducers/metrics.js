@@ -114,17 +114,8 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
       return Object.assign(state, {
         compareMode
-      })
+      });
     }
-
-    // case ActionTypes.TOGGLE_SPLIT_VIEW: {
-    //   const splitView = !action.payload
-
-    //   return Object.assign(state, {
-    //     splitView
-    //   })
-    // }  
   }
-  
   return state;
 }

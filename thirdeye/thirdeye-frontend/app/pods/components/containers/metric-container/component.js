@@ -16,13 +16,13 @@ function select(store) {
     granularity,
   } = store.metrics;
 
-// TODO: place this in another file
-//  if (entity) {
-//   entity.isSelected = true;
-//  }
+  const colors = ['orange', 'teal', 'purple', 'red', 'green', 'pink'];
+  const assignColor = (elem, index) => {
+    elem.color = colors[index % colors.length];
+    return elem;
+  };
 
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
-  // const relateMetric = relatedMetricEntities
   // HACK FOR TESTING MUST DELETE
   const whiteList = [2132386, 2132385, 2132368, 2132370];
   return {
@@ -31,14 +31,14 @@ function select(store) {
     failed,
     compareMode,
     granularity,
-    // entity: Object.assign({isSelected: true}, e ntity),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds
-      .filter((id) => whiteList.contains(id))
-      .map(id => uiRelatedMetric[id])
-      .filter(metric => {
-        return metric;
+      // .filter((id) => whiteList.contains(id))
+      .map(id => {
+        return uiRelatedMetric[id]
       })
+      .filter(metric => metric)
+      .map(assignColor)
   };
 }
 

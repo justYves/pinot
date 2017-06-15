@@ -5,9 +5,9 @@
       <h5 class="legend-title">Primary Metric</h5>
       <ul class="anomaly-graph__filter-group">
         <li class="anomaly-graph__filter-item">
-          {{input type="checkbox" id=(concat "metric-" metric.id) checked=true click=(action "onSelection" anomaly)}}
+          {{input type="checkbox" id=(concat "metric-" metric.id) checked=true disabled=true click=(action "onSelection" anomaly)}}
           {{!--{{input type="checkbox" id="primary-metric" checked=true click=(action "onSelection" anomaly)}} {{anomaly.anomalyFunctionName}}--}}
-          <label class="anomaly-graph__filter-label" for="metric-{{primaryMetric.id}}"> {{primaryMetric.metricName}} </label>
+          <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{primaryMetric.color}}" for="metric-{{primaryMetric.id}}" title={{primaryMetric.metricName}}> {{primaryMetric.metricName}} </label>
         </li>
       </ul>
       <h5 class="legend-title">Related Metrics</h5>
@@ -15,7 +15,7 @@
       {{#each relatedMetrics as |metric index|}}
         <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=metric.isSelected}}
         {{!--<div class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=false}}--}}
-          <label class="anomaly-graph__filter-label" for="related-metric-{{index}}"> {{metric.metricName}} </label>
+          <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="related-metric-{{index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
         </li>
       {{else}}
         No Related Metrics.
