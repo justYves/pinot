@@ -12,11 +12,12 @@
         <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
       </div>
     </div>
-
     {{#if metricList.loading}}
-      <div style="position:relative;">
-        {{ember-spinner}}
-      </div>
+      <section class="paper-container">
+        <div class="spinner-wrapper">
+          {{ember-spinner}}
+        </div>
+      </section>
     {{/if}}
 
     {{#if metricList.failed}}
@@ -25,15 +26,16 @@
 
     {{#if metricList.loaded}}
       {{#if splitView}}
+        <section class="paper-container">
           {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
-        {{#each metricList.relatedMetrics as |metric|}}
-          {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
-        {{/each}}
+          {{#each metricList.relatedMetrics as |metric|}}
+            {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
+          {{/each}}
+      </section>
       {{else}}
         {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}
       {{/if}}
     {{/if}}
-
 
     <div class="contribution-table">
       <div class="contribution-table__header">
@@ -46,7 +48,7 @@
       </div>
       <div class="contribution-table__body">
         {{#if metricList.loading}}
-          <div style="position:relative;">
+          <div class="spinner-wrapper">
             {{ember-spinner}}
           </div>
         {{else}}

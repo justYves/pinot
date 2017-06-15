@@ -121,10 +121,10 @@
           <td class="analysis-table__data" style="background-color: {{compute-color percentChange}}; color: {{compute-text-color percentChange}};">
             <div class="analysis-table__cell">
               <div class="analysis-table__item">
-                {{get metric.subDimensionContributionMap.All.currentValues index}}
+                {{format-number (get metric.subDimensionContributionMap.All.currentValues index)}}
               </div>
               <div class="analysis-table__item">
-                {{get metric.subDimensionContributionMap.All.baselineValues index}}
+                {{format-number (get metric.subDimensionContributionMap.All.baselineValues index)}}
               </div>
               <div class="analysis-table__item analysis-table__item--small">
                 <div class="analysis-table__item  analysis-table__item--large">

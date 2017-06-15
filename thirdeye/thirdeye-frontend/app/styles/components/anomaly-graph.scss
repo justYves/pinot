@@ -42,8 +42,8 @@
 }
 
 .legend-title {
-    padding: 8px 14px;
-    color: darken(#CCC, 30%);
+    padding: 14px;
+    color: lighten(black, 30%);
     margin: 0;
     background-color: #f3f6f8;
     font-size: 14px;
@@ -51,7 +51,6 @@
 }
 
 .left-panel { 
-    flex-basis: 25%;
     min-width: 250px;
     flex-grow: 1;
     overflow: scroll;

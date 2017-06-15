@@ -22,38 +22,42 @@
 
 // @import "ember-bootstrap/bootstrap";
 
-.page-container {
-    // width: 75%;
-    // margin: 0 auto;
-    background-color: white;
-    padding: 24px;
-    border: 1px solid #CCC;
-    margin-bottom: 24px;
+.paper-container {
+  // width: 75%;
+  // margin: 0 auto;
+  background-color: white;
+  padding: 24px;
+  border: 1px solid #CCC;
+  margin-bottom: 24px;
 }
 
 .rca-title {
-    @include margin-reset;
-    @include padding-reset;
+  @include margin-reset;
+  @include padding-reset;
 
-    margin-bottom: 24px;
-    font-size: 24px;
-    font-weight: normal;
-    color: lighten(black, 25%)
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: normal;
+  color: lighten(black, 25%)
 }
 
 .rca-header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 body {
-    font-size: 14px;
+  font-size: 14px;
+  background-color: lighten(#CCC, 15%);
+  color: lighten(black, 40%);
 }
 
-body {
-    background-color: lighten(#CCC, 15%);
-    color: lighten(black, 40%);
+.spinner-wrapper {
+  margin: 24px;
+  height: 250px;
+  position: relative;
 }
+
 // import last overrides
 @import 'wrapper/styles'
 
