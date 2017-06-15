@@ -13,6 +13,7 @@ function select(store) {
     regions,
     primaryMetricId,
     compareMode,
+    granularity,
   } = store.metrics;
 
 // TODO: place this in another file
@@ -29,6 +30,7 @@ function select(store) {
     loaded,
     failed,
     compareMode,
+    granularity,
     // entity: Object.assign({isSelected: true}, e ntity),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds

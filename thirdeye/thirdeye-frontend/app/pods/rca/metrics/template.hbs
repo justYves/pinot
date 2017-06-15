@@ -1,70 +1,108 @@
 
 <main>
-{{#containers/metric-container as |metricList actions|}}
-<div class="rca-header">
-  <h3 class="rca-title">Metric Correlation</h3>
-  <div>
-    <select onchange={{action "onModeChange" value="target.value"}}>
-      {{#each compareModeOptions as |compareMode|}}
-        <option value={{compareMode}} selected={{eq compareMode metricList.compareMode}}>{{compareMode}}</option>
-      {{/each}}
-  </select>
-    <a href="#" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
-  </div>
-</div>
-
-  {{#if metricList.loading}}
-    <div style="position:relative;">
-      {{ember-spinner}}
+  {{#containers/metric-container as |metricList actions|}}
+    <div class="rca-header">
+      <h3 class="rca-title">Metric Correlation</h3>
+      <div>
+        <select onchange={{action "onModeChange" value="target.value"}}>
+          {{#each compareModeOptions as |compareMode|}}
+            <option value={{compareMode}} selected={{eq compareMode metricList.compareMode}}>{{compareMode}}</option>
+          {{/each}}
+      </select>
+        <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+      </div>
     </div>
-  {{/if}}
 
-  {{#if metricList.failed}}
-    Oops, something went wrong...
-  {{/if}}
-
-  {{#if metricList.loaded}}
-    {{#if splitView}}
-        {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
-      {{#each metricList.relatedMetrics as |metric|}}
-        {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
-      {{/each}}
-    {{else}}
-      {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}
+    {{#if metricList.loading}}
+      <div style="position:relative;">
+        {{ember-spinner}}
+      </div>
     {{/if}}
-    {{!--{{else}}
-      No anomalies found.
-    {{/each}}--}}
-  {{/if}}
 
+    {{#if metricList.failed}}
+      Oops, something went wrong...
+    {{/if}}
 
-  <div class="contribution-table">
-    <div class="contribution-table__header">
-      <div class="contribution-table__subnav"><a class="thirdeye-link thirdeye-link--active" href="#">% Change</a></div>
-      {{!--<div class="contribution-table__subnav"><a class="thirdeye-link" href="#">Raw Numbers</a></div>--}}
-    </div>
-    <div class="contribution-table__body">
-      <h5 class="contribution-table__title">Primary Metric</h5>
-      {{#if metricList.loading}}
-        <div style="position:relative;">
-          {{ember-spinner}}
-        </div>
+    {{#if metricList.loaded}}
+      {{#if splitView}}
+          {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
+        {{#each metricList.relatedMetrics as |metric|}}
+          {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
+        {{/each}}
       {{else}}
-        {{contribution-table metrics=metricList.primaryMetric}}
+        {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics onSelection=actions.onSelection}}
       {{/if}}
-      <h5 class="contribution-table__title">Correlated Metric</h5>
-      {{#if metricList.loading}}
-        <div style="position:relative;">
-          {{ember-spinner}}
-        </div>
-      {{else if metricList.relatedMetrics.length}}
-        {{contribution-table metrics=metricList.relatedMetrics}}
-      {{else}}
-        No Related Metrics.
-      {{/if}}
-    </div>
-  </div>
+    {{/if}}
 
-{{/containers/metric-container}}
+
+    <div class="contribution-table">
+      <div class="contribution-table__header">
+        <div class="contribution-table__subnav">
+          <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>% Change</a>
+        </div>
+        <div class="contribution-table__subnav">
+          <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
+        </div>
+      </div>
+      <div class="contribution-table__body">
+        {{!--TODO: Refactor to remove template logic--}}
+        {{#if (eq selectedTab "change")}}
+        {{!--% Change tab--}}
+          <h5 class="contribution-table__title">Primary Metric</h5>
+          {{#if metricList.loading}}
+            <div style="position:relative;">
+              {{ember-spinner}}
+            </div>
+          {{else}}
+            {{contribution-table 
+              granularity=metricList.granularity
+              metrics=metricList.primaryMetric
+            }}
+          {{/if}}
+          <h5 class="contribution-table__title">Correlated Metric</h5>
+          {{#if metricList.loading}}
+            <div style="position:relative;">
+              {{ember-spinner}}
+            </div>
+          {{else if metricList.relatedMetrics.length}}
+            {{contribution-table 
+              granularity=metricList.granularity
+              metrics=metricList.relatedMetrics
+            }}
+          {{else}}
+            No Related Metrics.
+          {{/if}}
+        {{else if (eq selectedTab "number")}}
+        {{!--Raw Number Tab--}}
+          <h5 class="contribution-table__title">Primary Metric</h5>
+          {{#if metricList.loading}}
+            <div style="position:relative;">
+              {{ember-spinner}}
+            </div>
+          {{else}}
+            {{contribution-table 
+              granularity=metricList.granularity
+              showDetails=true 
+              metrics=metricList.primaryMetric
+            }}
+          {{/if}}
+          <h5 class="contribution-table__title">Correlated Metric</h5>
+          {{#if metricList.loading}}
+            <div style="position:relative;">
+              {{ember-spinner}}
+            </div>
+          {{else if metricList.relatedMetrics.length}}
+            {{contribution-table
+              showDetails=true 
+              metrics=metricList.relatedMetrics
+            }}
+          {{else}}
+            No Related Metrics.
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+
+  {{/containers/metric-container}}
 </main>
 

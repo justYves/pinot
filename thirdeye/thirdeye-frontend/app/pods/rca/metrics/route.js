@@ -37,7 +37,6 @@ export default Ember.Route.extend({
     const queryParams  = Object.assign(defaultQueryParams, transition.queryParams);
     const metricParams = Object.assign({}, params, queryParams)
 
-    debugger;
     redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricIds(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))

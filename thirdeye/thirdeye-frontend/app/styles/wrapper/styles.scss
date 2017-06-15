@@ -1,2 +1,25 @@
 // wrapper/custom style will go here
 @import 'font';
+
+.thirdeye-link {
+  cursor: pointer;
+  color: #0084bf;
+  padding: 0 8px;
+  text-decoration: none;
+}
+
+.thirdeye-link:hover {
+  color: #0073b1;
+}
+
+.thirdeye-link--nav {
+  font-size: 14px;
+  color: darken(#CCC, 30%);
+}
+
+.thirdeye-link--active,
+.thirdeye-link--nav:hover {
+  color: #0073b1;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #0073B0 !important;
+}

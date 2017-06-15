@@ -1,4 +1,7 @@
 {{!--<div class="col-xs-12">--}}
+{{!--
+  granularity: {{granularity}}
+  showDetails: {{showDetails}}--}}
   <div class="table-responsive analysis-table-wrapper ">
     <table class="table table-bordered analysis-table tree-map__table">
       <thead>
@@ -6,8 +9,7 @@
         <th class="analysis-table__anchor analysis-table__anchor--white"></th>
         {{#each dates as |date|}}
           <th class="analysis-table__header">
-            {{!--todo: set date format based on granularity--}}
-            {{moment-format date 'M/D hh:mm a'}}
+            {{moment-format date dateFormat}}
           </th>
         {{/each}}
       </tr>
@@ -15,7 +17,7 @@
       <tbody>
       <tr>
         <td class="analysis-table__anchor analysis-table__anchor--low"></td>
-        {{#if rawNumbers}}
+        {{#if showDetails}}
           {{#each dates as |date|}}
           <td class="analysis-table__subheader">
             <div class="analysis-table__cell">
@@ -38,28 +40,41 @@
         <td class="analysis-table__dimension">
           <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>
         </td>
-        {{!--{{#with metric.subDimensionContributionMap.All.percentageChange as |changes index|}}--}}
+
+        {{#if showDetails}}
+          {{#each-in metric.subDimensionContributionMap.All.percentageChange as |index percentChange|}}
+            <td style="background-color: {{compute-color percentChange}}; color: {{compute-text-color percentChange}};">
+              <div class="analysis-table__cell">
+                <div class="analysis-table__item">
+                  {{get metric.subDimensionContributionMap.All.currentValues index}}
+                </div>
+                <div class="analysis-table__item">
+                  {{get metric.subDimensionContributionMap.All.baselineValues index}}
+                </div>
+                <div class="analysis-table__item analysis-table__item--small">
+                  <div class="analysis-table__item  analysis-table__item--large">
+                    {{!--<span style="color:{{compute-text-color percentChange}}">--}}
+                      {{percentChange}}%
+                    {{!--</span>--}}
+                  </div>
+                </div>
+              </div>
+            </td>
+          {{/each-in}}
+        {{else}}
+
           {{#each metric.subDimensionContributionMap.All.percentageChange as |percentChange index|}}
             <td style="background-color: {{compute-color percentChange}}">
-
-              {{!--<div class="analysis-table__item">
-                {{lookup metric.subDimensionContributionMap.All.currentValues index}}
-              </div>
-              <div class="analysis-table__item">
-                {{lookup metric.subDimensionContributionMap.All.baselineValues index}}
-              </div>--}}
-            {{!--<div class="analysis-table__item analysis-table__item--small">
-              </div>--}}
               <div class="analysis-table__cell">
-                            <div class="analysis-table__item  analysis-table__item--large">
-
-                <span style="color:{{compute-text-color percentChange}}">
-                  {{percentChange}}%
-                </span>
+                <div class="analysis-table__item  analysis-table__item--large">
+                  <span style="color:{{compute-text-color percentChange}}">
+                    {{percentChange}}%
+                  </span>
                 </div>
               </div>
             </td>
           {{/each}}
+        {{/if}}
         {{!--{{/with}}--}}
       </tr>
       {{/each}}

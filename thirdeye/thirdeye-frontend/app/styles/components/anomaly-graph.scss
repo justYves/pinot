@@ -1,0 +1,74 @@
+.c3-lines {
+  stroke-width: 2px;
+}
+.c3-chart-line:nth-child(even) > .c3-lines {
+    stroke-dasharray: 1%;
+}
+.anomaly-graph {
+    box-sizing: border-box;
+    display: flex;
+    border: 1px solid #CCC;
+
+    &:not(:first-child) {
+        margin-top: 14px;
+    }
+}
+
+.anomaly-graph__filter-item {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.left-panel { 
+    flex-basis: 25%;
+    flex-grow: 1;
+    overflow: scroll;
+    position: relative;
+    border-right: 1px solid #CCC;
+}
+
+.right-panel { 
+    flex-basis: 75%;
+    flex-grow: 1;
+    width: 75%;
+    padding: 14px;
+}
+
+.anomaly_graph__filters {
+    position: absolute;
+    // padding: 14px;
+    top: 0; 
+    bottom: 0; 
+    right: 0;
+    left: 0;
+}
+
+
+// TODO: move this colors into wrapper
+.c3-region--blue {
+  fill: #CAEDFF;
+}
+
+.c3-region--orange {
+  fill: #FDE3D2;
+}
+.c3-region--red {
+  fill: #FFE0DB
+}
+
+.c3-region--teal {
+  fill: #CCF0F3;
+}
+
+.c3-region--purple {
+  fill: #E6E6FF
+}
+
+.c3-region--green {
+  fill: #DCF0CB
+}
+
+.c3-region--pink {
+  fill: #FFDFF6
+}

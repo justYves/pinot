@@ -1,12 +1,7 @@
-{{!--<li><strong>Name:</strong> {{anomaly.anomalyFunctionName}}</li>
-<li><strong>Current Start</strong> {{anomaly.currentStart}}</li>
-<li><strong>Current End</strong> {{anomaly.currentEnd}}</li>--}}
-
 {{!-- TODO: move legend into own component--}}
 {{#if showGraphLegend}}
   <div class="left-panel">
     <div class="anomaly_graph__filters">
-      {{!--{{input type="checkbox" checked=showLegend}} show legend--}}
       <h5 class="legend-title">Primary Metric</h5>
       <ul class="anomaly-graph__filter-group">
         <li class="anomaly-graph__filter-item">
@@ -31,7 +26,6 @@
 {{/if}}
 
 <div class="right-panel">
-  {{!--<a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>--}}
   {{#unless showGraphLegend}}
     <h5>{{primaryMetric.metricId}} {{primaryMetric.metricName}}</h5>
   {{/unless}}
@@ -46,9 +40,3 @@
     point=point
     subchart=subchart}}
 </div>
-{{!--{{else}}
-
-  
-  <h5>{{anomaly.anomalyFunctionName}}</h5>
-  <a href="#" {{action "onToggle"}}>{{if showLegend 'Split View' 'CombineView'}}</a>
-{{/if}}--}}

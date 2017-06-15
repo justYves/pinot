@@ -147,28 +147,31 @@ export default Ember.Component.extend({
     // }]
   }),
 
-  relatedRegions: Ember.computed('relatedMetrics',
-      'relatedMetrics.@each.isSelected', function() {
-    const relatedMetrics = this.get('relatedMetrics');
-    const regions = [];
-    relatedMetrics
-    .filterBy('isSelected')
-    .forEach((metric)=> {
-      const metricRegions = metric.regions.map((region) => {
-        return {
-          axis: 'x',
-          start: region.start,
-          end: region.end,
-          tick: {
-            format: '%m %d %Y'
-          },
-          class: 'c3-region__orange'
-        }
+  relatedRegions: Ember.computed(
+    'relatedMetrics',
+    'relatedMetrics.@each.isSelected', 
+    function() {
+      const relatedMetrics = this.get('relatedMetrics');
+      const regions = [];
+      relatedMetrics
+      .filterBy('isSelected')
+      .forEach((metric)=> {
+        const metricRegions = metric.regions.map((region) => {
+          return {
+            axis: 'x',
+            start: region.start,
+            end: region.end,
+            tick: {
+              format: '%m %d %Y'
+            },
+            class: 'c3-region__orange'
+          }
+        })
+        regions.push(...metricRegions);
       })
-      regions.push(...metricRegions);
-    })
-    return regions;
-  }),
+      return regions;
+    }
+  ),
 
 
   regions: Ember.computed('primaryRegions', 'relatedRegions', function() {
