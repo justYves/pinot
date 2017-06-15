@@ -22,18 +22,23 @@
 
 // @import "ember-bootstrap/bootstrap";
 
-.container {
-    width: 75%;
-    margin: 0 auto;
+.page-container {
+    // width: 75%;
+    // margin: 0 auto;
     background-color: white;
     padding: 24px;
     border: 1px solid #CCC;
+    margin-bottom: 24px;
 }
 
 .rca-title {
-    margin: 0;
+    @include margin-reset;
+    @include padding-reset;
+
     margin-bottom: 24px;
+    font-size: 24px;
     font-weight: normal;
+    color: lighten(black, 25%)
 }
 
 .rca-header {
@@ -47,6 +52,7 @@ body {
 
 body {
     background-color: lighten(#CCC, 15%);
+    color: lighten(black, 40%);
 }
 // import last overrides
 @import 'wrapper/styles'

@@ -1,9 +1,12 @@
+// Overriding default c3
 .c3-lines {
   stroke-width: 2px;
 }
+
 .c3-chart-line:nth-child(even) > .c3-lines {
     stroke-dasharray: 1%;
 }
+
 .anomaly-graph {
     box-sizing: border-box;
     display: flex;
@@ -25,10 +28,17 @@
   font-weight: normal;
 }
 
-
 .anomaly-graph__filter-group {
     padding-left: 14px;
     list-style: none;
+}
+
+.anomaly-graph__title {
+  @include margin-reset;
+  @include padding-reset;
+  font-size: initial;
+  font-weight: normal;
+  margin-bottom: 14px;
 }
 
 .legend-title {
@@ -37,6 +47,7 @@
     margin: 0;
     background-color: #f3f6f8;
     font-size: 14px;
+    font-weight: normal;
 }
 
 .left-panel { 
@@ -63,39 +74,6 @@
     right: 0;
     left: 0;
 }
-
-// .c3-region--green {
-//   fill: green;
-// }
-
-
-// // TODO: move this colors into wrapper
-// .c3-region--blue {
-//   fill: #CAEDFF;
-// }
-
-// .c3-region--orange {
-//   fill: #FDE3D2;
-// }
-// .c3-region--red {
-//   fill: #FFE0DB
-// }
-
-// .c3-region--teal {
-//   fill: #CCF0F3;
-// }
-
-// .c3-region--purple {
-//   fill: #E6E6FF;
-// }
-
-// .c3-region--green {
-//   fill: #DCF0CB;
-// }
-
-// .c3-region--pink {
-//   fill: #FFDFF6;
-// }
 
 $colors:
 	"blue" #0091CA,

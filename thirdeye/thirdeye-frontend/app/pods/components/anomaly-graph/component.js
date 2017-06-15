@@ -62,7 +62,7 @@ export default Ember.Component.extend({
     'showGraphLegend', 
     function() {
       return {
-        show: !this.get('showGraphLegend'),
+        show: false,
       }
     }
   ),
