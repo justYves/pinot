@@ -1,0 +1,23 @@
+.events-summary {
+  display: flex;
+  width: 100%;
+  border: 1px solid $te-border-color;
+  border-bottom: 0;
+}
+
+.events-summary__item {
+  padding: 14px;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-right: 1px solid $te-border-color;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.events-summary__number {
+  color: $te-blue;
+  font-size: 18px;
+  // color: $te-blue;
+}

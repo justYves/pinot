@@ -13,8 +13,11 @@ Router.map(function() {
     this.route('alerts');
   });
 
-  this.route('rca', function() {
-    this.route('metrics', { path: '/metrics/:id' });
+  this.route('rca', { path: '/rca' }, function() {
+    this.route('details', { path: ' /:metricId' } , function() {
+      this.route('metrics', { path: '/metrics/:id' });
+      this.route('events', { path: '/events/:id' });
+    });
   });
   this.route('self-serve', function() {
     this.route('create-alert');

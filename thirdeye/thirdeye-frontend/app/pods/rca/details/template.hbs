@@ -1,0 +1,58 @@
+<h3>RCA Details</h3>
+
+{{!--{{#if primaryMetric}}
+  {{date-range-picker
+    label="Date Range"
+    start=startDate
+    end=endDate
+    timePicker=true
+    showDropdowns=true
+    timePickerIncrement=5
+    timePicker12Hour=true
+    applyClass="btn-primary"
+    cancelClass="btn-default"
+    format="MMM D, YYYY hh:mm a"
+  }}--}}
+
+Granularity: 
+{{#power-select
+  selected=granularity
+  options=granularities
+  onchange=(action "onGranularityChange") 
+  as |granularity|
+}}
+  {{granularity}}
+{{/power-select}}
+
+
+{{date-range-picker
+  label="Date Range"
+  start=startDate
+  end=endDate
+  timePicker=true
+  showDropdowns=true
+  timePickerIncrement=5
+  timePicker12Hour=true
+  applyClass="btn-primary"
+  cancelClass="btn-default"
+  format="MMM D, YYYY hh:mm a"
+}}
+
+{{!--
+  Filters: 
+  {{#power-select-multiple 
+    selected=filters
+    options=filterOptions
+    onchange=(action "onFilterSelection")
+    search=(perform searchFilters)
+    searchPlaceholder="Search for a filter"
+    as |filter|
+  }}
+    {{filter}}
+  {{/power-select-multiple}}--}}
+
+
+  {{!--<a class="btn btn-primary pull-right thirdeye-btn" {{action "onApply"}}>Apply</a>--}}
+{{!--{{/if}}--}}
+
+{{outlet}}
