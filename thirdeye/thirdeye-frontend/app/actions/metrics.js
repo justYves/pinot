@@ -172,7 +172,6 @@ function fetchRelatedMetricData() {
 
     return Ember.RSVP.hash(promiseHash)
       .then(res => dispatch(loadRelatedMetricsData(res)))
-      .then()
       .catch(() => {
         // Todo: dispatch an error message
       })
