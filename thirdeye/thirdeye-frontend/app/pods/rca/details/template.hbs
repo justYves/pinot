@@ -55,4 +55,27 @@ Granularity:
   {{!--<a class="btn btn-primary pull-right thirdeye-btn" {{action "onApply"}}>Apply</a>--}}
 {{!--{{/if}}--}}
 
+<main>
+  {{#containers/metric-container as |metricList actions|}}
+    {{#if metricList.loading}}
+      <section class="paper-container">
+        <div class="spinner-wrapper">
+          {{ember-spinner}}
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if metricList.failed}}
+      Oops, something went wrong...
+    {{/if}}
+
+    {{#if metricList.loaded}}
+      {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
+    {{/if}}
+
+  {{/containers/metric-container}}
+</main>
+
+
+
 {{outlet}}
