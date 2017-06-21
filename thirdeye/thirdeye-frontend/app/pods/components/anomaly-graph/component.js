@@ -38,6 +38,7 @@ export default Ember.Component.extend({
   relatedMetrics: [],
   showGraphLegend: true,
   colors: {},
+  showSubChart: false,
 
 
   showLegend: false,
@@ -101,10 +102,13 @@ export default Ember.Component.extend({
   /**
    * Graph Subchart Config
    */
-  subchart: Ember.computed('showGraphLegend',
+  subchart: Ember.computed(
+    'showGraphLegend',
+    'showSubchart',
     function() {
+      const showSubchart = this.get('showGraphLegend') || this.get('showSubchart');
       return {
-        show: this.get('showGraphLegend')
+        show: showSubchart
       }
     }
   ),

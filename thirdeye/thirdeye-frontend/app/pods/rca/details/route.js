@@ -24,9 +24,11 @@ export default Ember.Route.extend({
     const id = model.id;
     const maxTime = moment(model.maxTime);
 
+
+    // TODO startDAte based on granularity
     const metricParams = {
-      startDate: maxTime.isValid() ? maxTime : moment().subtract(1, 'day').endOf('day'),
-      endDate: moment().subtract(1, 'week').endOf('day'),
+      startDate: moment().subtract(1, 'week').endOf('day'),
+      endDate: maxTime.isValid() ? maxTime : moment().subtract(1, 'day').endOf('day'),
       granularity: granularity,
       filters: JSON.stringify({}),
       id
