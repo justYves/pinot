@@ -586,7 +586,7 @@ text {
   border-bottom: 2px solid #0073B0 !important;
 }
 
-/* anomalies page Search Bar*/
+/* anomalies paggit state Search Bar*/
 .search-title {
   flex-shrink: 0;
 }
@@ -1138,7 +1138,7 @@ text {
   margin-right: 24px;
 }
 
-.tree-map__tab: + .tree-map__tab {
+.tree-map__tab + .tree-map__tab {
   margin-left: 24px;
 }
 

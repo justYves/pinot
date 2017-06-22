@@ -1,8 +1,11 @@
-<main class="container">
-  <div class="row">
+{{outlet}}
+
+<h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>
+<div class="paper-container__body">
+<main>
+  {{!--<div class="row">--}}
     {{#containers/metric-container as |metricList actions|}}
       <div class="rca-header">
-        <h1 class="te-title">Metric Correlation</h1>
         <div class="rca-actions">
           <select onchange={{action "onModeChange" value="target.value"}} class="selectpicker">
             {{#each compareModeOptions as |compareMode|}}
@@ -12,7 +15,7 @@
           <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
         </div>
       </div>
-      <div class="rca-body">
+      <div class="rca-body paper-container">
         {{#if metricList.loading}}
           <section>
             <div class="spinner-wrapper">
@@ -65,6 +68,7 @@
         </div>
       </div>
     {{/containers/metric-container}}
-  </div>
+  {{!--</div>--}}
 </main>
+</div>
 

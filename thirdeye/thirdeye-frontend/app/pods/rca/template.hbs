@@ -1,14 +1,18 @@
-<h2> RCA INDEX </h2>
-
-Search for Metric:
-{{#power-select 
-  selected=primaryMetric
-  onchange=(action "onMetricChange")
-  search=(perform searchMetrics)
-  searchPlaceholder="Search for a metric"
-  as |metric|
-}}
-  {{metric.alias}}
-{{/power-select}}
+<div class="rca-search-bar">
+  <div class="container">
+    <div class="row">
+      {{#power-select 
+        selected=primaryMetric
+        onchange=(action "onMetricChange")
+        search=(perform searchMetrics)
+        searchPlaceholder="Search for a metric"
+        placeholder="Search for a metric"
+        as |metric|
+      }}
+        {{metric.alias}}
+      {{/power-select}}
+    </div>
+  </div>
+</div>
 
 {{outlet}}

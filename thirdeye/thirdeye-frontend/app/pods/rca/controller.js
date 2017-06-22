@@ -10,6 +10,10 @@ export default Ember.Controller.extend({
       .then(res => res.json()) 
   }),
 
+  placeholder: Ember.computed(function() {
+    'Search for a Metric'
+  }),
+
   actions: {
     onMetricChange(metric) {
       const { id } = metric;
