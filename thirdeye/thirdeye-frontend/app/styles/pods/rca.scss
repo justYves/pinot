@@ -14,6 +14,40 @@
   color: lighten(black, 25%);
 }
 
+.paper-container {
+  background-color: white;
+  border: 1px solid #CCC;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+
+.paper-container__header,
+.paper-container__body,
+.paper-container__footer {
+  padding: $te-spacing-lg;
+}
+
+.rca-summary { 
+  margin-top: $te-spacing-lg;
+}
+
+.rca-search-bar {
+  background-color: $anomaly-nav-background;
+  padding-top: $te-spacing;
+  padding-bottom: $te-spacing;
+}
+
+// .rca-title {
+//   @include margin-reset;
+//   @include padding-reset;
+
+//   margin-bottom: 24px;
+//   font-size: 24px;
+//   font-weight: normal;
+//   color: lighten(black, 25%);
+// }
+
 .rca-header {
   display: flex;
   justify-content: space-between;

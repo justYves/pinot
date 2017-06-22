@@ -48,7 +48,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
     case ActionTypes.LOAD_PRIMARY_METRIC: {
       let {
-        id,
+        id: primaryMetricId,
         startDate,
         endDate,
         filters = "{}",
@@ -60,12 +60,15 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       endDate = Number(endDate);
 
       return Object.assign(state, {
-        primaryMetricId: id,
+        primaryMetricId,
         currentStart: startDate,
         currentEnd: endDate,
         filters,
         granularity,
-        compareMode
+        compareMode,
+        loading: true,
+        loaded: false,
+        failed: false
       })
     }
 
@@ -114,6 +117,18 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
       return Object.assign(state, {
         compareMode
+      });
+    }
+
+    case ActionTypes.UPDATE_DATE: {
+      const { currentStart, currentEnd } = action.payload
+
+      return Object.assign(state, {
+        currentStart,
+        currentEnd,
+        loading: true,
+        loaded: false,
+        failed: false
       });
     }
   }

@@ -15,9 +15,10 @@ Router.map(function() {
 
   this.route('rca', { path: '/rca' }, function() {
     this.route('details', { path: '/:metricId' } , function() {
-      this.route('metrics', { path: '/metrics/:id' });
+      this.route('metrics');
       this.route('events', { path: '/events/:id' });
     });
+    this.route('metrics', { path: '/metrics/:id' });
   });
   this.route('self-serve', function() {
     this.route('create-alert');

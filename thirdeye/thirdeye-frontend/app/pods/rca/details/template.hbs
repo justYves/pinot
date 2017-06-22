@@ -1,85 +1,59 @@
-<h3>RCA Details</h3>
-
-{{!--{{#if primaryMetric}}
-  {{date-range-picker
-    label="Date Range"
-    start=startDate
-    end=endDate
-    timePicker=true
-    showDropdowns=true
-    timePickerIncrement=5
-    timePicker12Hour=true
-    applyClass="btn-primary"
-    cancelClass="btn-default"
-    format="MMM D, YYYY hh:mm a"
-  }}--}}
-
-Granularity: 
-{{#power-select
-  selected=granularity
-  options=granularities
-  onchange=(action "onGranularityChange") 
-  as |granularity|
-}}
-  {{granularity}}
-{{/power-select}}
-
-
-{{date-range-picker
-  label="Date Range"
-  start=startDate
-  end=endDate
-  timePicker=true
-  showDropdowns=true
-  timePickerIncrement=5
-  timePicker12Hour=true
-  applyClass="btn-primary"
-  cancelClass="btn-default"
-  format="MMM D, YYYY hh:mm a"
-}}
-
-{{!--
-  Filters: 
-  {{#power-select-multiple 
-    selected=filters
-    options=filterOptions
-    onchange=(action "onFilterSelection")
-    search=(perform searchFilters)
-    searchPlaceholder="Search for a filter"
-    as |filter|
-  }}
-    {{filter}}
-  {{/power-select-multiple}}--}}
-
-
-  {{!--<a class="btn btn-primary pull-right thirdeye-btn" {{action "onApply"}}>Apply</a>--}}
-{{!--{{/if}}--}}
-
-<main>
-  {{#containers/metric-container as |metricList actions|}}
-    {{#if metricList.loading}}
-      <section class="paper-container">
-        <div class="spinner-wrapper">
-          {{ember-spinner}}
-        </div>
-      </section>
-    {{/if}}
-
-    {{!--{{#if metricList.failed}}
-      Oops, something went wrong...
-    {{/if}}--}}
-
-    {{#if metricList.loaded}}
-
-      {{anomaly-graph 
-        primaryMetric=metricList.primaryMetric 
-        showGraphLegend=true
+<div class="paper-container container">
+  <div class="paper-container__body">
+    <h3 class="te-sub-title te-sub-title--flush">Summary</h3>
+    <section class="rca-summary">
+      Granularity: 
+      {{#power-select
+        selected=granularity
+        options=granularities
+        onchange=(action "onGranularityChange") 
+        as |granularity|
       }}
-    {{/if}}
+        {{granularity}}
+      {{/power-select}}
 
-  {{/containers/metric-container}}
-</main>
+      Filters: 
+      {{#power-select-multiple 
+        selected=selectedFilters
+        options=viewFilterOptions
+        search=(perform searchByFilterName)
+        onchange=(action "onFilterChange")
+        placeholder="Add a filter (Type to search)"
+        noMatchesMessage=noMatchesMessage
+        as |filter|
+      }}
+        {{filter.name}}
+      {{/power-select-multiple}}
 
+      <main>
+        {{#containers/metric-container as |metricList actions|}}
+          {{#if metricList.loading}}
+            <section class="paper-container">
+              <div class="spinner-wrapper">
+                {{ember-spinner}}
+              </div>
+            </section>
+          {{/if}}
 
+          {{!--{{#if metricList.failed}}
+            Oops, something went wrong...
+          {{/if}}--}}
 
-{{outlet}}
+          {{#if metricList.loaded}}
+
+            {{anomaly-graph 
+              primaryMetric=metricList.primaryMetric 
+              showGraphLegend=true
+              onSubchartChange=(action actions.onDateChange)
+            }}
+          {{/if}}
+
+        {{/containers/metric-container}}
+      </main>
+    </section>
+  </div>
+</div>
+
+<div class="paper-container container">
+  {{outlet}}
+</div>

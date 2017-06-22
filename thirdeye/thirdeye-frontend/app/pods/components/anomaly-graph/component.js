@@ -18,7 +18,7 @@ export default Ember.Component.extend({
    */
   didReceiveAttrs() {
     this._super(...arguments);
-
+    debugger;
     const colors = {};
     const primaryMetric = this.get('primaryMetric');
     const relatedMetric = this.get('relatedMetrics');
@@ -102,7 +102,6 @@ export default Ember.Component.extend({
       }
     }
   ),
-
   /**
    * Graph Subchart Config
    */
@@ -110,9 +109,18 @@ export default Ember.Component.extend({
     'showLegend',
     'showSubchart',
     function() {
+<<<<<<< HEAD
       const showSubchart = this.get('showLegend') || this.get('showSubchart');
+=======
+      const showSubchart = this.get('showGraphLegend') || this.get('showSubchart');
+      const onSubchartBrush = this.get('onSubchartChange');
+>>>>>>>  working filters and hash params
       return {
-        show: showSubchart
+        show: showSubchart,
+        onbrush: onSubchartBrush
+        // onbrush() {
+        //   debugger;
+        // }
       }
     }
   ),
@@ -209,9 +217,17 @@ export default Ember.Component.extend({
    * and assigns color class
    */
   primaryRegions: Ember.computed('primaryMetric', function() {
+<<<<<<< HEAD
     const primaryMetric = this.get('primaryMetric');
     const regions = primaryMetric.regions;
     if (!regions) { return []; }
+=======
+    const primaryMetric = this.get('primaryMetric')
+    const { regions } = primaryMetric;
+
+    if (!regions) { return []; }
+
+>>>>>>>  working filters and hash params
     return regions.map((region) => {
       return {
         axis: 'x',

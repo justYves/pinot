@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
+import { Actions } from 'thirdeye-frontend/actions/metrics';
 import _ from 'lodash';
 
 const colors = ['orange', 'teal', 'purple', 'red', 'green', 'pink'];
@@ -55,8 +56,13 @@ function select(store) {
   };
 }
 
-function actions() {
-  return {};
+function actions(dispatch) {
+  return {
+    onDateChange(date) {
+      const [ start, end ] = date;
+      dispatch(Actions.updateMetricDate(start, end));
+    }
+  };
 }
 
 export default connect(select, actions)(Ember.Component.extend({

@@ -13,6 +13,7 @@ export const ActionTypes = {
   LOAD_REGIONS: type('[Metric] Load Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Metric] Load Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Metric] Update Compare Mode'),
+  UPDATE_DATE: type('[Metric] Update Date')
 };
 
 // Todo: move this in a constant.js file
@@ -70,6 +71,13 @@ function updateCompareMode(response) {
   }
 }
 
+function updateDate(response) {
+  return {
+    type: ActionTypes.UPDATE_DATE,
+    payload: response
+  }
+}
+
 /**
  * Get all related metric's id for the primary metric
  */
@@ -98,14 +106,14 @@ function fetchRelatedMetricIds() {
       .then(res => res.json())
       .then(res => dispatch(loadRelatedMetricIds(res)))
       .catch(() => {
-        // Todo: dispatch an error message
+        dispatch(requestFail())
       })
   }
 }
 
 /**
  * Initialize store with metric data from query params
- * @param {*} metric
+ * @param {Object} metric 
  */
 function setPrimaryMetric(metric) {
   return (dispatch) => {
@@ -134,7 +142,7 @@ function fetchRegions() {
       .then(res => res.json())
       .then(res => dispatch(loadRegions(res)))
       .catch(() => {
-        // Todo: dispatch an error message
+        dispatch(requestFail())
       })
 
   }
@@ -173,8 +181,37 @@ function fetchRelatedMetricData() {
     return Ember.RSVP.hash(promiseHash)
       .then(res => dispatch(loadRelatedMetricsData(res)))
       .catch(() => {
-        // Todo: dispatch an error message
+        dispatch(requestFail())
       })
+  }
+}
+
+function updateMetricDate(startDate, endDate) {
+  return (dispatch, getState) => {
+    const store = getState();
+    const {
+      currentStart,
+      currentEnd
+    } = store.metrics;
+    startDate = moment(startDate);
+    endDate = moment(endDate);
+
+    const shouldUpdateStart = startDate.isBefore(currentStart)   
+    const shouldUpdateEnd = endDate.isAfter(currentEnd) 
+
+
+    if (shouldUpdateStart && !shouldUpdateEnd) {
+      const newStartDate = currentStart - (currentEnd - currentStart) ;
+      
+      dispatch(updateDate({
+        currentStart: newStartDate,
+        currentEnd
+      }));
+
+      return dispatch(fetchRegions()).then(() => {
+        dispatch(fetchRelatedMetricData());
+      })
+    }
   }
 }
 
@@ -186,5 +223,6 @@ export const Actions = {
   fetchRegions,
   setPrimaryMetric,
   updateCompareMode,
+  updateMetricDate,
 };
 

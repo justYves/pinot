@@ -1,8 +1,11 @@
-<main class="container">
-  <div class="row">
+{{outlet}}
+
+<h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>
+<div class="paper-container__body">
+<main>
+  {{!--<div class="row">--}}
     {{#containers/metric-container as |metricList actions|}}
       <div class="rca-header">
-        <h1 class="te-title">Metric Correlation</h1>
         <div class="rca-actions">
           <select onchange={{action "onModeChange" value="target.value"}} class="selectpicker">
             {{#each compareModeOptions as |compareMode|}}
@@ -12,7 +15,7 @@
           <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
         </div>
       </div>
-      <div class="rca-body">
+      <div class="rca-body paper-container">
         {{#if metricList.loading}}
           <section>
             <div class="spinner-wrapper">
@@ -25,33 +28,6 @@
           Oops, something went wrong...
         {{/if}}
 
-<<<<<<< HEAD
-      {{#if metricList.loaded}}
-        <section>
-          {{#if splitView}}
-            {{anomaly-graph 
-              primaryMetric=metricList.primaryMetric 
-              showLegend=false
-              showTitle=true
-            }}
-            {{#each metricList.relatedMetrics as |metric|}}
-              {{anomaly-graph 
-                primaryMetric=metric 
-                showGraphLegend=false
-                showTitle=true
-              }}
-            {{/each}}
-          {{else}}
-            {{anomaly-graph 
-              primaryMetric=metricList.primaryMetric 
-              relatedMetrics=metricList.relatedMetrics
-              showSubchart=true
-              showLegend=true
-            }}
-          {{/if}}
-        </section>
-      {{/if}}
-=======
         {{#if metricList.loaded}}
           <section>
             {{#if splitView}}
@@ -64,7 +40,6 @@
             {{/if}}
           </section>
         {{/if}}
->>>>>>>  working filters and hash params
 
         <div class="contribution-table">
           <div class="contribution-table__header">
@@ -93,6 +68,7 @@
         </div>
       </div>
     {{/containers/metric-container}}
-  </div>
+  {{!--</div>--}}
 </main>
+</div>
 

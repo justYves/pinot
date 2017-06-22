@@ -21,6 +21,7 @@
 // All-in-one Bootstrap
 @import "ember-bootstrap/bootstrap.scss";
 
+
 // Shared
 @import "shared/functions";
 @import "shared/color";
@@ -30,9 +31,6 @@
 
 // Wrapper
 @import "wrapper/color";
-// Wrapper
-@import "wrapper/color";
-
 
 body {
   background-color: #f5f5f5;
