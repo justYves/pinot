@@ -32,7 +32,7 @@ export default Ember.Route.extend({
       granularities: fetch(`/data/agg/granularity/metric/${id}`).then(res => res.json()),
       // primaryMetric: fetch(`/data/metric/${id}`).then(res => res.json()),
       // dimension: fetch(`/data/autocomplete/dimensions/metric/${id}`).then(res => res.json()),
-      metricfilters: fetch(`/data/autocomplete/filters/metric/${id}`).then(res => res.json()),
+      metricFilters: fetch(`/data/autocomplete/filters/metric/${id}`).then(res => res.json()),
       maxTime: fetch(`/data/maxDataTime/metricId/${id}`).then(res => res.json()),
       id
     })
@@ -49,7 +49,6 @@ export default Ember.Route.extend({
     const filters = queryParams.filters || JSON.stringify({}); 
 
     model.granularity = granularity;
-    debugger;
     model.paramFilters = filters;
 
     // TODO startDAte based on granularity
