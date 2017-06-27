@@ -114,6 +114,7 @@ export default Ember.Component.extend({
 
   // all Filters Object
   options: {},
+  triggerId: '',
 
   disabled: false,
 
