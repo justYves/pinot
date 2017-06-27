@@ -7,15 +7,6 @@ body {
   color: lighten(black, 40%);
 }
 
-.paper-container {
-  background-color: white;
-  padding: $te-default-element-spacing;
-  padding-bottom: 12px;
-  border: 1px solid $te-grey;
-  margin-top: $te-default-element-spacing;
-  margin-bottom: $te-default-element-spacing;
-}
-
 .thirdeye-link {
   cursor: pointer;
   color: #0084bf;
@@ -25,6 +16,7 @@ body {
 
 .thirdeye-link:hover {
   color: #0073b1;
+  text-decoration: none;
 }
 
 .thirdeye-link-secondary {
@@ -52,6 +44,7 @@ body {
   color: #0073b1;
   padding-bottom: 14px;
   border-bottom: 2px solid #0073B0 !important;
+  text-decoration: none;
 }
 
 .spinner-wrapper {
