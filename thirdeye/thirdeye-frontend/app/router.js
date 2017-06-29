@@ -16,7 +16,7 @@ Router.map(function() {
   this.route('rca', { path: '/rca' }, function() {
     this.route('details', { path: '/:metricId' } , function() {
       this.route('metrics');
-      this.route('events', { path: '/events/:id' });
+      this.route('events');
     });
     this.route('metrics', { path: '/metrics/:id' });
   });

@@ -12,11 +12,11 @@ body {
   color: #0084bf;
   padding: 0 8px;
   text-decoration: none;
-}
-
-.thirdeye-link:hover {
-  color: #0073b1;
-  text-decoration: none;
+  &:hover,
+  &:focus {
+    color: #0073b1;
+    text-decoration: none;
+  }
 }
 
 .thirdeye-link-secondary {
@@ -35,15 +35,17 @@ body {
 }
 
 .thirdeye-link--nav {
-  font-size: 14px;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 16px;
   color: lighten(black, 30%);
 }
 
 .thirdeye-link--active,
 .thirdeye-link--nav:hover {
-  color: #0073b1;
+  color: $te-blue;
   padding-bottom: 14px;
-  border-bottom: 2px solid #0073B0 !important;
+  border-bottom: 2px solid $te-blue !important;
   text-decoration: none;
 }
 
@@ -69,7 +71,7 @@ body {
 
   &__summary-item {
     &--title {
-      color: $te-title-blue;
+      color: $te-blue-4;
       font-size: 18px;
       font-weight: 400;
     }

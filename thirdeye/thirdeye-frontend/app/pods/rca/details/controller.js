@@ -5,12 +5,12 @@ export default Ember.Controller.extend({
   granularities: Ember.computed.reads('model.granularities'),
   // granularity: Ember.computed.reads('granularities.firstObject'),
   noMatchesMessage: '',
-  filters: {},
+  filters: JSON.stringify({}),
   metricFilters: Ember.computed.reads('model.metricFilters'),
 
   actions: {
     onGranularityChange(granularity) {
       this.set('granularity', granularity);
-    }, 
+    }
   }
 });

@@ -1,0 +1,42 @@
+<main>
+  {{!--<ul>
+    {{#each model as |event index|}}
+      <strong>label: </strong>{{event.label}}<br>
+      <strong>type: </strong>{{event.type}}<br>
+      <strong>link: </strong><a target="_blank" href={{event.link}}>{{event.link}}</a><br>
+
+    {{/each}}
+  </ul>--}}
+
+  <div class="events-summary">
+    <div class="events-summary__item">
+      <span class="events-summary__number">400</span>
+      <span>All</span>
+    </div>
+    <div class="events-summary__item">
+      <span class="events-summary__number">4</span>
+      <span>Holiday</span> 
+    </div>
+    <div class="events-summary__item">
+      <span class="events-summary__number">50</span>
+      <span>LIX</span> 
+    </div>
+    <div class="events-summary__item">
+      <span class="events-summary__number">30</span>
+      <span>Deployment</span> 
+    </div>
+    <div class="events-summary__item">
+      <span class="events-summary__number">10</span>
+      <span>GCN</span> 
+    </div>
+  </div>
+
+  {{models-table
+    data=model
+    columns=columns
+    showColumnsDropdown=false
+    showGlobalFilter=false
+  }}
+    {{!--useFilteringByColumns=false--}}
+</main>
+

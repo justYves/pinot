@@ -53,5 +53,23 @@
 </div>
 
 <div class="paper-container container">
+  <div class="row">
+    <div class="contribution-table__header">
+    <div class="contribution-table__subnav">
+      {{#link-to "rca.details.metrics" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
+        Metrics Correlation 
+      {{/link-to}}
+      {{!--<a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>Metrics Correlation</a>--}}
+    </div>
+    <div class="contribution-table__subnav">
+      {{#link-to "rca.details.events" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
+        Events Correlation 
+      {{/link-to}}
+      {{!--<a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Events Correlation</a>--}}
+    </div>
+  </div>
+  </div>
+  {{!--<h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>
+  <h3 class="te-sub-title te-sub-title--flush">Events Correlation</h3>--}}
   {{outlet}}
 </div>
