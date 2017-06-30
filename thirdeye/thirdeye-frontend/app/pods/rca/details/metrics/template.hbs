@@ -5,11 +5,6 @@
     {{#containers/metric-container as |metricList actions|}}
       <div class="rca-header">
         <div class="rca-actions">
-          <select onchange={{action "onModeChange" value="target.value"}} class="selectpicker">
-            {{#each compareModeOptions as |compareMode|}}
-              <option value={{compareMode}} selected={{eq compareMode metricList.compareMode}}>{{compareMode}}</option>
-            {{/each}}
-          </select>
           <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
         </div>
       </div>
