@@ -4,20 +4,19 @@ import moment from 'moment';
 import fetch from 'fetch';
 import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
 
+const queryParamsConfig = {
+  refreshModel: true,
+  replace: true
+}
+
 export default Ember.Route.extend({
   queryParams: {
-    // startDate: {
-    //   refreshModel: true
-    // },
-    // endDate: {
-    //   refreshModel: true
-    // },
-    granularity: {
-      refreshModel: true
-    },
-    filters: {
-      refreshModel: true
-    },
+    startDate: queryParamsConfig,
+    endDate: queryParamsConfig,
+    granularity: queryParamsConfig,
+    filters: queryParamsConfig,
+    analysisStart: {replace: true},
+    analysisEnd: {replace: true}
     // compareMode: {
     //   refreshModel: true
     // }
@@ -48,9 +47,6 @@ export default Ember.Route.extend({
     const maxTime = moment(model.maxTime);
     const filters = queryParams.filters || JSON.stringify({}); 
 
-    model.granularity = granularity;
-    model.paramFilters = filters;
-
     // TODO startDAte based on granularity
     const metricParams = {
       startDate: moment().subtract(1, 'week').endOf('day'),
@@ -60,15 +56,22 @@ export default Ember.Route.extend({
       id
     }
 
+    model.granularity = granularity;
+    model.paramFilters = filters;
+    model.startDate = metricParams.startDate;
+    model.endDate = metricParams.endDate;
+
     redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)))
     return {};
   },
-  // setupController(controller, model, transition) {
-  //   controller.set('model', model);
-  //   debugger;
-  //   // controller.set('granularity', model.granularity)
-  //   // controller.set('filters', model.paramFilters);
-  // }
+  setupController(controller, model, transition) {
+    controller.set('model', model);
+    // debugger;
+    controller.set('granularity', model.granularity)
+    controller.set('startDate', model.startDate);
+    controller.set('endDate', model.endDate);
+    // controller.set('filters', model.paramFilters);
+  }
 });

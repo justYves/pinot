@@ -30,7 +30,7 @@
           options=compareModeOptions
           triggerId="select-mode"
           searchEnabled=false
-          onChange=(action "onModeChange")
+          onchange=(action "onModeChange")
           as |mode|
         }}
           {{mode}}
@@ -55,7 +55,7 @@
             {{anomaly-graph 
               primaryMetric=metricList.primaryMetric 
               showGraphLegend=true
-              onSubchartChange=(action actions.onDateChange)
+              onSubchartChange=(perform onDateChange)
             }}
           {{/if}}
 
