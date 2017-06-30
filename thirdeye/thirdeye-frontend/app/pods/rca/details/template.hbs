@@ -2,7 +2,7 @@
   <div class="paper-container__body">
     <h3 class="te-sub-title te-sub-title--flush">Summary</h3>
     <section class="rca-summary">
-
+      <div class="form-inline">
       <div class="form-group">
         <label for="select-granularity">Granularity: </label>
         {{#power-select
@@ -10,6 +10,7 @@
           options=granularities
           triggerId="select-granularity"
           onchange=(action "onGranularityChange") 
+          searchEnabled=false
           as |granularity|
         }}
           {{granularity}}
@@ -23,6 +24,18 @@
           triggerId="select-filter"
         }}
       </div>
+        <label for="select-mode">Compare Mode: </label>
+        {{#power-select
+          selected=compareMode
+          options=compareModeOptions
+          triggerId="select-mode"
+          searchEnabled=false
+          onChange=(action "onModeChange")
+          as |mode|
+        }}
+          {{mode}}
+        {{/power-select}}
+</div>
       <main>
         {{#containers/metric-container as |metricList actions|}}
           {{#if metricList.loading}}
