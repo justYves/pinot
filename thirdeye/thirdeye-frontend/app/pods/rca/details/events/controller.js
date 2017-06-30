@@ -13,6 +13,11 @@ export default Ember.Controller.extend({
       'filterWithSelect': true
     },
     {
+      'propertyName': 'eventType',
+      'title': 'Event Type',
+      'filterWithSelect': true
+    },
+    {
       'propertyName': 'score',
       'title': 'Impact %',
       'disableFiltering': true

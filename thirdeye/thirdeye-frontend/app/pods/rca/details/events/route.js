@@ -29,8 +29,8 @@ export default Ember.Route.extend({
    */
   model(params, transition) {
     // if (!params.id) { return; }
-    const { id: metricId } = params;
-
+    // ideally caught in component
+    const { metricId } = transition.params["rca.details"];
     // // const redux = this.get('redux');
     // const defaultQueryParams = {
     //   startDate: moment().subtract(1, 'day').endOf('day'),
