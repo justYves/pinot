@@ -10,7 +10,7 @@ export const ActionTypes = {
   LOADING: type('[Events] Loading'),
   REQUEST_FAIL: type('[Events] Request Fail'),
   LOAD_EVENTS: type('[Events] Load events'),
-  LOAD_DATA: type('[Events] Load related Metric Data'),
+  LOADED: type('[Events] Data loaded'),
   LOAD_REGIONS: type('[Events] Load Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Events] Load Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Events] Update Compare Mode'),
@@ -30,16 +30,26 @@ function loadEvents(response) {
   };
 }
 
+function loaded() {
+  return {
+    type: ActionTypes.LOADED
+  };
+}
+
 function fetchEvents() {
   return (dispatch, getState) => {
-    const store = getState();
+    const {metrics, events} = getState();
+
+    if (events.events.length) {
+      return dispatch(loaded());
+    }
 
     let {
       primaryMetricId: metricId,
       currentStart: startDate,
       currentEnd: endDate,
       compareMode
-    } = store.metrics;
+    } = metrics;
 
     endDate = endDate || moment().subtract(1, 'day').endOf('day').valueOf();
     startDate = startDate || moment(endDate).subtract(1, 'week').valueOf();
