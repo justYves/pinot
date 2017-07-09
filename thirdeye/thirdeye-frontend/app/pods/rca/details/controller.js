@@ -19,10 +19,11 @@ export default Ember.Controller.extend({
 
   compareMode: 'WoW',
   compareModeOptions: ['WoW', 'Wo2W', 'Wo3W', 'Wo4W'],
+  mostRecentTask: null,
 
   metricFilters: Ember.computed.reads('model.metricFilters'),
 
-  onDateChange: task(function* ([start, end]) {
+  dateChangeTask: task(function* ([start, end]) {
     yield timeout(1000);
     const {
       startDate: currentStart,
@@ -44,10 +45,20 @@ export default Ember.Controller.extend({
       const newStartDate = currentStart - (currentEnd - currentStart) ;
       this.set('startDate', newStartDate);
     }
-  }).drop(),
+  }),
+  // }).drop(),
   actions: {
     onGranularityChange(granularity) {
       this.set('granularity', granularity);
+    },
+
+    onDateChange(start, end) {
+      const mostRecentTask = this.get('mostRecentTask');
+      mostRecentTask && mostRecentTask.cancel();
+
+      const task = this.get('dateChangeTask');
+      const taskInstance = task.perform(start, end);
+      this.set('mostRecentTask', taskInstance);
     },
     /**
      * Changes the compare mode
@@ -55,6 +66,6 @@ export default Ember.Controller.extend({
      */
     onModeChange(compareMode){
       this.set('compareMode', compareMode);
-    },
+    }
   }
 });

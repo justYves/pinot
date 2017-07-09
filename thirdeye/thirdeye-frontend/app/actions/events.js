@@ -37,7 +37,8 @@ function fetchEvents() {
     let {
       primaryMetricId: metricId,
       currentStart: startDate,
-      currentEnd: endDate
+      currentEnd: endDate,
+      compareMode
     } = store.metrics;
 
     endDate = endDate || moment().subtract(1, 'day').endOf('day').valueOf();
@@ -54,8 +55,16 @@ function fetchEvents() {
   };
 }
 
+function updateDates() {
+  return (dispatch, getState) => {
+    const store = getState();
+    dispatch(loading());
+  };
+}
+
 export const Actions = {
   loading,
   loadEvents,
-  fetchEvents
+  fetchEvents,
+  updateDates
 };
