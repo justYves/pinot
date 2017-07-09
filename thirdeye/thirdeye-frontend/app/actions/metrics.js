@@ -1,7 +1,7 @@
 import { type } from './utils';
 import fetch from 'fetch';
 import Ember from 'ember';
-import moment from 'moment'
+import moment from 'moment';
 /**
  * Define the metric action types
  */
@@ -22,7 +22,7 @@ const COMPARE_MODE_MAPPING = {
   Wo2W: 2,
   Wo3W: 3,
   Wo4W: 4
-}
+};
 
 function loading() {
   return {
@@ -32,7 +32,7 @@ function loading() {
 
 function requestFail() {
   return {
-    type: ActionTypes.REQUEST_FAIL,
+    type: ActionTypes.REQUEST_FAIL
   };
 }
 
@@ -40,42 +40,42 @@ function loadRelatedMetricIds(response) {
   return {
     type: ActionTypes.LOAD_IDS,
     payload: response
-  }
+  };
 }
 
 function loadRelatedMetricsData(response) {
   return {
     type: ActionTypes.LOAD_DATA,
     payload: response
-  }
+  };
 }
 
 function loadRegions(response) {
   return {
     type: ActionTypes.LOAD_REGIONS,
     payload: response
-  }
+  };
 }
 
 function setPrimaryMetricData(response) {
   return {
     type: ActionTypes.LOAD_PRIMARY_METRIC,
     payload: response
-  }
+  };
 }
 
 function updateCompareMode(response) {
   return {
     type: ActionTypes.UPDATE_COMPARE_MODE,
     payload: response
-  }
+  };
 }
 
 function updateDate(response) {
   return {
     type: ActionTypes.UPDATE_DATE,
     payload: response
-  }
+  };
 }
 
 /**
@@ -106,20 +106,20 @@ function fetchRelatedMetricIds() {
       .then(res => res.json())
       .then(res => dispatch(loadRelatedMetricIds(res)))
       .catch(() => {
-        dispatch(requestFail())
-      })
-  }
+        dispatch(requestFail());
+      });
+  };
 }
 
 /**
  * Initialize store with metric data from query params
- * @param {Object} metric 
+ * @param {Object} metric
  */
 function setPrimaryMetric(metric) {
   return (dispatch) => {
     dispatch(setPrimaryMetricData(metric));
     return Promise.resolve();
-  }
+  };
 }
 
 /**
@@ -142,10 +142,10 @@ function fetchRegions() {
       .then(res => res.json())
       .then(res => dispatch(loadRegions(res)))
       .catch(() => {
-        dispatch(requestFail())
-      })
+        dispatch(requestFail());
+      });
 
-  }
+  };
 }
 
 /**
@@ -171,19 +171,19 @@ function fetchRelatedMetricData() {
     const baselineEnd = moment(currentEnd).subtract(offset, 'week').valueOf();
 
     if (!metricIds.length) { return; }
-    const promiseHash = metricIds.reduce((hash,id) => {
-      const url = `/timeseries/compare/${id}/${currentStart}/${currentEnd}/${baselineStart}/${baselineEnd}?dimension=All&granularity=${granularity}&filters=${filters}`
+    const promiseHash = metricIds.reduce((hash, id) => {
+      const url = `/timeseries/compare/${id}/${currentStart}/${currentEnd}/${baselineStart}/${baselineEnd}?dimension=All&granularity=${granularity}&filters=${filters}`;
       hash[id] = fetch(url).then(res => res.json());
 
       return hash;
-    }, {})
+    }, {});
 
     return Ember.RSVP.hash(promiseHash)
       .then(res => dispatch(loadRelatedMetricsData(res)))
       .catch(() => {
-        dispatch(requestFail())
-      })
-  }
+        dispatch(requestFail());
+      });
+  };
 }
 
 function updateMetricDate(startDate, endDate) {
@@ -196,13 +196,13 @@ function updateMetricDate(startDate, endDate) {
     startDate = moment(startDate);
     endDate = moment(endDate);
 
-    const shouldUpdateStart = startDate.isBefore(currentStart)   
-    const shouldUpdateEnd = endDate.isAfter(currentEnd) 
+    const shouldUpdateStart = startDate.isBefore(currentStart);
+    const shouldUpdateEnd = endDate.isAfter(currentEnd);
 
 
     if (shouldUpdateStart && !shouldUpdateEnd) {
       const newStartDate = currentStart - (currentEnd - currentStart) ;
-      
+
       dispatch(updateDate({
         currentStart: newStartDate,
         currentEnd
@@ -210,9 +210,9 @@ function updateMetricDate(startDate, endDate) {
 
       return dispatch(fetchRegions()).then(() => {
         dispatch(fetchRelatedMetricData());
-      })
+      });
     }
-  }
+  };
 }
 
 export const Actions = {
@@ -223,6 +223,6 @@ export const Actions = {
   fetchRegions,
   setPrimaryMetric,
   updateCompareMode,
-  updateMetricDate,
+  updateMetricDate
 };
 

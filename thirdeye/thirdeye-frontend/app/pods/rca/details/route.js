@@ -7,7 +7,7 @@ import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
 const queryParamsConfig = {
   refreshModel: true,
   replace: true
-}
+};
 
 export default Ember.Route.extend({
   queryParams: {
@@ -16,15 +16,16 @@ export default Ember.Route.extend({
     granularity: queryParamsConfig,
     filters: queryParamsConfig,
     analysisStart: {replace: true},
-    analysisEnd: {replace: true}
-    // compareMode: {
-    //   refreshModel: true
-    // }
+    analysisEnd: {replace: true},
+    compareMode: {
+      refreshModel: true
+    }
   },
 
   redux: Ember.inject.service(),
 
   model(params) {
+    debugger;
     const { metricId: id } = params;
     if (!id) { return; }
 
@@ -35,7 +36,7 @@ export default Ember.Route.extend({
       metricFilters: fetch(`/data/autocomplete/filters/metric/${id}`).then(res => res.json()),
       maxTime: fetch(`/data/maxDataTime/metricId/${id}`).then(res => res.json()),
       id
-    })
+    });
   },
   afterModel(model, transition) {
     const { queryParams } = transition;
@@ -46,7 +47,7 @@ export default Ember.Route.extend({
     const granularity = queryParams.granularity; // || model.granularities[0];
     const id = model.id;
     const maxTime = moment(model.maxTime);
-    const filters = queryParams.filters || JSON.stringify({}); 
+    const filters = queryParams.filters || JSON.stringify({});
 
     // TODO startDAte based on granularity
     const metricParams = {
@@ -55,7 +56,7 @@ export default Ember.Route.extend({
       granularity,
       filters,
       id
-    }
+    };
 
     model.granularity = granularity;
     model.paramFilters = filters;
@@ -64,24 +65,31 @@ export default Ember.Route.extend({
 
     redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
-      .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)))
+      .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)));
     this.replaceWith('rca.details.events');
 
     return {};
   },
 
   setupController(controller, model, transition) {
-    controller.set('model', model);
-    // debugger;
-    controller.set('granularity', model.granularity)
-    controller.set('startDate', model.startDate);
-    controller.set('endDate', model.endDate);
-    // controller.set('filters', model.paramFilters);
-  },
+    const {
+      analysisStart,
+      analysisEnd
+    } = transition.queryParams;
 
-  actions: {
-    queryParamsDidChange() {
-      // debugger;
-    }
+    const {
+      granularity,
+      startDate,
+      endDate
+    } = model;
+
+    controller.setProperties({
+      model,
+      analysisStart,
+      analysisEnd,
+      granularity,
+      startDate,
+      endDate
+    });
   }
 });

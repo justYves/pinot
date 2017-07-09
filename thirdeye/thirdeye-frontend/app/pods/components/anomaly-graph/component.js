@@ -28,7 +28,7 @@ export default Ember.Component.extend({
       const color = metric.color || 'blue';
       colors[`${name}-current`] = COLOR_MAPPING[color];
       colors[`${name}-baseline`] = COLOR_MAPPING[color];
-    })
+    });
     this.set('colors', colors);
   },
 
@@ -38,6 +38,8 @@ export default Ember.Component.extend({
   relatedMetrics: [],
   colors: {},
   showSubChart: false,
+  subchartStart: '',
+  subchartEnd: '',
 
   showLegend: false,
   showSubchart: false,
@@ -52,14 +54,14 @@ export default Ember.Component.extend({
     return {
       position: 'inset',
       show: showLegend
-    }
+    };
   }),
 
   /**
    * Graph Zoom config
    */
   zoom: {
-    enabled: true,
+    enabled: true
     // Todo: add onZoom action handler
     // onzoom: function() {
     // }
@@ -69,11 +71,11 @@ export default Ember.Component.extend({
    * Graph Point Config
    */
   point: Ember.computed(
-    'showLegend',
+    'showGraphLegend',
     function() {
       return {
-        show: false,
-      }
+        show: false
+      };
     }
   ),
 
@@ -82,13 +84,27 @@ export default Ember.Component.extend({
    */
   axis: Ember.computed(
     'primaryMetric',
-    function () {
+    'primaryMetric.timeBucketsCurrent',
+    'subchartStart',
+    'subchartEnd',
+    function() {
+      const dates = this.get('primaryMetric.timeBucketsCurrent');
+      const subchartStart = this.get('subChartStart');
+      const subchartEnd = this.get('subchartEnd');
+
+      const startIndex = Math.floor(dates.length / 4);
+      const endIndex = Math.ceil(dates.length * (3/4));
+      const extentStart = subchartStart
+        ? Number(subchartStart)
+        : dates[startIndex];
+
+      const extentEnd = subchartEnd
+        ? Number(subchartEnd)
+        : dates[endIndex];
+
       return {
         y: {
-          show: true,
-          tick: {
-            format: d3.format('.2s')
-          }
+          show: true
         },
         x: {
           type: 'timeseries',
@@ -97,9 +113,9 @@ export default Ember.Component.extend({
             fit: false
           },
           // TODO: add the extent functionality
-          // extent: [...this.get('anomaly.dates')].slice(1,2)
+          extent: [extentStart, extentEnd]
         }
-      }
+      };
     }
   ),
   /**
@@ -108,20 +124,17 @@ export default Ember.Component.extend({
   subchart: Ember.computed(
     'showLegend',
     'showSubchart',
+    'showGraphLegend',
     function() {
-<<<<<<< HEAD
-      const showSubchart = this.get('showLegend') || this.get('showSubchart');
-=======
       const showSubchart = this.get('showGraphLegend') || this.get('showSubchart');
       const onSubchartBrush = this.get('onSubchartChange');
->>>>>>>  working filters and hash params
       return {
         show: showSubchart,
         onbrush: onSubchartBrush
         // onbrush() {
         //   debugger;
         // }
-      }
+      };
     }
   ),
 
@@ -136,7 +149,7 @@ export default Ember.Component.extend({
         || this.get('showLegend') ? 400 : 200;
       return {
         height
-      }
+      };
     }
   ),
 
@@ -153,7 +166,7 @@ export default Ember.Component.extend({
       return [
         [`${primaryMetric.metricName}-current`, ...currentValues],
         [`${primaryMetric.metricName}-baseline`, ...baselineValues]
-      ]
+      ];
     }
   ),
 
@@ -170,11 +183,11 @@ export default Ember.Component.extend({
       relatedMetrics
         .filterBy('isSelected')
         .forEach((metric)  => {
-          if (!metric) { return }
+          if (!metric) { return; }
           const { baselineValues, currentValues } = metric.subDimensionContributionMap['All'];
           columns.push([`${metric.metricName}-current`, ...currentValues]);
           columns.push([`${metric.metricName}-baseline`, ...baselineValues]);
-        })
+        });
       return columns;
     }
   ),
@@ -208,7 +221,7 @@ export default Ember.Component.extend({
         x: 'date',
         xFormat: '%Y-%m-%d %H:%M',
         colors: this.get('colors')
-      }
+      };
     }
   ),
 
@@ -217,17 +230,11 @@ export default Ember.Component.extend({
    * and assigns color class
    */
   primaryRegions: Ember.computed('primaryMetric', function() {
-<<<<<<< HEAD
     const primaryMetric = this.get('primaryMetric');
-    const regions = primaryMetric.regions;
-    if (!regions) { return []; }
-=======
-    const primaryMetric = this.get('primaryMetric')
     const { regions } = primaryMetric;
 
     if (!regions) { return []; }
 
->>>>>>>  working filters and hash params
     return regions.map((region) => {
       return {
         axis: 'x',
@@ -237,9 +244,9 @@ export default Ember.Component.extend({
           format: '%m %d %Y'
         },
         class: `c3-region--${primaryMetric.color}`
-      }
+      };
 
-    })
+    });
   }),
 
   /**
@@ -264,10 +271,10 @@ export default Ember.Component.extend({
               format: '%m %d %Y'
             },
             class: `c3-region--${metric.color}`
-          }
-        })
+          };
+        });
         regions.push(...metricRegions);
-      })
+      });
       return regions;
     }
   ),
@@ -285,7 +292,7 @@ export default Ember.Component.extend({
       this.attrs.onSelection(...arguments);
     },
     onToggle() {
-      this.toggleProperty('showLegend');
-    },
+      this.toggleProperty('showGraphLegend');
+    }
   }
 });

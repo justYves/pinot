@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions } from 'thirdeye-frontend/actions/metrics';
+import { metricActions } from 'thirdeye-frontend/actions/metrics';
+import { eventActions } from 'thirdeye-frontend/actions/events';
 import _ from 'lodash';
 
 const colors = [
@@ -31,8 +32,8 @@ const filterMetric = (metric) => {
   && metric.subDimensionContributionMap['All'].currentValues
   && metric.subDimensionContributionMap['All'].currentValues.reduce((total, val) => {
     return total + val;
-  }, 0)
-}
+  }, 0);
+};
 
 function select(store) {
   const {
@@ -66,8 +67,10 @@ function select(store) {
 function actions(dispatch) {
   return {
     onDateChange(date) {
+      debugger;
       const [ start, end ] = date;
-      dispatch(Actions.updateMetricDate(start, end));
+      dispatch(metricActions.updateMetricDate(start, end))
+        .then(() => dispatch(eventActions.updateDates(start, end)));
     }
   };
 }
