@@ -47,6 +47,14 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         events
       });
     }
+
+    case ActionTypes.LOADED: {
+      return Object.assign(state, {
+        loading: false,
+        loaded: true,
+        failed: false
+      });
+    }
   }
 
   return state;

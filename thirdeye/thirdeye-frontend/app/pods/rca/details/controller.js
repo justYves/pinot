@@ -5,7 +5,7 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Controller.extend({
   queryParams: [
     'granularity',
-    'filter',
+    'filters',
     'compareMode',
     'startDate',
     'endDate',
