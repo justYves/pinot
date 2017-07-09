@@ -2,16 +2,18 @@ import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
-  primaryMetric: [], 
+  primaryMetric: [],
+  mostRecentSearch: null,
+
   searchMetrics: task(function* (metric) {
-    yield timeout(600);
+    yield timeout(1000);
     let url = `/data/autocomplete/metric?name=${metric}`;
     return fetch(url)
-      .then(res => res.json()) 
+      .then(res => res.json());
   }),
 
   placeholder: Ember.computed(function() {
-    'Search for a Metric'
+    'Search for a Metric';
   }),
 
   actions: {
@@ -21,7 +23,16 @@ export default Ember.Controller.extend({
       this.set('primaryMetric', metric);
 
       this.transitionToRoute('rca.details', id);
-      // this.set('metricId', metric.id);
+    },
+    onSearch(metrics) {
+      const lastSearch = this.get('mostRecentSearch');
+      if (lastSearch) {
+        lastSearch.cancel();
+      }
+      const task = this.get('searchMetrics');
+      const taskInstance = task.perform(metrics);
+      this.set('mostRecentSearch', taskInstance);
+      return taskInstance;
     }
   }
 });

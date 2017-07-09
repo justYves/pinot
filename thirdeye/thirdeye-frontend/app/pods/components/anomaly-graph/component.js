@@ -45,6 +45,9 @@ export default Ember.Component.extend({
   showTitle: false,
   height: 0,
 
+  initStart: null,
+  initEnd: null,
+
   /**
    * Graph Legend config
    */
@@ -82,11 +85,11 @@ export default Ember.Component.extend({
    * Graph axis config
    */
   axis: Ember.computed(
-    'primaryMetric',
     'primaryMetric.timeBucketsCurrent',
+    'primaryMetric',
     function() {
       const dates = this.get('primaryMetric.timeBucketsCurrent');
-      const subchartStart = this.get('subChartStart');
+      const subchartStart = this.get('subchartStart');
       const subchartEnd = this.get('subchartEnd');
 
       const startIndex = Math.floor(dates.length / 4);
@@ -98,8 +101,6 @@ export default Ember.Component.extend({
       const extentEnd = subchartEnd
         ? Number(subchartEnd)
         : dates[endIndex];
-
-      debugger;
 
       return {
         y: {
