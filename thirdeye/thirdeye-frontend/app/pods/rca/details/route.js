@@ -72,6 +72,7 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, model, transition) {
+    alert('in setup controller');
     const {
       analysisStart,
       analysisEnd
@@ -87,6 +88,8 @@ export default Ember.Route.extend({
       model,
       analysisStart,
       analysisEnd,
+      extentStart: analysisStart,
+      extentEnd: analysisEnd,
       granularity,
       startDate,
       endDate
