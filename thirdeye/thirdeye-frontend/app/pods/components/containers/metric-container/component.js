@@ -3,11 +3,18 @@ import { connect } from 'ember-redux';
 import { Actions } from 'thirdeye-frontend/actions/metrics';
 import _ from 'lodash';
 
-const colors = ['orange', 'teal', 'purple', 'red', 'green', 'pink'];
+const colors = [
+  'orange',
+  'teal',
+  'purple',
+  'red',
+  'green',
+  'pink'
+];
 /**
- * Assigns colors to metric in the front end 
+ * Assigns colors to metric in the front end
  * @param {Object} elem metric
- * @param {Number} index 
+ * @param {Number} index
  */
 const assignColor = (elem, index) => {
   elem.color = colors[index % colors.length];
@@ -16,15 +23,15 @@ const assignColor = (elem, index) => {
 
 /**
  * Determines if a metric should be filtered out
- * @param {Object} metric 
+ * @param {Object} metric
  * @returns {Boolean}
  */
 const filterMetric = (metric) => {
-  return metric 
+  return metric
   && metric.subDimensionContributionMap['All'].currentValues
   && metric.subDimensionContributionMap['All'].currentValues.reduce((total, val) => {
     return total + val;
-  },0)
+  }, 0)
 }
 
 function select(store) {
@@ -37,7 +44,7 @@ function select(store) {
     regions,
     primaryMetricId,
     compareMode,
-    granularity,
+    granularity
   } = store.metrics;
 
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);

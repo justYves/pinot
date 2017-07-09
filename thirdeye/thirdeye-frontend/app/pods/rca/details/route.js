@@ -23,6 +23,7 @@ export default Ember.Route.extend({
   },
 
   redux: Ember.inject.service(),
+
   model(params) {
     const { metricId: id } = params;
     if (!id) { return; }
@@ -64,8 +65,11 @@ export default Ember.Route.extend({
     redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)))
+    this.replaceWith('rca.details.events');
+
     return {};
   },
+
   setupController(controller, model, transition) {
     controller.set('model', model);
     // debugger;
@@ -73,5 +77,11 @@ export default Ember.Route.extend({
     controller.set('startDate', model.startDate);
     controller.set('endDate', model.endDate);
     // controller.set('filters', model.paramFilters);
+  },
+
+  actions: {
+    queryParamsDidChange() {
+      // debugger;
+    }
   }
 });
