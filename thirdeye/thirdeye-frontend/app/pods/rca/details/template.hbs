@@ -1,5 +1,5 @@
 <div class="paper-container container">
-  <div class="paper-container__body">
+  <div class="paper-container__body row">
     <h3 class="te-sub-title te-sub-title--flush">Summary</h3>
     <section class="rca-summary">
       <div class="">
@@ -36,7 +36,7 @@
           {{mode}}
         {{/power-select}}
 </div>
-      <main>
+      <main class="paper-container">
         {{#containers/metric-container as |metricList actions|}}
           {{#if metricList.loading}}
             <section class="paper-container">
@@ -53,9 +53,10 @@
           {{#if metricList.loaded}}
 
             {{anomaly-graph 
+              classNames='anomaly-graph--no-border'
               primaryMetric=metricList.primaryMetric 
               showGraphLegend=true
-              onSubchartChange=(pipe-action (action "onDateChange") (action actions.onDateChange))
+              onSubchartChange=(action "onDateChange")
               subchartStart=extentStart
               subchartEnd=extentEnd
             }}
@@ -71,20 +72,16 @@
   <div class="row">
     <div class="contribution-table__header">
     <div class="contribution-table__subnav">
-      {{#link-to "rca.details.metrics" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
-        Metrics Correlation 
-      {{/link-to}}
-      {{!--<a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>Metrics Correlation</a>--}}
-    </div>
-    <div class="contribution-table__subnav">
       {{#link-to "rca.details.events" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
         Events Correlation 
       {{/link-to}}
-      {{!--<a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Events Correlation</a>--}}
+    </div>
+    <div class="contribution-table__subnav">
+      {{#link-to "rca.details.metrics" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
+        Metrics Correlation 
+      {{/link-to}}
     </div>
   </div>
   </div>
-  {{!--<h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>
-  <h3 class="te-sub-title te-sub-title--flush">Events Correlation</h3>--}}
   {{outlet}}
 </div>

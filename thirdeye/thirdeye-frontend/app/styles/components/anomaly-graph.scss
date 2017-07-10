@@ -15,6 +15,10 @@
   &:not(:first-child) {
       margin-top: 14px;
   }
+
+  &--no-border {
+    border: 0;
+  }
 }
 
 .anomaly-graph__filter-item {

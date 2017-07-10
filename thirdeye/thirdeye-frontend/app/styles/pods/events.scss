@@ -12,11 +12,17 @@
   flex-direction: column;
   justify-content: flex-end;
   border-right: 1px solid $te-border-color;
+  border-bottom: 2px solid transparent;
   flex-basis: 0;
   flex-grow: 1;
 
   &--no-border { 
     border-right: 0;
+  }
+
+  &--active,
+  &:hover {
+    border-bottom: 2px solid $te-blue;
   }
 }
 
@@ -24,4 +30,9 @@
   color: $te-blue;
   font-size: 18px;
   // color: $te-blue;
+}
+
+.events-table__column {
+  max-width: 25%;
+  width: 25%;
 }

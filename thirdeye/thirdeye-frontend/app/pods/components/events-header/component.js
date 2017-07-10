@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   events: [],
+  onTabChange: null,
+
+  // default active tab
+  activeTab: 'all',
 
   allCount: Ember.computed.alias('events.length'),
 
@@ -30,5 +34,16 @@ export default Ember.Component.extend({
         .filter(event => event.eventType === 'informed');
     }
   ),
-  informedCount: Ember.computed.alias('informed.length')
+  informedCount: Ember.computed.alias('informed.length'),
+
+  actions: {
+    onTabClick(tab) {
+
+      // const currentTab = this.get('activeTab');
+      // if (currentTab !== tab) {
+      //   this.set('activeTab', tab);
+      // }
+      this.attrs.onTabChange(tab);
+    }
+  }
 });
