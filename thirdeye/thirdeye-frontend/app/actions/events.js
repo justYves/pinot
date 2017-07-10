@@ -17,6 +17,13 @@ export const ActionTypes = {
   UPDATE_DATE: type('[Events] Update Date')
 };
 
+const modeMap = {
+  WoW: 1,
+  Wo2W: 2,
+  Wo3W: 3,
+  Wo4W: 4
+};
+
 function loading() {
   return {
     type: ActionTypes.LOADING
@@ -36,7 +43,7 @@ function loaded() {
   };
 }
 
-function fetchEvents(start, end) {
+function fetchEvents(start, end, mode) {
   return (dispatch, getState) => {
     const { metrics, events } = getState();
 
@@ -52,10 +59,13 @@ function fetchEvents(start, end) {
       compareMode
     } = metrics;
 
-    endDate = end || endDate;
-    startDate = start || startDate;
+    const diff = (endDate - startDate) / 4;
+    endDate = end || (+endDate - diff);
+    startDate = start || (+startDate + diff);
+    mode = mode || compareMode;
 
-    const baselineStart = moment(startDate).subtract(1, 'week').valueOf();
+    const offset = modeMap[compareMode] || 1;
+    const baselineStart = moment(startDate).clone().subtract(offset, 'week').valueOf();
     const windowSize = Math.max(endDate - startDate, 0);
 
     dispatch(loading());
@@ -66,41 +76,15 @@ function fetchEvents(start, end) {
   };
 }
 
-const modeMap = {
-  WoW: 1,
-  Wo2W: 2,
-  Wo3W: 3,
-  Wo4W: 4
-};
-
-function updateDates(start, end) {
+function updateDates(start, end, compareMode = 'WoW') {
   return (dispatch, getState) => {
-    const { metrics, events } = getState();
-    const {
-      primaryMetricId: metricId,
-      compareMode
-    } = metrics;
-
-    const startDate = moment(start).clone().valueOf();
-    const endDate = moment(end).clone().valueOf();
-    const windowSize = endDate - startDate;
-
-    const offset = modeMap[compareMode] || 1;
-    const baselineStart = moment(start).clone().subtract(offset, 'week').valueOf();
-
-    dispatch(loading());
-
-    // // Todo: use compare mode
-
-    return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&metricUrn=thirdeye:metric:${metricId}`)
-      .then(res => res.json())
-      .then(res => dispatch(loadEvents(res)
-    ));
+    return dispatch(fetchEvents(start, end, compareMode));
   };
 }
 
 export const Actions = {
   loading,
+  loaded,
   loadEvents,
   fetchEvents,
   updateDates

@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
   noMatchesMessage: '',
   filters: JSON.stringify({}),
 
-  compareMode: 'WoW',
+  compareMode: null,
   compareModeOptions: ['WoW', 'Wo2W', 'Wo3W', 'Wo4W'],
   mostRecentTask: null,
 
