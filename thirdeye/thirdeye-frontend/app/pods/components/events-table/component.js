@@ -13,6 +13,10 @@ export default Ember.Component.extend({
       'filterWithSelect': true
     },
     {
+      'template': 'custom/date-cell',
+      'title': 'Start Date - End Date'
+    },
+    {
       'propertyName': 'eventType',
       'title': 'Event Type',
       'filterWithSelect': true
@@ -24,3 +28,4 @@ export default Ember.Component.extend({
     }
   ]
 });
+
