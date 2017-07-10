@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
 
   // creates the page Array for view
   viewPages: Ember.computed(
-    'pages', 
+    'pages',
     'currentPage',
     'paginationSize',
     'pageNums',
@@ -63,17 +63,17 @@ export default Ember.Controller.extend({
 
       if (max === 1) { return; }
 
-      const startingNumber = ((max - currentPage) < step) 
+      const startingNumber = ((max - currentPage) < step)
         ? max - size + 1
         : Math.max(currentPage - step, 1);
-      
+
       return [...new Array(size)].map((page, index) =>  startingNumber + index);
     }
   ),
 
   // alerts with pagination
   paginatedSelectedAlerts: Ember.computed(
-    'selectedAlerts.@each', 
+    'selectedAlerts.@each',
     'pageSize',
     'currentPage',
     function() {
@@ -93,7 +93,7 @@ export default Ember.Controller.extend({
     yield timeout(600);
     const url = `/data/autocomplete/functionByName?name=${alert}`;
     return fetch(url)
-      .then(res => res.json())
+      .then(res => res.json());
   }),
 
   /**
@@ -104,7 +104,7 @@ export default Ember.Controller.extend({
     yield timeout(600);
     const url = `/data/autocomplete/functionByAppname?appname=${alert}`;
     return fetch(url)
-      .then(res => res.json())
+      .then(res => res.json());
   }),
 
   /**
@@ -115,7 +115,7 @@ export default Ember.Controller.extend({
     yield timeout(600);
     const url = `/data/autocomplete/functionByAlertName?alertName=${alert}`;
     return fetch(url)
-      .then(res => res.json())
+      .then(res => res.json());
   }),
 
   actions: {
@@ -127,7 +127,7 @@ export default Ember.Controller.extend({
 
     // Handles UI mode change
     onSearchModeChange(mode) {
-      if (mode === 'All') { 
+      if (mode === 'All') {
         const allAlerts = this.get('model');
         this.setProperties({
           selectedAlerts: allAlerts,
@@ -145,7 +145,7 @@ export default Ember.Controller.extend({
 
     /**
      * action handler for page clicks
-     * @param {Number|String} page 
+     * @param {Number|String} page
      */
     onPaginationClick(page) {
       let newPage = page;

@@ -40,13 +40,13 @@ export default Ember.Route.extend({
     // const queryParams  = Object.assign(defaultQueryParams, transition.queryParams);
     // const metricParams = Object.assign({}, params, queryParams)
 
-    return Ember.$.get('/rootcause/queryRootCause?current=1492564800000&baseline=1491960000000&windowSize=28200000&metricUrn=thirdeye:metric:2132369')
+    return Ember.$.get('/rootcause/queryRootCause?current=1492564800000&baseline=1491960000000&windowSize=28200000&metricUrn=thirdeye:metric:2132369');
     // redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
     //   .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricIds(res)))
     //   .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
     //   .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)))
     //   .catch((error) => redux.dispatch(MetricsActions.requestFail(error)));
-      
+
     // return {};
   }
 });

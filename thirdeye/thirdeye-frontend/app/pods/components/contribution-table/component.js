@@ -19,14 +19,14 @@ export default Ember.Component.extend({
    */
   dateFormat: Ember.computed('granularity', function() {
     const granularity = this.get('granularity');
-    return GRANULARITY_MAPPING[granularity]
+    return GRANULARITY_MAPPING[granularity];
   }),
 
   /**
    * Derives dates from the primary metric
    */
   dates: Ember.computed.reads('primaryMetric.timeBucketsCurrent'),
-  
+
   primaryMetricRows: Ember.computed('primaryMetric', function() {
     const metrics = this.get('primaryMetric');
 
@@ -35,7 +35,7 @@ export default Ember.Component.extend({
 
   relatedMetricRows: Ember.computed('relatedMetrics', function() {
     const metrics = this.get('relatedMetrics');
-    
+
     return Ember.isArray(metrics) ? metrics : [metrics];
   })
 });

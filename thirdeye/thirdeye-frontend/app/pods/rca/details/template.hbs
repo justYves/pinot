@@ -55,7 +55,7 @@
             {{anomaly-graph 
               primaryMetric=metricList.primaryMetric 
               showGraphLegend=true
-              onSubchartChange=(action "onDateChange")
+              onSubchartChange=(pipe-action (action "onDateChange") (action actions.onDateChange))
               subchartStart=extentStart
               subchartEnd=extentEnd
             }}

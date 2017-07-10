@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { metricActions } from 'thirdeye-frontend/actions/metrics';
-import { eventActions } from 'thirdeye-frontend/actions/events';
+import { Actions as metricActions } from 'thirdeye-frontend/actions/metrics';
+import { Actions as eventActions } from 'thirdeye-frontend/actions/events';
+import { task, timeout } from 'ember-concurrency';
 import _ from 'lodash';
 
 const colors = [
@@ -64,13 +65,21 @@ function select(store) {
   };
 }
 
+
 function actions(dispatch) {
+  let currentTask = null;
+
   return {
+    dateChangeTask: task(function* ([start, end]) {
+      yield timeout(1000);
+
+      dispatch(eventActions.updateDates(start, end));
+    }),
     onDateChange(date) {
-      debugger;
-      const [ start, end ] = date;
-      dispatch(metricActions.updateMetricDate(start, end))
-        .then(() => dispatch(eventActions.updateDates(start, end)));
+      currentTask && currentTask.cancel();
+      currentTask = this.get('actions.dateChangeTask').perform(date);
+
+      return date;
     }
   };
 }

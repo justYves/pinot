@@ -24,6 +24,11 @@ export default Ember.Controller.extend({
 
       this.transitionToRoute('rca.details', id);
     },
+
+    /**
+     * Performs a search task while cancelling the previous one
+     * @param {Array} metrics
+     */
     onSearch(metrics) {
       const lastSearch = this.get('mostRecentSearch');
       if (lastSearch) {

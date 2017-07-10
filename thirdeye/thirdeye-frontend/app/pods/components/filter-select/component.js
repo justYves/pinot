@@ -15,14 +15,14 @@ const buildFilterOptions = (filters) => {
         return {
           name: value,
           id: `${filterName}::${value}`
-        }
-      })
+        };
+      });
 
     return {
       groupName: `${filterName}`,
       options
-    }
-  })
+    };
+  });
 };
 
 /**
@@ -38,10 +38,10 @@ const convertHashToFilters = (filters) => {
       return {
         name: option,
         id: `${filterGroup}::${option}`
-      }
-    })
+      };
+    });
     filterArray.push(...options);
-  })
+  });
 
   return filterArray;
 };
@@ -59,7 +59,7 @@ const convertFiltersToHash = (selectedFilters) => {
     filterHash[filterGroup].push(filterName);
 
     return filterHash;
-  }, {})
+  }, {});
 
   return JSON.stringify(filters);
 };
@@ -79,7 +79,7 @@ const getSearchResults = (filterOptions, filterToMatch, maxNum) => {
     }
     let options = filterOption.options.filter((el) => {
       return el.id.toLowerCase().includes(filterToMatch.toLowerCase());
-    })
+    });
 
     if (options.length) {
       count += options.length;
@@ -93,7 +93,7 @@ const getSearchResults = (filterOptions, filterToMatch, maxNum) => {
 
   const NoMatchMessage = count
     ? `Too Many results found (${count})`
-    : 'No results found.'
+    : 'No results found.';
 
   return [filters, NoMatchMessage];
 };
@@ -149,7 +149,7 @@ export default Ember.Component.extend({
       const maxNumFilters = this.get('maxNumFilters');
       return [...this.get('filterOptions')].map((filter) => {
         const viewFilter = Object.assign({}, filter);
-        viewFilter.groupName += ` (${viewFilter.options.length})`
+        viewFilter.groupName += ` (${viewFilter.options.length})`;
 
         if (viewFilter.options.length > maxNumFilters) {
           viewFilter.options = viewFilter.options[0];
@@ -178,6 +178,6 @@ export default Ember.Component.extend({
     // Action handler for filter Selection/Deselection
     onFilterChange(filters) {
       this.set('selectedFilters', filters);
-    },
+    }
   }
 });
