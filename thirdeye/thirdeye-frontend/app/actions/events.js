@@ -38,7 +38,7 @@ function loaded() {
 
 function fetchEvents() {
   return (dispatch, getState) => {
-    const {metrics, events} = getState();
+    const { metrics, events } = getState();
 
     if (events.events.length) {
       return dispatch(loaded());
@@ -65,10 +65,36 @@ function fetchEvents() {
   };
 }
 
-function updateDates() {
+const modeMap = {
+  WoW: 1,
+  Wo2W: 2,
+  Wo3W: 3,
+  Wo4W: 4
+};
+
+function updateDates(start, end) {
   return (dispatch, getState) => {
-    const store = getState();
+    const { metrics, events } = getState();
+    const {
+      primaryMetricId: metricId,
+      compareMode
+    } = metrics;
+
+    const startDate = moment(start).valueOf();
+    const endDate = moment(end).valueOf();
+    const windowSize = endDate - startDate;
+
+    const offset = modeMap[compareMode] || 1;
+    const baselineStart = moment(start).subtract(offset, 'week').valueOf();
+
     dispatch(loading());
+
+    // Todo: use compare mode
+
+    return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&metricUrn=thirdeye:metric:${metricId}`)
+      .then(res => res.json())
+      .then(res => dispatch(loadEvents(res)
+    ));
   };
 }
 

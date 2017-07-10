@@ -208,9 +208,11 @@ function updateMetricDate(startDate, endDate) {
         currentEnd
       }));
 
-      return dispatch(fetchRegions()).then(() => {
-        dispatch(fetchRelatedMetricData());
-      });
+      return Promise.resolve();
+
+      // return dispatch(fetchRegions()).then(() => {
+      //   return dispatch(fetchRelatedMetricData());
+      // });
     }
   };
 }

@@ -6,7 +6,7 @@ import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
 
 const queryParamsConfig = {
   refreshModel: true,
-  replace: true
+  replace: false
 };
 
 export default Ember.Route.extend({
@@ -39,49 +39,55 @@ export default Ember.Route.extend({
     });
   },
   afterModel(model, transition) {
-    const { queryParams } = transition;
-
-    // console.log('queryParams', queryParams);
     const redux = this.get('redux');
-    queryParams.granularity = queryParams.granularity || model.granularities[0];
-    const granularity = queryParams.granularity; // || model.granularities[0];
-    const id = model.id;
     const maxTime = moment(model.maxTime);
-    const filters = queryParams.filters || JSON.stringify({});
+    const {
+      startDate = moment().subtract(1, 'week').endOf('day').valueOf(),
+      endDate = moment().subtract(1, 'day').endOf('day').valueOf(),
+      analysisStart,
+      analysisEnd,
+      granularity,
+      filters = JSON.stringify({})
+    } = transition.queryParams;
 
     // TODO startDAte based on granularity
-    const metricParams = {
-      startDate: moment().subtract(1, 'week').endOf('day'),
-      endDate: maxTime.isValid() ? maxTime : moment().subtract(1, 'day').endOf('day'),
-      granularity,
+    const params = {
+      startDate,
+      endDate: maxTime.isValid() ? maxTime : endDate,
+      granularity: granularity || model.granularities[0],
       filters,
-      id
+      id: model.id,
+      analysisStart,
+      analysisEnd
     };
 
-    model.granularity = granularity;
-    model.paramFilters = filters;
-    model.startDate = metricParams.startDate;
-    model.endDate = metricParams.endDate;
+    Object.assign(model, params);
 
-    redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
+    redux.dispatch(MetricsActions.setPrimaryMetric(params))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)));
-    this.replaceWith('rca.details.events');
+
+    debugger;
+
+    if (transition.targetName === 'rca.details.index') {
+      this.replaceWith('rca.details.events');
+    }
 
     return {};
   },
 
   setupController(controller, model, transition) {
-    alert('in setup controller');
-    const {
-      analysisStart,
-      analysisEnd
-    } = transition.queryParams;
+    // const {
+    //   analysisStart,
+    //   analysisEnd
+    // } = transition.queryParams;
 
     const {
       granularity,
       startDate,
-      endDate
+      endDate,
+      analysisStart,
+      analysisEnd
     } = model;
 
     controller.setProperties({
@@ -94,5 +100,11 @@ export default Ember.Route.extend({
       startDate,
       endDate
     });
+  },
+
+  resetController() {
+    this._super(...arguments);
+
+    alert('in resetController');
   }
 });

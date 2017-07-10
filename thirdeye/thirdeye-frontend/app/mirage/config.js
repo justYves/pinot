@@ -43,8 +43,8 @@ export default function() {
       urn: "thirdeye:metric:1234",
       score: 0.955,
       label: "exampleMetric",
-      type: "Metric",
-    }]
+      type: "Metric"
+    }];
   });
 
   /**
@@ -62,13 +62,13 @@ export default function() {
         }];
 
         return regions;
-      }, {})
+      }, {});
 
     return regions;
   });
 
   /**
-   * Mocks time series compare endpoints 
+   * Mocks time series compare endpoints
    */
   this.get('/timeseries/compare/:id/:currentStart/:currentEnd/:baselineStart/:baselineEnd', (server, request) => {
     const { id, currentStart, currentEnd } = request.params;
@@ -85,7 +85,7 @@ export default function() {
       timeBucketsCurrent: [...new Array(dataPoint)].map((point, index) => {
         return +currentStart + (index * interval);
       }),
-      
+
       subDimensionContributionMap: {
         All: {
           currentValues: [...new Array(dataPoint)].map(() => {
@@ -102,7 +102,7 @@ export default function() {
           })
         }
       }
-    }
+    };
   });
 
   /**
@@ -113,7 +113,7 @@ export default function() {
       'MINUTES',
       'HOURS',
       'DAYS'
-    ]
+    ];
   });
 
   /**
@@ -140,8 +140,8 @@ export default function() {
       service: ["mobile-tracking-frontend", "uas-tomcat", "lighthouse-frontend", "nux-frontend", "cap-frontend"],
       service_topk: ["mobile-tracking-frontend", "uas-tomcat", "lighthouse-frontend", "nux-frontend", "cap-frontend"],
       sourceApp: ["", "voyager", "mobileweb", "titan"]
-    }
-  })
+    };
+  });
 
 }
 

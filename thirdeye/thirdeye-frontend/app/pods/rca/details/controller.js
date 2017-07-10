@@ -33,13 +33,15 @@ export default Ember.Controller.extend({
     let startDate = moment(start);
     let endDate = moment(end);
 
-    const shouldUpdateStart = startDate.isBefore(currentStart);
-    const shouldUpdateEnd = endDate.isAfter(currentEnd);
+    const shouldUpdateStart = startDate.isBefore(moment(Number(currentStart)));
+    const shouldUpdateEnd = endDate.isAfter(moment(Number(currentEnd)));
 
     this.setProperties({
       analysisStart: startDate,
       analysisEnd: endDate
     });
+
+    debugger;
 
     if (shouldUpdateStart && !shouldUpdateEnd) {
       const newStartDate = currentStart - (currentEnd - currentStart) ;
@@ -52,13 +54,15 @@ export default Ember.Controller.extend({
       this.set('granularity', granularity);
     },
 
-    onDateChange(start, end) {
+    onDateChange(date) {
       const mostRecentTask = this.get('mostRecentTask');
       mostRecentTask && mostRecentTask.cancel();
 
       const task = this.get('dateChangeTask');
-      const taskInstance = task.perform(start, end);
+      const taskInstance = task.perform(date);
       this.set('mostRecentTask', taskInstance);
+      debugger;
+      return date;
     },
     /**
      * Changes the compare mode
