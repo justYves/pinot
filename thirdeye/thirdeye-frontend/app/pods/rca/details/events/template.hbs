@@ -6,28 +6,9 @@
       </div>
     {{/if}}
     {{#if events.loaded}}
-      <div class="events-summary">
-        <div class="events-summary__item">
-          <span class="events-summary__number">400</span>
-          <span>All</span>
-        </div>
-        <div class="events-summary__item">
-          <span class="events-summary__number">4</span>
-          <span>Holiday</span> 
-        </div>
-        <div class="events-summary__item">
-          <span class="events-summary__number">50</span>
-          <span>LIX</span> 
-        </div>
-        <div class="events-summary__item">
-          <span class="events-summary__number">30</span>
-          <span>Deployment</span> 
-        </div>
-        <div class="events-summary__item">
-          <span class="events-summary__number">10</span>
-          <span>GCN</span> 
-        </div>
-      </div>
+      {{events-header
+        events=events.data
+      }}
       {{events-table
         events=events.data
       }}
