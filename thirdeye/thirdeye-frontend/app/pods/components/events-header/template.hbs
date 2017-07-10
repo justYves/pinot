@@ -1,9 +1,9 @@
 <div class="events-summary">
-  <div class="events-summary__item">
+  <div class="events-summary__item {{if (eq activeTab 'all') 'events-summary__item--active'}}" {{action "onTabClick" "all"}}>
     <span class="events-summary__number">{{allCount}}</span>
     <span>All</span>
   </div>
-  <div class="events-summary__item">
+  <div class="events-summary__item {{if (eq activeTab 'holiday') 'events-summary__item--active'}}" {{action "onTabClick" "holiday"}}>
     <span class="events-summary__number">{{holidayCount}}</span>
     <span>Holiday</span> 
   </div>
@@ -15,11 +15,11 @@
     <span class="events-summary__number">30</span>
     <span>Deployment</span> 
   </div>--}}
-  <div class="events-summary__item">
+  <div class="events-summary__item {{if (eq activeTab 'gcn') 'events-summary__item--active'}}" {{action "onTabClick" "gcn"}}>
     <span class="events-summary__number">{{gcnCount}}</span>
     <span>GCN</span> 
   </div>
-  <div class="events-summary__item events-summary__item--no-border">
+  <div class="events-summary__item events-summary__item--no-border {{if (eq activeTab 'informed') 'events-summary__item--active'}}" {{action "onTabClick" "informed"}}>
     <span class="events-summary__number">{{informedCount}}</span>
     <span>Informed</span> 
   </div>

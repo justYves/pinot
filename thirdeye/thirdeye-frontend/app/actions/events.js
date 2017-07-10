@@ -36,23 +36,24 @@ function loaded() {
   };
 }
 
-function fetchEvents() {
+function fetchEvents(start, end) {
   return (dispatch, getState) => {
     const { metrics, events } = getState();
 
-    if (events.events.length) {
-      return dispatch(loaded());
-    }
+    // cahce results if no change
+    // if (events.events.length) {
+    //   return dispatch(loaded());
+    // }
 
     let {
       primaryMetricId: metricId,
-      currentStart: startDate,
-      currentEnd: endDate,
+      currentStart: startDate = moment(endDate).subtract(1, 'week').valueOf(),
+      currentEnd: endDate = moment().subtract(1, 'day').endOf('day').valueOf(),
       compareMode
     } = metrics;
 
-    endDate = endDate || moment().subtract(1, 'day').endOf('day').valueOf();
-    startDate = startDate || moment(endDate).subtract(1, 'week').valueOf();
+    endDate = end || endDate;
+    startDate = start || startDate;
 
     const baselineStart = moment(startDate).subtract(1, 'week').valueOf();
     const windowSize = Math.max(endDate - startDate, 0);
@@ -80,16 +81,16 @@ function updateDates(start, end) {
       compareMode
     } = metrics;
 
-    const startDate = moment(start).valueOf();
-    const endDate = moment(end).valueOf();
+    const startDate = moment(start).clone().valueOf();
+    const endDate = moment(end).clone().valueOf();
     const windowSize = endDate - startDate;
 
     const offset = modeMap[compareMode] || 1;
-    const baselineStart = moment(start).subtract(offset, 'week').valueOf();
+    const baselineStart = moment(start).clone().subtract(offset, 'week').valueOf();
 
     dispatch(loading());
 
-    // Todo: use compare mode
+    // // Todo: use compare mode
 
     return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&metricUrn=thirdeye:metric:${metricId}`)
       .then(res => res.json())

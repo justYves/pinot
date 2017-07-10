@@ -41,14 +41,12 @@ export default Ember.Controller.extend({
       analysisEnd: endDate
     });
 
-    debugger;
-
     if (shouldUpdateStart && !shouldUpdateEnd) {
       const newStartDate = currentStart - (currentEnd - currentStart) ;
       this.set('startDate', newStartDate);
     }
   }),
-  // }).drop(),
+
   actions: {
     onGranularityChange(granularity) {
       this.set('granularity', granularity);
@@ -61,7 +59,7 @@ export default Ember.Controller.extend({
       const task = this.get('dateChangeTask');
       const taskInstance = task.perform(date);
       this.set('mostRecentTask', taskInstance);
-      debugger;
+      // alert(date);
       return date;
     },
     /**

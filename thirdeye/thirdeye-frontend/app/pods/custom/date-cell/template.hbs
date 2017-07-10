@@ -1,3 +1,7 @@
-{{moment-format record.start "MM/DD/YYYY H:M A" timeZone='America/Los_Angeles'}}
--
-{{moment-format record.end "MM/DD/YYYY H:M A" timeZone='America/Los_Angeles'}}
+{{#if record.start}}
+  {{moment-format record.start "MM/DD/YYYY H:M A" timeZone='America/Los_Angeles'}}
+  {{#if (not-eq record.start record.end)}}
+    -
+    {{moment-format record.end "MM/DD/YYYY H:M A" timeZone='America/Los_Angeles'}}
+  {{/if}}
+{{/if}}

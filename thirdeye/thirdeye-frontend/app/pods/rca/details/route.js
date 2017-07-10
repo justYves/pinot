@@ -15,17 +15,14 @@ export default Ember.Route.extend({
     endDate: queryParamsConfig,
     granularity: queryParamsConfig,
     filters: queryParamsConfig,
+    compareMode: queryParamsConfig,
     analysisStart: {replace: true},
-    analysisEnd: {replace: true},
-    compareMode: {
-      refreshModel: true
-    }
+    analysisEnd: {replace: true}
   },
 
   redux: Ember.inject.service(),
 
   model(params) {
-    debugger;
     const { metricId: id } = params;
     if (!id) { return; }
 
@@ -47,27 +44,28 @@ export default Ember.Route.extend({
       analysisStart,
       analysisEnd,
       granularity,
-      filters = JSON.stringify({})
+      filters = JSON.stringify({}),
+      compareMode = 'WoW'
     } = transition.queryParams;
 
     // TODO startDAte based on granularity
     const params = {
       startDate,
-      endDate: maxTime.isValid() ? maxTime : endDate,
+      endDate: maxTime.isValid() ? maxTime.valueOf() : endDate,
       granularity: granularity || model.granularities[0],
       filters,
       id: model.id,
       analysisStart,
-      analysisEnd
+      analysisEnd,
+      compareMode
     };
+
 
     Object.assign(model, params);
 
     redux.dispatch(MetricsActions.setPrimaryMetric(params))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)));
-
-    debugger;
 
     if (transition.targetName === 'rca.details.index') {
       this.replaceWith('rca.details.events');
@@ -77,6 +75,8 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, model, transition) {
+
+    this._super(controller, model);
     // const {
     //   analysisStart,
     //   analysisEnd
@@ -102,9 +102,24 @@ export default Ember.Route.extend({
     });
   },
 
-  resetController() {
-    this._super(...arguments);
+  actions: {
+    queryParamsDidChange(changeParams, oldParams) {
+      this._super(...arguments);
+      const controller = this.get('controller');
 
-    alert('in resetController');
+      if (!controller) { return true; }
+
+      const {
+        analysisStart: extentStart,
+        analysisEnd: extentEnd
+      } = Object.assign(oldParams, changeParams);
+
+      this.get('controller').setProperties({
+        extentStart,
+        extentEnd
+      });
+
+      return true;
+    }
   }
 });

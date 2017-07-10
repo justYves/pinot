@@ -67,19 +67,17 @@ function select(store) {
 
 
 function actions(dispatch) {
-  let currentTask = null;
+  // let currentTask = null;
 
   return {
-    dateChangeTask: task(function* ([start, end]) {
-      yield timeout(1000);
-
-      dispatch(eventActions.updateDates(start, end));
-    }),
-    onDateChange(date) {
-      currentTask && currentTask.cancel();
-      currentTask = this.get('actions.dateChangeTask').perform(date);
-
-      return date;
+    // dateChangeTask: task(function* ([start, end]) {
+    //   yield timeout(1000);
+    //   alert(start + '' + end);
+    //   dispatch(eventActions.updateDates(start, end));
+    // }),
+    onDateChange(dates) {
+      // currentTask && currentTask.cancel();
+      // currentTask = this.get('actions.dateChangeTask').perform(dates);
     }
   };
 }
