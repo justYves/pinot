@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     'events.@each',
     function() {
       return this.get('events')
-        .filter(event => event.type === 'GCN');
+        .filter(event => event.eventType === 'gcn');
     }
   ),
   gcnCount: Ember.computed.alias('gcn.length'),
@@ -27,7 +27,7 @@ export default Ember.Component.extend({
     'events.@each',
     function() {
       return this.get('events')
-        .filter(event => event.type === 'INFORMED');
+        .filter(event => event.eventType === 'informed');
     }
   ),
   informedCount: Ember.computed.alias('informed.length')

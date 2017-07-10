@@ -8,18 +8,13 @@ export default Ember.Component.extend({
       // 'templateForFilterCell': '',
     },
     {
-      'propertyName': 'type',
+      'propertyName': 'eventType',
       'title': 'Type',
       'filterWithSelect': true
     },
     {
       'template': 'custom/date-cell',
       'title': 'Start Date - End Date'
-    },
-    {
-      'propertyName': 'eventType',
-      'title': 'Event Type',
-      'filterWithSelect': true
     },
     {
       'propertyName': 'score',
