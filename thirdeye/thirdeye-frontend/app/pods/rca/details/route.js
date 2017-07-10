@@ -35,6 +35,7 @@ export default Ember.Route.extend({
       id
     });
   },
+
   afterModel(model, transition) {
     const redux = this.get('redux');
     const maxTime = moment(model.maxTime);
@@ -74,45 +75,48 @@ export default Ember.Route.extend({
     return {};
   },
 
-  setupController(controller, model, transition) {
+  setupController(controller, model) {
 
     this._super(controller, model);
-    // const {
-    //   analysisStart,
-    //   analysisEnd
-    // } = transition.queryParams;
-
     const {
       granularity,
       startDate,
       endDate,
       analysisStart,
-      analysisEnd
+      analysisEnd,
+      compareMode
     } = model;
+
+    let diff = (+endDate - startDate) / 4;
+    let initStart = analysisStart || (+startDate + diff);
+    let initEnd = analysisEnd || (+endDate - diff);
 
     controller.setProperties({
       model,
-      analysisStart,
-      analysisEnd,
-      extentStart: analysisStart,
-      extentEnd: analysisEnd,
+      analysisStart: initStart,
+      analysisEnd: initEnd,
+      extentStart: initStart,
+      extentEnd: initEnd,
       granularity,
       startDate,
-      endDate
+      endDate,
+      compareMode
     });
   },
 
   actions: {
-    queryParamsDidChange(changeParams, oldParams) {
+    queryParamsDidChange(changedParams, oldParams) {
       this._super(...arguments);
       const controller = this.get('controller');
+      const hasChangedParams = Ember.isEmpty(Object.keys(changedParams));
 
-      if (!controller) { return true; }
+
+      if (!controller || hasChangedParams) { return true; }
 
       const {
         analysisStart: extentStart,
         analysisEnd: extentEnd
-      } = Object.assign(oldParams, changeParams);
+      } = Object.assign(oldParams, changedParams);
 
       this.get('controller').setProperties({
         extentStart,
