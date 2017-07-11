@@ -1,4 +1,4 @@
-<div class="table-responsive analysis-table-wrapper ">
+<div class="table-responsive analysis-table-wrapper">
   <table class="table table-bordered analysis-table">
 
     <thead>
@@ -6,7 +6,7 @@
         <th class="analysis-table__anchor analysis-table__anchor--white">
           <h5 class="contribution-table__title">Primary Metric</h5>
         </th>
-        {{#each dates as |date|}}
+        {{#each filteredDates as |date|}}
           <th class="analysis-table__header">
             {{moment-format date dateFormat}}
           </th>
@@ -18,7 +18,7 @@
       <tr>
         {{#if showDetails}}
           <td class="analysis-table__anchor analysis-table__anchor--low"></td>
-          {{#each dates as |date|}}
+          {{#each filteredDates as |date|}}
           <td class="analysis-table__subheader">
             <div class="analysis-table__cell">
               <div class="analysis-table__item">
@@ -35,7 +35,7 @@
           {{/each}}
         {{/if}}
       </tr>
-      {{#each primaryMetricRows as |metric|}}
+      {{#each filteredPrimaryMetricRows as |metric|}}
         <tr>
           <td class="analysis-table__dimension">
             <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>
@@ -80,12 +80,12 @@
           <div class="analysis-table__cell analysis-table__cell--primary"></div>
         </td>
       </tr>
-      {{#if relatedMetricRows.length}}
+      {{#if filteredRelatedMetricRows.length}}
         <tr>
           <td class="analysis-table__dimension analysis-table__anchor--white">
             <h5 class="contribution-table__title">Related Metrics</h5>
           </td>
-          {{#each dates as |date|}}
+          {{#each filteredDates as |date|}}
             <td class="analysis-table__header">
               {{moment-format date dateFormat}}
             </td>
@@ -94,7 +94,7 @@
 
         {{#if showDetails}}
           <td class="analysis-table__anchor analysis-table__anchor--low"></td>
-          {{#each dates as |date|}}
+          {{#each filteredDates as |date|}}
           <td class="analysis-table__subheader">
             <div class="analysis-table__cell">
               <div class="analysis-table__item">
@@ -111,7 +111,7 @@
           {{/each}}
         {{/if}}
 
-        {{#each relatedMetricRows as |metric|}}
+        {{#each filteredRelatedMetricRows as |metric|}}
           <tr>
             <td class="analysis-table__dimension">
               <div class="analysis-table__cell analysis-table__cell--primary">{{metric.metricName}}</div>

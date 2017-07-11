@@ -9,8 +9,7 @@ export default Ember.Route.extend({
    * Massages Query Params from URL and dispatch redux actions
    */
   model(params, transition) {
-    // if (!params.id) { return; }
-    // ideally caught in component
+    const redux = this.get('redux');
     const { metricId } = transition.params['rca.details'];
     const {
       analysisStart: start,
@@ -19,8 +18,6 @@ export default Ember.Route.extend({
 
     if (!metricId) { return; }
 
-    const redux = this.get('redux');
-    debugger;
 
     redux.dispatch(Actions.fetchEvents(Number(start), Number(end)));
     return {};

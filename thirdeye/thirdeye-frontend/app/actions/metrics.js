@@ -44,6 +44,7 @@ function loadRelatedMetricIds(response) {
 }
 
 function loadRelatedMetricsData(response) {
+  debugger;
   return {
     type: ActionTypes.LOAD_DATA,
     payload: response
@@ -136,15 +137,13 @@ function fetchRegions() {
       currentEnd
     } = store.metrics;
 
+    debugger;
+
     const metricIds = [primaryMetricId, ...relatedMetricIds].join(',');
      // todo: identify better way for query params
     return fetch(`/data/anomalies/ranges?metricIds=${metricIds}&start=${currentStart}&end=${currentEnd}&filters=${filters}`)
       .then(res => res.json())
-      .then(res => dispatch(loadRegions(res)))
-      .catch(() => {
-        dispatch(requestFail());
-      });
-
+      .then(res => dispatch(loadRegions(res)));
   };
 }
 
@@ -164,6 +163,8 @@ function fetchRelatedMetricData() {
       compareMode
     } = store.metrics;
 
+    debugger;
+
 
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
     const metricIds = [primaryMetricId, ...relatedMetricIds];
@@ -178,11 +179,10 @@ function fetchRelatedMetricData() {
       return hash;
     }, {});
 
+    debugger;
+
     return Ember.RSVP.hash(promiseHash)
-      .then(res => dispatch(loadRelatedMetricsData(res)))
-      .catch(() => {
-        dispatch(requestFail());
-      });
+      .then(res => dispatch(loadRelatedMetricsData(res)));
   };
 }
 
