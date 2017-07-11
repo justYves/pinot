@@ -1,76 +1,76 @@
-{{outlet}}
-<div class="paper-container__body">
-<main>
-  {{!--<div class="row">--}}
-    {{#containers/metric-container as |metricList actions|}}
-      <div class="rca-header">
-        <div class="rca-actions">
-          <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
-        </div>
-      </div>
-      <div class="rca-body">
-        {{#if metricList.loading}}
-          <section>
-            <div class="spinner-wrapper">
-              {{ember-spinner}}
-            </div>
-          </section>
-        {{/if}}
-
-        {{#if metricList.failed}}
-          Oops, something went wrong...
-        {{/if}}
-
-        {{#if metricList.loaded}}
-          <section>
-            {{#if splitView}}
-              {{anomaly-graph
-                componentId='correlated-metrics'
-                primaryMetric=metricList.primaryMetric 
-                showGraphLegend=false}}
-              {{#each metricList.relatedMetrics as |metric|}}
-                {{anomaly-graph
-                  componentId='correlated-metrics'
-                  primaryMetric=metric
-                  showGraphLegend=false}}
-              {{/each}}
-            {{else}}
-              {{anomaly-graph
-                componentId='correlated-metrics'
-                primaryMetric=metricList.primaryMetric
-                relatedMetrics=metricList.relatedMetrics}}
-            {{/if}}
-          </section>
-        {{/if}}
-
-        <div class="contribution-table">
-          <div class="contribution-table__header">
-            <div class="contribution-table__subnav">
-              <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>% Change</a>
-            </div>
-            <div class="contribution-table__subnav">
-              <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
-            </div>
+<div class="paper-container__body row">
+  {{!--<h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>--}}
+  <main>
+    {{!--<div class="row">--}}
+      {{#containers/metric-container as |metricList actions|}}
+        <div class="rca-header">
+          <div class="rca-actions">
+            <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
           </div>
-          <div class="contribution-table__body">
-            {{#if metricList.loading}}
+        </div>
+        <div class="rca-body">
+          {{#if metricList.loading}}
+            <section>
               <div class="spinner-wrapper">
                 {{ember-spinner}}
               </div>
-            {{else}}
-              {{contribution-table
-                title="Primary Metric"
-                granularity=metricList.granularity
-                primaryMetric=metricList.primaryMetric
-                relatedMetrics=metricList.relatedMetrics
-                showDetails=(eq selectedTab "number")
-              }}
-            {{/if}}
+            </section>
+          {{/if}}
+
+          {{#if metricList.failed}}
+            Oops, something went wrong...
+          {{/if}}
+
+          {{#if metricList.loaded}}
+            <section>
+              {{#if splitView}}
+                {{anomaly-graph
+                  componentId='correlated-metrics'
+                  primaryMetric=metricList.primaryMetric 
+                  showGraphLegend=false}}
+                {{#each metricList.relatedMetrics as |metric|}}
+                  {{anomaly-graph
+                    componentId='correlated-metrics'
+                    primaryMetric=metric
+                    showGraphLegend=false}}
+                {{/each}}
+              {{else}}
+                {{anomaly-graph
+                  componentId='correlated-metrics'
+                  primaryMetric=metricList.primaryMetric
+                  relatedMetrics=metricList.relatedMetrics}}
+              {{/if}}
+            </section>
+          {{/if}}
+
+          <div class="contribution-table">
+            <div class="contribution-table__header">
+              <div class="contribution-table__subnav">
+                <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>% Change</a>
+              </div>
+              <div class="contribution-table__subnav">
+                <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
+              </div>
+            </div>
+            <div class="contribution-table__body">
+              {{#if metricList.loading}}
+                <div class="spinner-wrapper">
+                  {{ember-spinner}}
+                </div>
+              {{else}}
+                {{contribution-table
+                  title="Primary Metric"
+                  granularity=metricList.granularity
+                  primaryMetric=metricList.primaryMetric
+                  relatedMetrics=metricList.relatedMetrics
+                  showDetails=(eq selectedTab "number")
+                }}
+              {{/if}}
+            </div>
           </div>
         </div>
-      </div>
-    {{/containers/metric-container}}
-  {{!--</div>--}}
-</main>
+      {{/containers/metric-container}}
+    {{!--</div>--}}
+  </main>
 </div>
 
