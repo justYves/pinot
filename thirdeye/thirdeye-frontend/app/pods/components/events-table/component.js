@@ -18,6 +18,12 @@ export default Ember.Component.extend({
     }
   ),
 
+  didUpdateAttrs(...args) {
+    Ember.run.later(() => {
+      this._super(args);
+    });
+  },
+
   columns: [
     {
       propertyName: 'label',

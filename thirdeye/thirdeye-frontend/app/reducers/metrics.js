@@ -48,7 +48,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
     case ActionTypes.LOAD_PRIMARY_METRIC: {
       let {
-        id: primaryMetricId,
+        primaryMetricId,
         startDate,
         endDate,
         filters = "{}",
@@ -97,6 +97,9 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       }, {});
 
       return Object.assign(state, {
+        loading: false,
+        loaded: true,
+        failed: false,
         regions
       });
     }
@@ -105,9 +108,6 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const relatedMetricEntities = Object.assign({}, action.payload);
 
       return Object.assign(state, {
-        loading: false,
-        loaded: true,
-        failed: false,
         relatedMetricEntities
       });
     }

@@ -42,8 +42,8 @@ export default Ember.Route.extend({
 
     redux.dispatch(MetricsActions.setPrimaryMetric(metricParams))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricIds(res)))
-      .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)))
+      .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .catch((error) => redux.dispatch(MetricsActions.requestFail(error)));
 
     return {};

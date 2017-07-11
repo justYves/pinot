@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions as metricActions } from 'thirdeye-frontend/actions/primary-metric';
-import { Actions as eventActions } from 'thirdeye-frontend/actions/events';
+import { Actions as metricActions } from 'thirdeye-frontend/actions/metrics';
 import { task, timeout } from 'ember-concurrency';
 import _ from 'lodash';
 
@@ -47,9 +46,10 @@ function select(store) {
     primaryMetricId,
     compareMode,
     granularity
-  } = store.primaryMetric;
+  } = store.metrics;
 
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
+  debugger;
 
   return {
     loading,
@@ -67,17 +67,9 @@ function select(store) {
 
 
 function actions(dispatch) {
-  // let currentTask = null;
 
   return {
-    // dateChangeTask: task(function* ([start, end]) {
-    //   yield timeout(1000);
-    //   alert(start + '' + end);
-    //   dispatch(eventActions.updateDates(start, end));
-    // }),
     onDateChange(dates) {
-      // currentTask && currentTask.cancel();
-      // currentTask = this.get('actions.dateChangeTask').perform(dates);
     }
   };
 }
