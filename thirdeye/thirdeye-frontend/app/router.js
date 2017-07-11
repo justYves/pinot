@@ -17,6 +17,7 @@ Router.map(function() {
     this.route('details', { path: '/:metricId' } , function() {
       this.route('metrics');
       this.route('events');
+      this.route('dimensions');
     });
     this.route('metrics', { path: '/metrics/:id' });
   });
