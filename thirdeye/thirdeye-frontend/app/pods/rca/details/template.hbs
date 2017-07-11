@@ -35,9 +35,9 @@
         }}
           {{mode}}
         {{/power-select}}
-</div>
+      </div>
       <main class="paper-container">
-        {{#containers/metric-container as |metricList actions|}}
+        {{#containers/primary-metric-container as |metricList actions|}}
           {{#if metricList.loading}}
             <section class="paper-container">
               <div class="spinner-wrapper">
@@ -62,7 +62,7 @@
             }}
           {{/if}}
 
-        {{/containers/metric-container}}
+        {{/containers/primary-metric-container}}
       </main>
     </section>
   </div>

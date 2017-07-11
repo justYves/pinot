@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
 import { Actions as metricActions } from 'thirdeye-frontend/actions/primary-metric';
-import { Actions as eventActions } from 'thirdeye-frontend/actions/events';
 import { task, timeout } from 'ember-concurrency';
 import _ from 'lodash';
 

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import RSVP from 'rsvp';
 import moment from 'moment';
 import fetch from 'fetch';
-import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
+import { Actions as MetricsActions } from 'thirdeye-frontend/actions/primary-metric';
 
 const queryParamsConfig = {
   refreshModel: true,
@@ -87,7 +87,7 @@ export default Ember.Route.extend({
       compareMode
     } = model;
 
-    let diff = (+endDate - startDate) / 4;
+    let diff = Math.floor((+endDate - startDate) / 4);
     let initStart = analysisStart || (+startDate + diff);
     let initEnd = analysisEnd || (+endDate - diff);
 
