@@ -8,7 +8,7 @@
           <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
         </div>
       </div>
-      <div class="rca-body paper-container">
+      <div class="rca-body">
         {{#if metricList.loading}}
           <section>
             <div class="spinner-wrapper">
@@ -24,12 +24,21 @@
         {{#if metricList.loaded}}
           <section>
             {{#if splitView}}
-              {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
+              {{anomaly-graph
+                componentId='correlated-metrics'
+                primaryMetric=metricList.primaryMetric 
+                showGraphLegend=false}}
               {{#each metricList.relatedMetrics as |metric|}}
-                {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
+                {{anomaly-graph
+                  componentId='correlated-metrics'
+                  primaryMetric=metric
+                  showGraphLegend=false}}
               {{/each}}
             {{else}}
-              {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics}}
+              {{anomaly-graph
+                componentId='correlated-metrics'
+                primaryMetric=metricList.primaryMetric
+                relatedMetrics=metricList.relatedMetrics}}
             {{/if}}
           </section>
         {{/if}}

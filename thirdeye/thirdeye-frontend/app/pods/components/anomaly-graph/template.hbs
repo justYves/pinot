@@ -5,14 +5,14 @@
       <h5 class="legend-title">Primary Metric</h5>
       <ul class="anomaly-graph__filter-group">
         <li class="anomaly-graph__filter-item">
-          {{input type="checkbox" id=(concat "metric-" metric.id) checked=true disabled=true click=(action "onSelection" anomaly)}}
+          {{input type="checkbox" id=(concat primaryMetricId metric.id) checked=true disabled=true click=(action "onSelection" anomaly)}}
           <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{primaryMetric.color}}" for="metric-{{primaryMetric.id}}" title={{primaryMetric.metricName}}> {{primaryMetric.metricName}} </label>
         </li>
       </ul>
       <h5 class="legend-title">Related Metrics</h5>
       <ul class="anomaly-graph__filter-group">
       {{#each relatedMetrics as |metric index|}}
-        <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat "related-metric-" index) checked=metric.isSelected}}
+        <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}
           <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="related-metric-{{index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
         </li>
       {{else}}

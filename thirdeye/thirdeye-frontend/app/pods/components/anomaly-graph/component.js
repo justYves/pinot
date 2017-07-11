@@ -42,9 +42,18 @@ export default Ember.Component.extend({
   subchartStart: null,
   subchartEnd: null,
   showLegend: false,
+  componentId: 'main-graph',
 
   initStart: null,
   initEnd: null,
+
+  primaryMetricId: Ember.computed('componentId', function() {
+    return this.get('componentId') + '-primary-metric-';
+  }),
+
+  relatedMetricId: Ember.computed('componentId', function() {
+    return this.get('componentId') + '-related-metric-';
+  }),
 
   /**
    * Graph Legend config
@@ -60,12 +69,13 @@ export default Ember.Component.extend({
   /**
    * Graph Zoom config
    */
-  zoom: {
-    enabled: true
-    // Todo: add onZoom action handler
-    // onzoom: function() {
-    // }
-  },
+  zoom: Ember.computed('onSubchartChange', function() {
+    const onSubchartBrush = this.get('onSubchartChange');
+    return {
+      enabled: true,
+      onzoomend: onSubchartBrush
+    };
+  }),
 
   /**
    * Graph Point Config
@@ -129,9 +139,6 @@ export default Ember.Component.extend({
       return {
         show: showSubchart,
         onbrush: onSubchartBrush
-        // onbrush() {
-        //   debugger;
-        // }
       };
     }
   ),
