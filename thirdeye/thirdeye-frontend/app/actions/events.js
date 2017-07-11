@@ -45,7 +45,7 @@ function loaded() {
 
 function fetchEvents(start, end, mode) {
   return (dispatch, getState) => {
-    const { metrics, events } = getState();
+    const { primaryMetric, events } = getState();
 
     // cahce results if no change
     // if (events.events.length) {
@@ -57,9 +57,9 @@ function fetchEvents(start, end, mode) {
       currentStart: startDate = moment(endDate).subtract(1, 'week').valueOf(),
       currentEnd: endDate = moment().subtract(1, 'day').endOf('day').valueOf(),
       compareMode
-    } = metrics;
+    } = primaryMetric;
 
-    const diff = (endDate - startDate) / 4;
+    const diff = Math.floor((endDate - startDate) / 4);
     endDate = end || (+endDate - diff);
     startDate = start || (+startDate + diff);
     mode = mode || compareMode;
