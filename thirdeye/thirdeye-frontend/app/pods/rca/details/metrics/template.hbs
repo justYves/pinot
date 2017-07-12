@@ -1,9 +1,11 @@
 <section class="row paper-container__body">
-  {{!--<h3 class="te-sub-title te-sub-title--flush">Events Correlation</h3>--}}
   {{#containers/metrics-container as |metricList actions|}}
     <div class="rca-header">
+      <h3 class="te-sub-title te-sub-title--flush">Me trics Correlation</h3>
       <div class="rca-actions">
-        <a class="thirdeye-link" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+        {{#if metricList.loaded}}
+          <a class="thirdeye-link pull-right" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+        {{/if}}
       </div>
     </div>
     <div class="rca-body">
@@ -58,7 +60,9 @@
               </div>
             {{else}}
               {{#if loading}}
-                {{ember-spinner}}
+                <div class="spinner-wrapper spinner-wrapper--absolute">
+                  {{ember-spinner}}
+                </div>
               {{/if}}
               {{contribution-table
                 title="Primary Metric"
