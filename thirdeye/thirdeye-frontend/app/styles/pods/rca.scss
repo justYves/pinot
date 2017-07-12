@@ -2,6 +2,11 @@
   margin: $te-default-element-spacing;
   height: 250px;
   position: relative;
+
+  &--absolute {
+    position: absolute;
+    width: 100%;
+  }
 }
 
 .rca-title {

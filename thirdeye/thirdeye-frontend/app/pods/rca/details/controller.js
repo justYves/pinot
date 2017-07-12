@@ -40,8 +40,10 @@ export default Ember.Controller.extend({
       analysisStart: startDate,
       analysisEnd: endDate
     });
+    debugger;
 
     if (shouldUpdateStart && !shouldUpdateEnd) {
+      debugger;
       const newStartDate = currentStart - (currentEnd - currentStart) ;
       this.set('startDate', newStartDate);
     }
@@ -59,7 +61,7 @@ export default Ember.Controller.extend({
       const task = this.get('dateChangeTask');
       const taskInstance = task.perform(date);
       this.set('mostRecentTask', taskInstance);
-      // alert(date);
+
       return date;
     },
     /**

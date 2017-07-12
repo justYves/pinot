@@ -12,7 +12,16 @@ const COLOR_MAPPING = {
 };
 
 export default Ember.Component.extend({
+  init() {
+    this._super(...arguments);
+    alert('init!' + this.get('componentId'));
+  },
 
+  didUpdateAttrs(){
+    this._super(...arguments);
+    alert('attributes changed' + this.get('componentId'));
+    debugger;
+  },
   /**
    * Maps each metric to a color / class
    */
@@ -119,6 +128,7 @@ export default Ember.Component.extend({
           show: true,
           tick: {
             fit: false
+            // format: function (x) { return new Date(x).toString(); }
           },
           // TODO: add the extent functionality
           extent: [extentStart, extentEnd]
