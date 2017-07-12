@@ -45,13 +45,11 @@ export default Ember.Route.extend({
       if (!(start && end && compareMode)) {
         return true;
       }
-
       redux.dispatch(Actions.updateDates(
         Number(start),
         Number(end),
         compareMode
       ));
-
 
       // bubbling up
       return true;

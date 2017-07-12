@@ -1,7 +1,7 @@
 <section class="row paper-container__body">
   {{#containers/metrics-container as |metricList actions|}}
     <div class="rca-header">
-      <h3 class="te-sub-title te-sub-title--flush">Me trics Correlation</h3>
+      <h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>
       <div class="rca-actions">
         {{#if metricList.loaded}}
           <a class="thirdeye-link pull-right" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>

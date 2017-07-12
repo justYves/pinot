@@ -535,6 +535,10 @@ babel-plugin-syntax-exponentiation-operator@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-exponentiation-operator/-/babel-plugin-syntax-exponentiation-operator-6.13.0.tgz#9ee7e8337290da95288201a6a57f4170317830de"
 
+babel-plugin-syntax-object-rest-spread@^6.8.0:
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
+
 babel-plugin-syntax-trailing-function-commas@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-trailing-function-commas/-/babel-plugin-syntax-trailing-function-commas-6.22.0.tgz#ba0360937f8d06e40180a43fe0d5616fff532cf3"
@@ -721,6 +725,13 @@ babel-plugin-transform-exponentiation-operator@^6.22.0:
   dependencies:
     babel-helper-builder-binary-assignment-operator-visitor "^6.24.1"
     babel-plugin-syntax-exponentiation-operator "^6.8.0"
+    babel-runtime "^6.22.0"
+
+babel-plugin-transform-object-rest-spread@^6.19.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-object-rest-spread/-/babel-plugin-transform-object-rest-spread-6.23.0.tgz#875d6bc9be761c58a2ae3feee5dc4895d8c7f921"
+  dependencies:
+    babel-plugin-syntax-object-rest-spread "^6.8.0"
     babel-runtime "^6.22.0"
 
 babel-plugin-transform-regenerator@^6.22.0:
@@ -2562,14 +2573,14 @@ ember-radio-button@^1.1.1:
     ember-cli-babel "^5.1.7"
     ember-cli-htmlbars "^1.0.10"
 
-ember-redux-shim@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/ember-redux-shim/-/ember-redux-shim-1.1.2.tgz#233b4272a8671e62920918886dc7e5da16ee075f"
+ember-redux-shim@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ember-redux-shim/-/ember-redux-shim-2.1.0.tgz#5c5cf610f1928a1544e2476d28ef4f914f2ddd50"
   dependencies:
+    babel-plugin-transform-object-rest-spread "^6.19.0"
     broccoli-merge-trees "^1.1.4"
     broccoli-replace "^0.12.0"
-    ember-cli-babel "^5.1.9"
-    ember-cli-htmlbars "^1.1.0"
+    ember-cli-babel "^6.1.0"
 
 ember-redux-thunk-shim@^1.1.2:
   version "1.1.2"
@@ -2579,9 +2590,9 @@ ember-redux-thunk-shim@^1.1.2:
     ember-cli-babel "^5.1.9"
     ember-cli-htmlbars "^1.1.0"
 
-ember-redux@^2.6.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/ember-redux/-/ember-redux-2.9.0.tgz#cd265b91c8d705352f498fae357239efc9b18bcf"
+ember-redux@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/ember-redux/-/ember-redux-2.10.0.tgz#0a361ef7fed6dece652d449a05550b56bddafb54"
   dependencies:
     ember-cli-babel "^6.1.0"
 
