@@ -79,39 +79,6 @@ function updateDate(response) {
 }
 
 /**
- * Get all related metric's id for the primary metric
- */
-function fetchRelatedMetricIds() {
-  return (dispatch, getState) => {
-    dispatch(loading());
-    const store = getState();
-
-    let {
-      primaryMetricId: metricId,
-      currentStart: startDate,
-      currentEnd: endDate
-    } = store.primaryMetric;
-
-    endDate = endDate || moment().subtract(1, 'day').endOf('day').valueOf();
-    startDate = startDate || moment(endDate).subtract(1, 'week').valueOf();
-
-    const baselineStart = moment(startDate).subtract(1, 'week').valueOf();
-    const windowSize = Math.max(endDate - startDate, 0);
-
-    if (!metricId) {
-      return Promise.reject(new Error("Must provide a metricId"));
-    }
-    // todo: identify better way for query params
-    return fetch(`/rootcause/query?framework=relatedMetrics&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&urns=thirdeye:metric:${metricId}`)
-      .then(res => res.json())
-      .then(res => dispatch(loadRelatedMetricIds(res)))
-      .catch(() => {
-        dispatch(requestFail());
-      });
-  };
-}
-
-/**
  * Initialize store with metric data from query params
  * @param {Object} metric
  */
@@ -160,13 +127,12 @@ function fetchRelatedMetricData() {
       granularity,
       currentStart,
       currentEnd,
-      relatedMetricIds,
       compareMode
     } = store.primaryMetric;
 
 
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
-    const metricIds = [primaryMetricId, ...relatedMetricIds];
+    const metricIds = [primaryMetricId];
     const baselineStart = moment(currentStart).subtract(offset, 'week').valueOf();
     const baselineEnd = moment(currentEnd).subtract(offset, 'week').valueOf();
 
@@ -221,7 +187,6 @@ export const Actions = {
   loading,
   requestFail,
   fetchRelatedMetricData,
-  fetchRelatedMetricIds,
   fetchRegions,
   setPrimaryMetric,
   updateCompareMode,

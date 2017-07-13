@@ -1,12 +1,16 @@
 import anomaly from './anomaly';
 import metrics from './metrics';
 import events from './events';
-import primaryMetric from './primary-metric';
+import dimensions from './dimensions';
 
-export default {
+import primaryMetric from './primary-metric';
+import { combineReducers } from 'redux';
+
+export default combineReducers({
   anomaly,
   events,
   metrics,
+  dimensions,
   primaryMetric
-};
+});
 

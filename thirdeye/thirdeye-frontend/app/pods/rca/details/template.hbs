@@ -61,7 +61,7 @@
               subchartEnd=extentEnd
             }}
           {{/if}}
-
+          <a {{action actions.onDateChange}}> dispatch </a>
         {{/containers/primary-metric-container}}
       </main>
     </section>
@@ -77,13 +77,13 @@
       {{/link-to}}
     </div>
     <div class="contribution-table__subnav">
-      {{#link-to "rca.details.metrics" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
-        Metrics Correlation 
+      {{#link-to "rca.details.dimensions" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
+        Dimensions Analysis 
       {{/link-to}}
     </div>
     <div class="contribution-table__subnav">
-      {{#link-to "rca.details.dimensions" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
-        Dimensions Correlation 
+      {{#link-to "rca.details.metrics" class="thirdeye-link thirdeye-link--nav" activeClass="thirdeye-link--active"}}
+        Metrics Correlation 
       {{/link-to}}
     </div>
   </div>

@@ -15,7 +15,8 @@ function select(store) {
     granularity
   } = store.primaryMetric;
 
-  const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
+  // to do fix region and put this in reducer
+  const uiRelatedMetric = _.merge(relatedMetricEntities, regions);
 
   return {
     loading,
@@ -38,8 +39,8 @@ function actions(dispatch) {
     //   dispatch(eventActions.updateDates(start, end));
     // }),
     onDateChange(dates) {
-      // currentTask && currentTask.cancel();
-      // currentTask = this.get('actions.dateChangeTask').perform(dates);
+      alert('dispatching');
+      dispatch(metricActions.loading());
     }
   };
 }

@@ -21,6 +21,7 @@ module.exports = {
     "comma-dangle": ["warn", "never"],
     "comma-spacing": ["warn", { "before": false, "after": true }],
     "semi": ["warn", "always"],
-    "comma-style": ["warn", "last"]
+    "comma-style": ["warn", "last"],
+    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   }
 };
