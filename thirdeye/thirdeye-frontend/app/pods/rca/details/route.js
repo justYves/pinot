@@ -58,6 +58,8 @@ export default Ember.Route.extend({
       id: model.id,
       analysisStart,
       analysisEnd,
+      graphStart: analysisStart,
+      graphEnd: analysisEnd,
       compareMode
     };
 
@@ -105,25 +107,29 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    queryParamsDidChange(changedParams, oldParams) {
-      this._super(...arguments);
-      const controller = this.get('controller');
-      const hasChangedParams = Ember.isEmpty(Object.keys(changedParams));
+    onDateChangeTest(dates) {
+      alert('route action');
+
+    },  
+    // queryParamsDidChange(changedParams, oldParams) {
+    //   this._super(...arguments);
+    //   const controller = this.get('controller');
+    //   const hasChangedParams = Ember.isEmpty(Object.keys(changedParams));
 
 
-      if (!controller || hasChangedParams) { return true; }
+    //   if (!controller || hasChangedParams) { return true; }
 
-      const {
-        analysisStart: extentStart,
-        analysisEnd: extentEnd
-      } = Object.assign(oldParams, changedParams);
+    //   const {
+    //     analysisStart: extentStart,
+    //     analysisEnd: extentEnd
+    //   } = Object.assign(oldParams, changedParams);
 
-      this.get('controller').setProperties({
-        extentStart,
-        extentEnd
-      });
+    //   this.get('controller').setProperties({
+    //     extentStart,
+    //     extentEnd
+    //   });
 
-      return true;
-    }
+    //   return true;
+    // }
   }
 });

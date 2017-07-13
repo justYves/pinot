@@ -13,7 +13,7 @@ export const ActionTypes = {
   LOAD_REGIONS: type('[Primary Metric] Load Primary Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Primary Metric] Load Primary Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Primary Metric] Update Compare Mode'),
-  UPDATE_DATE: type('[Primary Metric] Update Date')
+  UPDATE_DATES: type('[Primary Metric] Update Date')
 };
 
 // Todo: move this in a constant.js file
@@ -33,13 +33,6 @@ function loading() {
 function requestFail() {
   return {
     type: ActionTypes.REQUEST_FAIL
-  };
-}
-
-function loadRelatedMetricIds(response) {
-  return {
-    type: ActionTypes.LOAD_IDS,
-    payload: response
   };
 }
 
@@ -71,9 +64,9 @@ function updateCompareMode(response) {
   };
 }
 
-function updateDate(response) {
+function updateDates(response) {
   return {
-    type: ActionTypes.UPDATE_DATE,
+    type: ActionTypes.UPDATE_DATES,
     payload: response
   };
 }
@@ -133,8 +126,8 @@ function fetchRelatedMetricData() {
 
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
     const metricIds = [primaryMetricId];
-    const baselineStart = moment(currentStart).subtract(offset, 'week').valueOf();
-    const baselineEnd = moment(currentEnd).subtract(offset, 'week').valueOf();
+    const baselineStart = moment(+currentStart).subtract(offset, 'week').valueOf();
+    const baselineEnd = moment(+currentEnd).subtract(offset, 'week').valueOf();
 
     if (!metricIds.length) { return; }
     const promiseHash = metricIds.reduce((hash, id) => {
@@ -154,25 +147,34 @@ function fetchRelatedMetricData() {
 
 function updateMetricDate(startDate, endDate) {
   return (dispatch, getState) => {
+
     const store = getState();
     const {
       currentStart,
       currentEnd
     } = store.primaryMetric;
-    startDate = moment(startDate);
-    endDate = moment(endDate);
+    startDate = startDate? moment(Number(startDate)) : startDate;
+    endDate = endDate ? moment(Number(endDate)) : endDate;
+
+    dispatch(updateDates({
+      analysisStart: startDate.valueOf(),
+      analysisEnd: endDate.valueOf()
+    }));
 
     const shouldUpdateStart = startDate.isBefore(currentStart);
     const shouldUpdateEnd = endDate.isAfter(currentEnd);
 
-
     if (shouldUpdateStart && !shouldUpdateEnd) {
-      const newStartDate = currentStart - (currentEnd - currentStart) ;
+      const newStartDate = +currentStart - (currentEnd - currentStart) ;
 
-      dispatch(updateDate({
-        currentStart: newStartDate,
-        currentEnd
-      }));
+
+      dispatch(setPrimaryMetric({
+        startDate: newStartDate,
+        graphStart: startDate.valueOf(),
+        graphEnd: endDate.valueOf()
+      }))
+        .then((res) => dispatch(fetchRegions(res)))
+        .then((res) => dispatch(fetchRelatedMetricData(res)));
 
       return Promise.resolve();
 
@@ -183,6 +185,12 @@ function updateMetricDate(startDate, endDate) {
   };
 }
 
+function updateAnalysisDates(startDate, endDate) {
+  return (dispatch, getState) => {
+    dispatch(updateMetricDate(startDate, endDate));
+  };
+}
+
 export const Actions = {
   loading,
   requestFail,
@@ -190,6 +198,7 @@ export const Actions = {
   fetchRegions,
   setPrimaryMetric,
   updateCompareMode,
-  updateMetricDate
+  updateMetricDate,
+  updateAnalysisDates
 };
 

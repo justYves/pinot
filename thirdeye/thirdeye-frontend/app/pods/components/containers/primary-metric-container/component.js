@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions as metricActions } from 'thirdeye-frontend/actions/primary-metric';
+import { Actions } from 'thirdeye-frontend/actions/primary-metric';
 import _ from 'lodash';
+import { task, timeout } from 'ember-concurrency';
 
 function select(store) {
   const {
@@ -12,7 +13,11 @@ function select(store) {
     regions,
     primaryMetricId,
     compareMode,
-    granularity
+    granularity,
+    currentStart,
+    currentEnd,
+    graphStart,
+    graphEnd
   } = store.primaryMetric;
 
   // to do fix region and put this in reducer
@@ -24,23 +29,38 @@ function select(store) {
     failed,
     compareMode,
     granularity,
+    currentStart,
+    currentEnd,
+    graphStart,
+    graphEnd,
     primaryMetric: uiRelatedMetric[primaryMetricId]
   };
 }
 
 
 function actions(dispatch) {
-  // let currentTask = null;
+  let currentTask = null;
 
   return {
-    // dateChangeTask: task(function* ([start, end]) {
-    //   yield timeout(1000);
-    //   alert(start + '' + end);
-    //   dispatch(eventActions.updateDates(start, end));
-    // }),
+    dateChangeTask: task(function* ([start, end]) {
+      yield timeout(1000);
+
+      alert(start + '' + end);
+      alert('dispatching on date change');
+      dispatch(Actions.updateAnalysisDates(start, end));
+
+      return [start, end];
+    }),
     onDateChange(dates) {
-      alert('dispatching');
-      dispatch(metricActions.loading());
+      currentTask && currentTask.cancel();
+
+      const task = this.get('actions.dateChangeTask');
+
+      currentTask = task.perform(dates);
+
+      return currentTask;
+      // dispatch(Actions.updateDate(dates));
+      // dispatch(Actions.loading());
     }
   };
 }

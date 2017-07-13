@@ -40,8 +40,6 @@ export default Ember.Route.extend({
         compareMode
       } = Object.assign(oldParams, changedParams);
 
-      debugger;
-
       if (!(start && end && compareMode)) {
         return true;
       }

@@ -1,5 +1,6 @@
 import { ActionTypes } from '../actions/primary-metric';
 import moment from 'moment';
+import _ from 'lodash';
 
 /**
  * Define the schema
@@ -31,10 +32,14 @@ const INITIAL_STATE = {
   regions: {},
   currentStart: null,
   currentEnd: moment().subtract(1, 'week').valueOf(),
+  analysisStart: null,
+  analysisEnd: null,
   filters: {},
   granularity: 'DAYS',
   compareMode: 'WoW',
-  splitView: false
+  splitView: false,
+  graphStart: null,
+  graphEnd: null
 };
 
 const modeMap = {
@@ -60,24 +65,37 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         endDate,
         filters = "{}",
         granularity,
-        compareMode
+        compareMode,
+        graphStart,
+        graphEnd,
+        analysisStart,
+        analysisEnd
       } = action.payload;
 
+      // TODO: make this dryer
+      startDate = startDate ? Number(startDate) : startDate;
+      endDate = endDate? Number(endDate) : endDate;
+      graphStart = graphStart ? Number(graphStart) : graphStart;
+      graphEnd = graphEnd? Number(graphEnd) : graphEnd;
+      analysisStart = analysisStart ? Number(analysisStart) : analysisStart;
+      analysisEnd = analysisEnd? Number(analysisEnd) : analysisEnd;
 
-      startDate = Number(startDate);
-      endDate = Number(endDate);
       const offset = modeMap[compareMode] || 1;
       const baselineStart = moment(startDate).clone().subtract(offset, 'week').valueOf();
       const baselineEnd = moment(endDate).clone().subtract(offset, 'week').valueOf();
 
-      return Object.assign(state, {
+      return _.merge(state, {
         primaryMetricId,
+        analysisStart,
+        analysisEnd,
         currentStart: startDate,
         currentEnd: endDate,
         baselineStart,
         baselineEnd,
         filters,
         granularity,
+        graphStart,
+        graphEnd,
         compareMode,
         loading: true,
         loaded: false,
@@ -140,15 +158,19 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       });
     }
 
-    case ActionTypes.UPDATE_DATE: {
-      const { currentStart, currentEnd } = action.payload;
-
-      return Object.assign(state, {
+    case ActionTypes.UPDATE_DATES: {
+      const {
         currentStart,
         currentEnd,
-        loading: true,
-        loaded: false,
-        failed: false
+        analysisStart,
+        analysisEnd
+       } = action.payload;
+
+      return _.merge(state, {
+        currentStart,
+        currentEnd,
+        analysisStart,
+        analysisEnd
       });
     }
   }
