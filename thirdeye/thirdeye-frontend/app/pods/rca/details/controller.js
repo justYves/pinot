@@ -20,50 +20,24 @@ export default Ember.Controller.extend({
   compareMode: null,
   compareModeOptions: ['WoW', 'Wo2W', 'Wo3W', 'Wo4W'],
   mostRecentTask: null,
-
   metricFilters: Ember.computed.reads('model.metricFilters'),
-
-  dateChangeTask: task(function* ([start, end]) {
-    yield timeout(1000);
-    const {
-      startDate: currentStart,
-      endDate: currentEnd
-      } = this.getProperties('startDate', 'endDate');
-
-    let startDate = moment(start);
-    let endDate = moment(end);
-
-    const shouldUpdateStart = startDate.isBefore(moment(Number(currentStart)));
-    const shouldUpdateEnd = endDate.isAfter(moment(Number(currentEnd)));
-
-    this.setProperties({
-      analysisStart: startDate,
-      analysisEnd: endDate
-    });
-    debugger;
-
-    if (shouldUpdateStart && !shouldUpdateEnd) {
-      debugger;
-      const newStartDate = currentStart - (currentEnd - currentStart) ;
-      this.set('startDate', newStartDate);
-    }
-  }),
 
   actions: {
     onGranularityChange(granularity) {
       this.set('granularity', granularity);
     },
 
-    onDateChange(date) {
-      const mostRecentTask = this.get('mostRecentTask');
-      mostRecentTask && mostRecentTask.cancel();
+    setDateParams([start, end]) {
+      const startDate = moment(start).valueOf();
+      const endDate = moment(end).valueOf();
 
-      const task = this.get('dateChangeTask');
-      const taskInstance = task.perform(date);
-      this.set('mostRecentTask', taskInstance);
-
-      return date;
+      this.setProperties({
+        analysisStart: startDate,
+        analysisEnd: endDate
+      });
+      return [start, end];
     },
+
     /**
      * Changes the compare mode
      * @param {String} compareMode baseline compare mode

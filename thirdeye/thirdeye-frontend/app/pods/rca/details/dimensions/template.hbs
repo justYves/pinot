@@ -1,7 +1,10 @@
+  
+{{moment-format analysisStart}} - {{moment-format analysisEnd}} //controller not updated
  <section class="row paper-container__body">
   <h3 class="te-sub-title te-sub-title--flush">Dimensions Analysis</h3>
 
   {{#containers/dimensions-container as |dimensions actions|}}
+    {{moment-format dimensions.analysisStart}} - {{moment-format dimensions.analysisEnd}}
     {{#if dimensions.loading}}
       <div class="spinner-wrapper">
         {{ember-spinner}}
@@ -18,20 +21,31 @@
         {{dimension}}
       {{/power-select}}
 
-       {{!--{{contribution-table
-          title="Primary Metric"
-          granularity=metricList.granularity
-          primaryMetric=metricList.primaryMetric
-          start=analysisStart
-          end=analysisEnd
-          relatedMetrics=metricList.relatedMetrics
-          showDetails=(eq selectedTab "number")
-        }}--}}
       {{dimensions-wrapper 
         dimensions=dimensions 
         onLoading=(action actions.onLoading)
         onLoad=(action actions.onLoad)
         onFail=(action actions.onFail)}}
+
+       gran {{dimensions.granularity}} <br>
+      {{#each-in dimensions.timeseries.subDimensionContributionMap as |dimension timeseries|}}
+        {{dimension}} {{timeserie}}
+      {{/each-in}}
+      {{#if loading}}
+        <div class="spinner-wrapper spinner-wrapper--absolute">
+          {{ember-spinner}}
+        </div>
+      {{/if}}
+      {{!--{{contribution-table
+        title="Primary Metric"
+        granularity=dimensions.granularity
+        primaryMetric=metricList.primaryMetric
+        start=analysisStart
+        end=analysisEnd
+        relatedMetrics=metricList.relatedMetrics
+        showDetails=(eq selectedTab "number")
+        loading=(mut loading)
+      }}--}}
 
     {{/if}}
 

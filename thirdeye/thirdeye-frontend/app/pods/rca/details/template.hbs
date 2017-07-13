@@ -37,8 +37,8 @@
         {{/power-select}}
       </div>
       <main class="paper-container">
-        {{#containers/primary-metric-container as |metricList actions|}}
-          {{#if metricList.loading}}
+        {{#containers/primary-metric-container as |primaryMetric actions|}}
+          {{#if primaryMetric.loading}}
             <section class="paper-container">
               <div class="spinner-wrapper">
                 {{ember-spinner}}
@@ -46,19 +46,24 @@
             </section>
           {{/if}}
 
-          {{!--{{#if metricList.failed}}
+          {{!--{{#if primaryMetric.failed}}
             Oops, something went wrong...
           {{/if}}--}}
 
-          {{#if metricList.loaded}}
+          {{#if primaryMetric.loaded}}
 
             {{anomaly-graph 
               classNames='anomaly-graph--no-border'
-              primaryMetric=metricList.primaryMetric 
+              primaryMetric=primaryMetric.primaryMetric 
               showGraphLegend=true
-              onSubchartChange=(action "onDateChange")
-              subchartStart=extentStart
-              subchartEnd=extentEnd
+              onSubchartChange=(action 
+                (queue
+                  (action actions.onDateChange)
+                  (action "setDateParams")
+                )
+              )
+              subchartStart=primaryMetric.graphStart
+              subchartEnd=primaryMetric.graphEnd
             }}
           {{/if}}
           <a {{action actions.onDateChange}}> dispatch </a>

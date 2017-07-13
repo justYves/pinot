@@ -12,12 +12,21 @@ function select(store) {
     timeseries
   } = store.dimensions;
 
+  const {
+    granularity,
+    analysisStart,
+    analysisEnd
+  } = store.primaryMetric;
+
   return {
     keys,
     loading,
     loaded,
     failed,
-    timeseries
+    timeseries,
+    granularity,
+    analysisStart,
+    analysisEnd
   };
 }
 

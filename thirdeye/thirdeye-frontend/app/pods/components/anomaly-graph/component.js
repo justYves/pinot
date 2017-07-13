@@ -104,6 +104,8 @@ export default Ember.Component.extend({
   axis: Ember.computed(
     'primaryMetric.timeBucketsCurrent',
     'primaryMetric',
+    'subchartStart',
+    'subchartEnd',
     function() {
       const dates = this.get('primaryMetric.timeBucketsCurrent');
       const subchartStart = this.get('subchartStart');
