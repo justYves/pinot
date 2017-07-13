@@ -1,0 +1,11 @@
+{{yield (hash
+  keys=keys
+  loading=loading
+  loaded=loaded
+  failed=failed
+  timeseries=timeseries
+) (hash
+  onFail=(action "fail")
+  onLoad=(action "load")
+  onLoading=(action "loading")
+)}}

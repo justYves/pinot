@@ -137,8 +137,6 @@ function fetchRegions() {
       currentEnd
     } = store.metrics;
 
-    debugger;
-
     const metricIds = [primaryMetricId, ...relatedMetricIds].join(',');
      // todo: identify better way for query params
     return fetch(`/data/anomalies/ranges?metricIds=${metricIds}&start=${currentStart}&end=${currentEnd}&filters=${filters}`)

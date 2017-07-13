@@ -37,6 +37,13 @@ const INITIAL_STATE = {
   splitView: false
 };
 
+const modeMap = {
+  WoW: 1,
+  Wo2W: 2,
+  Wo3W: 3,
+  Wo4W: 4
+};
+
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case ActionTypes.LOADING:
@@ -56,13 +63,19 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         compareMode
       } = action.payload;
 
+
       startDate = Number(startDate);
       endDate = Number(endDate);
+      const offset = modeMap[compareMode] || 1;
+      const baselineStart = moment(startDate).clone().subtract(offset, 'week').valueOf();
+      const baselineEnd = moment(endDate).clone().subtract(offset, 'week').valueOf();
 
       return Object.assign(state, {
         primaryMetricId,
         currentStart: startDate,
         currentEnd: endDate,
+        baselineStart,
+        baselineEnd,
         filters,
         granularity,
         compareMode,
@@ -115,8 +128,15 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.UPDATE_COMPARE_MODE: {
       const compareMode = action.payload;
 
+      const offset = modeMap[compareMode] || 1;
+      const baselineStart = moment(state.currentStart).clone().subtract(offset, 'week').valueOf();
+      const baselineEnd = moment(state.currentEnd).clone().subtract(offset, 'week').valueOf();
+
+
       return Object.assign(state, {
-        compareMode
+        compareMode,
+        baselineStart,
+        baselineEnd
       });
     }
 

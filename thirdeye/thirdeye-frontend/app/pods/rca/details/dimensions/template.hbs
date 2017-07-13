@@ -1,3 +1,39 @@
- <main class="row paper-container__body">
-  <h3 class="te-sub-title te-sub-title--flush">Dimensions Correlation</h3>
- </main>
+ <section class="row paper-container__body">
+  <h3 class="te-sub-title te-sub-title--flush">Dimensions Analysis</h3>
+
+  {{#containers/dimensions-container as |dimensions actions|}}
+    {{#if dimensions.loading}}
+      <div class="spinner-wrapper">
+        {{ember-spinner}}
+      </div>
+    {{/if}}
+    {{#if dimensions.loaded}}
+      <label for="select-dimension">Dimension: </label>
+      {{#power-select 
+        triggerId="select-dimension"
+        selected=dimension
+        options=dimensions.keys
+        onchange=(action (mut dimension))
+        as |dimension|}}
+        {{dimension}}
+      {{/power-select}}
+
+       {{!--{{contribution-table
+          title="Primary Metric"
+          granularity=metricList.granularity
+          primaryMetric=metricList.primaryMetric
+          start=analysisStart
+          end=analysisEnd
+          relatedMetrics=metricList.relatedMetrics
+          showDetails=(eq selectedTab "number")
+        }}--}}
+      {{dimensions-wrapper 
+        dimensions=dimensions 
+        onLoading=(action actions.onLoading)
+        onLoad=(action actions.onLoad)
+        onFail=(action actions.onFail)}}
+
+    {{/if}}
+
+  {{/containers/dimensions-container}}
+ </section>

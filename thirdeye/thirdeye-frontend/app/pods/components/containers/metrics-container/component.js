@@ -48,9 +48,11 @@ function select(store) {
     granularity
   } = store.metrics;
 
+  // const uiRelatedMetric = _.merge(relatedMetricEntities, regions);
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
-  debugger;
 
+
+  // improve this so that it isn't called twice
   return {
     loading,
     loaded,
