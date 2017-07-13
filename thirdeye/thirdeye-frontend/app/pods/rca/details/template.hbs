@@ -56,11 +56,9 @@
               classNames='anomaly-graph--no-border'
               primaryMetric=primaryMetric.primaryMetric 
               showGraphLegend=true
-              onSubchartChange=(action 
-                (queue
-                  (action actions.onDateChange)
-                  (action "setDateParams")
-                )
+              onSubchartChange=(action (queue
+                (action "setDateParams")
+                (action actions.onDateChange))
               )
               subchartStart=primaryMetric.graphStart
               subchartEnd=primaryMetric.graphEnd

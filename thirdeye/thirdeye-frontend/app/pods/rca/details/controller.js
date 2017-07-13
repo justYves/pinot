@@ -27,15 +27,29 @@ export default Ember.Controller.extend({
       this.set('granularity', granularity);
     },
 
-    setDateParams([start, end]) {
-      const startDate = moment(start).valueOf();
-      const endDate = moment(end).valueOf();
+    setNewDate({ start, end }) {
+      alert('yo' + start + '' + end);
+
+      const analysisStart = moment(start).valueOf();
+      const analysisEnd = moment(end).valueOf();
+      const {
+          startDate: currentStart,
+          endDate: currentEnd
+        } = this.getProperties('startDate', 'endDate');
 
       this.setProperties({
-        analysisStart: startDate,
-        analysisEnd: endDate
+        analysisStart,
+        analysisEnd
       });
-      return [start, end];
+
+      if (analysisStart < currentStart) {
+        const newStartDate = +currentStart - (currentEnd - currentStart);
+        this.set('startDate', newStartDate);
+      }
+    },
+
+    setDateParams([start, end]) {
+      Ember.run.debounce(this, this.get('actions.setNewDate'), { start, end }, 1000);
     },
 
     /**

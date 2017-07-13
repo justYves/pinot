@@ -39,8 +39,6 @@ function select(store) {
 
 
 function actions(dispatch) {
-  let currentTask = null;
-
   return {
     dateChangeTask: task(function* ([start, end]) {
       yield timeout(1000);
@@ -50,17 +48,12 @@ function actions(dispatch) {
       dispatch(Actions.updateAnalysisDates(start, end));
 
       return [start, end];
-    }),
-    onDateChange(dates) {
-      currentTask && currentTask.cancel();
+    }).restartable(),
 
+    onDateChange(dates) {
       const task = this.get('actions.dateChangeTask');
 
-      currentTask = task.perform(dates);
-
-      return currentTask;
-      // dispatch(Actions.updateDate(dates));
-      // dispatch(Actions.loading());
+      return task.perform(dates);
     }
   };
 }

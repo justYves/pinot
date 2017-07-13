@@ -161,27 +161,28 @@ function updateMetricDate(startDate, endDate) {
       analysisEnd: endDate.valueOf()
     }));
 
-    const shouldUpdateStart = startDate.isBefore(currentStart);
-    const shouldUpdateEnd = endDate.isAfter(currentEnd);
+    // const shouldUpdateStart = startDate.isBefore(currentStart);
+    // const shouldUpdateEnd = endDate.isAfter(currentEnd);
 
-    if (shouldUpdateStart && !shouldUpdateEnd) {
-      const newStartDate = +currentStart - (currentEnd - currentStart) ;
+    // if (shouldUpdateStart && !shouldUpdateEnd) {
+    //   const newStartDate = +currentStart - (currentEnd - currentStart) ;
 
 
-      dispatch(setPrimaryMetric({
-        startDate: newStartDate,
-        graphStart: startDate.valueOf(),
-        graphEnd: endDate.valueOf()
-      }))
-        .then((res) => dispatch(fetchRegions(res)))
-        .then((res) => dispatch(fetchRelatedMetricData(res)));
+    //   dispatch(setPrimaryMetric({
+    //     startDate: newStartDate,
+    //     graphStart: startDate.valueOf(),
+    //     graphEnd: endDate.valueOf()
+    //   }))
+    //     .then((res) => dispatch(fetchRegions(res)))
+    //     .then((res) => dispatch(fetchRelatedMetricData(res)));
 
-      return Promise.resolve();
+    //   return Promise.resolve();
 
       // return dispatch(fetchRegions()).then(() => {
       //   return dispatch(fetchRelatedMetricData());
       // });
-    }
+    // }
+  //}
   };
 }
 
