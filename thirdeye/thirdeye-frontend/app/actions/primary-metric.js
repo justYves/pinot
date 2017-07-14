@@ -192,6 +192,13 @@ function updateAnalysisDates(startDate, endDate) {
   };
 }
 
+function selectMetric(...args) {
+  return (dispatch, getState) => {
+    const argh = args;
+    debugger;
+  };
+}
+
 export const Actions = {
   loading,
   requestFail,
@@ -200,6 +207,7 @@ export const Actions = {
   setPrimaryMetric,
   updateCompareMode,
   updateMetricDate,
-  updateAnalysisDates
+  updateAnalysisDates,
+  selectMetric
 };
 

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
 import { Actions as metricActions } from 'thirdeye-frontend/actions/metrics';
+import { Actions as Actions } from 'thirdeye-frontend/actions/primary-metric';
 import { task, timeout } from 'ember-concurrency';
 import _ from 'lodash';
 
@@ -71,7 +72,8 @@ function select(store) {
 function actions(dispatch) {
 
   return {
-    onDateChange(dates) {
+    onSelection() {
+      dispatch(Actions.selectMetric(...arguments));
     }
   };
 }
