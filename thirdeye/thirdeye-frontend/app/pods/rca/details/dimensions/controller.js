@@ -2,7 +2,30 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   queryParams: ['dimension'],
-  dimension: 'All'
+  dimension: 'All',
+  tableIsLoading: false,
+
+  splitView: false,
+  selectedTab: 'change',
+
+  actions: {
+    /**
+     * Handles Contribution Table Tab selection
+     * @param {String} tab Name of selected Tab
+     */
+    onTabChange(tab) {
+      const currentTab = this.get('selectedTab');
+      if (currentTab !== tab) {
+        this.set('tableIsLoading', true);
+
+        Ember.run.later(() => {
+          this.setProperties({
+            selectedTab: tab
+          });
+        });
+      }
+    }
+  }
 
 });
 

@@ -9,6 +9,29 @@
           <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{primaryMetric.color}}" for="{{concat primaryMetricId metric.id}}" title={{primaryMetric.metricName}}> {{primaryMetric.metricName}} </label>
         </li>
       </ul>
+
+      <h5 class="legend-title">Related Events</h5>
+      <ul class="anomaly-graph__filter-group">
+      {{#each relatedMetrics as |metric index|}}
+        <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}
+          <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="{{concat relatedMetricId index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
+        </li>
+      {{else}}
+        No Related Metrics.
+      {{/each}}
+      </ul>
+
+      <h5 class="legend-title">Dimensions</h5>
+      <ul class="anomaly-graph__filter-group">
+      {{#each relatedMetrics as |metric index|}}
+        <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}
+          <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="{{concat relatedMetricId index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
+        </li>
+      {{else}}
+        No Related Metrics.
+      {{/each}}
+      </ul>
+
       <h5 class="legend-title">Related Metrics</h5>
       <ul class="anomaly-graph__filter-group">
       {{#each relatedMetrics as |metric index|}}
@@ -19,6 +42,8 @@
         No Related Metrics.
       {{/each}}
       </ul>
+
+      
     </div>
   </section>
 {{/if}}

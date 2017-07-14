@@ -1,5 +1,14 @@
 import { type } from './utils';
 import fetch from 'fetch';
+import moment from 'moment';
+
+const COMPARE_MODE_MAPPING = {
+  WoW: 1,
+  Wo2W: 2,
+  Wo3W: 3,
+  Wo4W: 4
+};
+
 
 /**
  * Define the anomaly action types
@@ -68,23 +77,28 @@ function fetchDimensions(metricId) {
   };
 }
 
-function updateDimension(dimension) {
+function updateDimension(newDimension) {
   return (dispatch, getState) => {
-    const { primaryMetric } = getState();
+    const { primaryMetric, dimensions } = getState();
     const {
       granularity,
       compareMode,
-      currentStart,
-      currentEnd,
-      baselineStart,
-      baselineEnd,
+      analysisStart,
+      analysisEnd,
       primaryMetricId
     } = primaryMetric;
 
+    const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
+    const baselineStart = moment(+analysisStart).subtract(offset, 'week').valueOf();
+    const baselineEnd = moment(+analysisEnd).subtract(offset, 'week').valueOf();
+
+    newDimension = newDimension || dimensions.selectedDimension;
+
     // Todo use compareMode to update analysisStart and End
 
-    const url = `timeseries/compare/${primaryMetricId}/${currentStart}/${currentEnd}/${baselineStart}/${baselineEnd}?dimension=${dimension}&filters={}&granularity=${granularity}`;
-    dispatch(setDimension(dimension));
+    const url = `timeseries/compare/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?dimension=${newDimension}&filters={}&granularity=${granularity}`;
+    debugger;
+    dispatch(setDimension(newDimension));
     return fetch(url)
       .then(res => res.json())
       .then(res => dispatch(loadTimeSeries(res)));

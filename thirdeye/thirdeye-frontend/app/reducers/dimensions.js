@@ -59,7 +59,10 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const timeseries = action.payload;
 
       return Object.assign(state, {
-        timeseries
+        timeseries,
+        loaded: true,
+        loading: false,
+        failed: false
       });
     }
 
