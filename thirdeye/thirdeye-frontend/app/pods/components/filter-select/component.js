@@ -109,12 +109,13 @@ export default Ember.Component.extend({
   triggerId: '',
   noMatchesMessage: '',
 
+  classNames: 'filter-select',
+
   // selected Filters JSON
   selected: JSON.stringify({}),
 
   // all Filters Object
   options: {},
-  triggerId: '',
 
   disabled: false,
 

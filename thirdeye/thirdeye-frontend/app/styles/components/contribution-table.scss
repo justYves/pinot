@@ -1,7 +1,7 @@
 /* analysis table css*/
 
 .contribution-table {
-  border: 1px solid $te-grey;
+  border: 1px solid $te-grey--border;
   margin-top: $te-default-element-spacing;
 
   &__body {
@@ -26,7 +26,7 @@
 
 .contribution-table__header {
   display: flex;
-  border-bottom: 1px solid $te-grey;
+  border-bottom: 1px solid $te-grey--border;
   padding: $te-spacing 0;
 }
 
@@ -121,7 +121,7 @@
 
 .analysis-table__anchor,
 .analysis-table__dimension {
-  border:none!important;
+  border: none!important;
   padding: 9px;
 }
 

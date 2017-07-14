@@ -1,10 +1,22 @@
-<section class="row paper-container__body">
+<section class="paper-container__body">
   {{#containers/metrics-container as |metricList actions|}}
     <div class="rca-header">
       <h3 class="te-sub-title te-sub-title--flush">Metrics Correlation</h3>
       <div class="rca-actions">
         {{#if metricList.loaded}}
-          <a class="thirdeye-link pull-right" {{action "onSplitViewToggling"}}>{{if splitView 'Combine View' 'Split View'}}</a>
+          {{#x-toggle 
+            value=splitView 
+            classNames="te-toggle"
+            theme='ios'
+            showLabels=true
+            name="splitViewToggle"
+            onToggle=(action (mut splitView))
+            as |toggle|}}
+              {{#toggle.label splitView=(not splitView)}}
+                <span class="te-label">{{if splitView 'Combine View' 'Split View'}}</span>
+              {{/toggle.label}}
+              {{toggle.switch theme='ios' onLabel='diff on' offLabel='diff off'}}
+          {{/x-toggle}}
         {{/if}}
       </div>
     </div>
@@ -27,11 +39,13 @@
             componentId='correlated-metrics'
             primaryMetric=metricList.primaryMetric 
             showGraphLegend=false
+            showMetrics=true
           }}
           {{#each metricList.relatedMetrics as |metric|}}
             {{anomaly-graph
               componentId='correlated-metrics'
               primaryMetric=metric
+              showMetrics=true
               showGraphLegend=false}}
           {{/each}}
         {{else}}
@@ -39,6 +53,7 @@
             componentId='correlated-metrics'
             primaryMetric=metricList.primaryMetric
             relatedMetrics=metricList.relatedMetrics
+            showMetrics=true
             onSubchartChange=(action "onDateChange")
           }}
         {{/if}}
