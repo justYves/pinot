@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const d3 = window.d3;
 
 //Todo: move this into a constants.js file
 const COLOR_MAPPING = {
@@ -127,7 +128,10 @@ export default Ember.Component.extend({
 
       return {
         y: {
-          show: true
+          show: true,
+          tick: {
+            format: d3.format("2s")
+          }
         },
         x: {
           type: 'timeseries',
@@ -308,6 +312,7 @@ export default Ember.Component.extend({
 
   actions: {
     onSelection() {
+      debugger;
       this.attrs.onSelection(...arguments);
     },
     onToggle() {

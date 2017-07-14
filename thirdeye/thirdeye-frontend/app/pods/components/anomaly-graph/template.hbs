@@ -17,15 +17,25 @@
           </a>
         </h5>
         <ul class="anomaly-graph__filter-group {{if isEventsHidden "anomaly-graph__filter-group--hidden"}}">
-        {{#each yo as |metric index|}}
-          <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}
-            <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="{{concat relatedMetricId index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
-          </li>
-        {{else}}
-          No Related Metrics.
-        {{/each}}
+
+          {{#each yo as |metric index|}}
+            <li class="anomaly-graph__filter-item">
+              {{input 
+                type="checkbox" 
+                change=(action "onSelection" metric metric.isSelected)
+                id=(concat relatedMetricId index) 
+                checked=metric.isSelected
+                }}
+              <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="{{concat relatedMetricId index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
+            </li>
+          {{else}}
+            No Related Metrics.
+          {{/each}}
+          
         </ul>
       {{/if}}
+
+      
 
       {{#if showDimensions}}
         <h5 class="legend-title">Dimensions {{dimension.length}}
@@ -52,7 +62,14 @@
         </h5>
         <ul class="anomaly-graph__filter-group {{if isMetricsHidden "anomaly-graph__filter-group--hidden"}}">
         {{#each relatedMetrics as |metric index|}}
-          <li class="anomaly-graph__filter-item">{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}
+          <li class="anomaly-graph__filter-item">
+            {{input 
+              type="checkbox" 
+              change=(action "onSelection" metric checked)
+              id=(concat relatedMetricId index) 
+              checked=metric.isSelected
+              }}
+            {{!--{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}--}}
             <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="{{concat relatedMetricId index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
           </li>
         {{else}}
