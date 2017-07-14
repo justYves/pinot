@@ -28,8 +28,6 @@ export default Ember.Controller.extend({
     },
 
     setNewDate({ start, end }) {
-      alert('yo' + start + '' + end);
-
       const analysisStart = moment(start).valueOf();
       const analysisEnd = moment(end).valueOf();
       const {

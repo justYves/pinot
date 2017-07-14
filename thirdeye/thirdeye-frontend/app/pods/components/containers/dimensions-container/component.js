@@ -13,9 +13,7 @@ function select(store) {
   } = store.dimensions;
 
   const {
-    granularity,
-    analysisStart,
-    analysisEnd
+    granularity
   } = store.primaryMetric;
 
   return {
@@ -24,9 +22,7 @@ function select(store) {
     loaded,
     failed,
     timeseries,
-    granularity,
-    analysisStart,
-    analysisEnd
+    granularity
   };
 }
 

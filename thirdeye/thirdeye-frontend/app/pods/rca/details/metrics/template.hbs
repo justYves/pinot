@@ -66,6 +66,7 @@
               {{/if}}
               {{contribution-table
                 title="Primary Metric"
+                dates=metricList.primaryMetric.timeBucketsCurrent
                 granularity=metricList.granularity
                 primaryMetric=metricList.primaryMetric
                 start=analysisStart
@@ -73,6 +74,10 @@
                 relatedMetrics=metricList.relatedMetrics
                 showDetails=(eq selectedTab "number")
                 loading=(mut loading)
+                groupings=(hash
+                  primaryMetric=metricList.primaryMetric
+                  relatedMetrics=metricList.relatedMetrics
+                  )
               }}
             {{/if}}
           </div>

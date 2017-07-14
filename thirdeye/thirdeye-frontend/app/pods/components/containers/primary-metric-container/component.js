@@ -43,10 +43,7 @@ function actions(dispatch) {
     dateChangeTask: task(function* ([start, end]) {
       yield timeout(1000);
 
-      alert(start + '' + end);
-      alert('dispatching on date change');
       dispatch(Actions.updateAnalysisDates(start, end));
-
       return [start, end];
     }).restartable(),
 

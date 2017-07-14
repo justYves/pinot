@@ -21,13 +21,38 @@ export default Ember.Route.extend({
     } = transition.queryParams;
 
     if (!metricId) { return; }
-    // /timeseries/compare/${metricId}/${analysisStart}/1499914800000/1499234400000/1499310000000?dimension=continent&filters={}&granularity=HOURS
+    redux.dispatch(Actions.loading());
     Ember.run.later(() => {
+      debugger;
       redux.dispatch(Actions.updateDimension(dimension)).then(() => {
+        debugger;
         redux.dispatch(Actions.fetchDimensions(metricId));
       });
     });
 
     return {};
+  },
+
+  actions: {
+    queryParamsDidChange(params) {
+      debugger;
+      this._super(...arguments);
+      return true;
+    //   const redux = this.get('redux');
+    //   const {
+    //     analysisStart,
+    //     analysisEnd,
+    //     dimension
+    //   } = params;
+
+    //   if (dimension) {
+    //     return true;
+    //   }
+
+
+    //   redux.dispatch(Actions.loading());
+    //   redux.dispatch(Actions.updateDimension());
+    //   return true;
+    }
   }
 });

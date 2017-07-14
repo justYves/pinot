@@ -37,11 +37,13 @@ export default Ember.Component.extend({
   metrics: null,
   showDetails: false,
   granularity: 'DAYS',
-  primaryMetric: null,
-  relatedMetrics: null,
+  primaryMetric: [],
+  relatedMetrics: [],
+  dimensions: {},
   start: null,
   end: null,
   loading: false,
+  // groupings: {},
 
   didUpdateAttrs(...args) {
     Ember.run.later(() => {
@@ -58,11 +60,6 @@ export default Ember.Component.extend({
     return GRANULARITY_MAPPING[granularity];
   }),
 
-  /**
-   * Derives dates from the primary metric
-   */
-  dates: Ember.computed.reads('primaryMetric.timeBucketsCurrent'),
-
   primaryMetricRows: Ember.computed('primaryMetric', function() {
     const metrics = this.get('primaryMetric');
 
@@ -74,6 +71,14 @@ export default Ember.Component.extend({
 
     return Ember.isArray(metrics) ? metrics : [metrics];
   }),
+
+  dimensionRows: Ember.computed('dimensions', function() {
+    const dimensions = this.get('dimensions');
+
+    return Object.keys(dimensions);
+  }),
+
+
 
   startIndex: Ember.computed('dates', 'start', function() {
     const dates = this.get('dates');
@@ -124,6 +129,7 @@ export default Ember.Component.extend({
       const endIndex = this.get('endIndex') || 0;
       const rows = this.get('primaryMetricRows');
 
+
       return filterRow(rows, startIndex, endIndex);
     }
   ),
@@ -137,7 +143,37 @@ export default Ember.Component.extend({
        const endIndex = this.get('endIndex') || 0;
        const rows = this.get('relatedMetricRows');
 
+
        return filterRow(rows, startIndex, endIndex);
+     }
+  ),
+
+  filteredDimensionRows: Ember.computed(
+    'startIndex',
+    'endIndex',
+    'dimensionRows',
+     function() {
+       const startIndex = this.get('startIndex') || 0;
+       const endIndex = this.get('endIndex') || 0;
+       const dimensions = this.get('dimensions');
+
+       if (!startIndex && !endIndex) {
+         return rows;
+       }
+
+
+       return Object.keys(dimensions).reduce((agg, key) => {
+         const dimensionsData = dimensions[key];
+         const data = Object.keys(dimensionsData).reduce((agg, key) => {
+           agg[key]= _.slice(dimensionsData[key], startIndex, endIndex);
+           return agg;
+         }, {});
+
+         agg[key] = Object.assign({}, data);
+         return agg;
+       }, {});
+
+      //  return filterRow(rows, startIndex, endIndex);
      }
   )
 });
