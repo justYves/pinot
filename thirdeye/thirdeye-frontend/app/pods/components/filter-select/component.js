@@ -109,12 +109,13 @@ export default Ember.Component.extend({
   triggerId: '',
   noMatchesMessage: '',
 
+  classNames: 'filter-select',
+
   // selected Filters JSON
   selected: {},
 
   // all Filters Object
   options: {},
-  triggerId: '',
 
   /**
    * Takes the filters and massage them for the power-select grouping api

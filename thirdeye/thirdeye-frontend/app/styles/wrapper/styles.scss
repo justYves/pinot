@@ -3,18 +3,18 @@
 
 body {
   font-size: 14px;
-  background-color: lighten($te-grey, 15%);
+  background-color: #F5F5F5;
   color: lighten(black, 40%);
 }
 
 .thirdeye-link {
   cursor: pointer;
-  color: #0084bf;
+  color: $te-blue-7;
   padding: 0 8px;
   text-decoration: none;
   &:hover,
   &:focus {
-    color: #0073b1;
+    color: $te-blue-7;
     text-decoration: none;
   }
 }
@@ -99,4 +99,17 @@ body {
     text-align: right;
     border-top: 2px app-shade(black, 2) dotted;
   }
+}
+
+.te-toggle {
+  margin-right: 14px;
+  // necessary to override the ember-toggle component
+  .x-toggle:checked + label > .x-toggle-ios.x-toggle-btn {
+    background-color: $te-blue-6;
+  }
+}
+
+.te-label {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.70)
 }

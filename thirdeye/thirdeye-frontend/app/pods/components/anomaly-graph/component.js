@@ -14,12 +14,12 @@ const COLOR_MAPPING = {
 export default Ember.Component.extend({
   init() {
     this._super(...arguments);
-    alert('init!' + this.get('componentId'));
+    // alert('init!' + this.get('componentId'));
   },
 
   didUpdateAttrs(){
     this._super(...arguments);
-    alert('attributes changed' + this.get('componentId'));
+    // alert('attributes changed' + this.get('componentId'));
     debugger;
   },
   /**
@@ -55,6 +55,10 @@ export default Ember.Component.extend({
 
   initStart: null,
   initEnd: null,
+
+  showEvents: false,
+  showDimensions: false,
+  showMetrics: false,
 
   primaryMetricId: Ember.computed('componentId', function() {
     return this.get('componentId') + '-primary-metric-';

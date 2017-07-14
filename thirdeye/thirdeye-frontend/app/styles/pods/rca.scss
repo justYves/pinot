@@ -21,7 +21,7 @@
 
 .paper-container {
   background-color: white;
-  border: 1px solid #CCC;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   margin-top: $te-spacing-lg;
   margin-bottom: $te-spacing-lg;
 }
@@ -31,10 +31,6 @@
 .paper-container__body,
 .paper-container__footer {
   padding: $te-spacing-lg;
-}
-
-.rca-summary { 
-  margin-top: $te-spacing-lg;
 }
 
 .rca-search-bar {
