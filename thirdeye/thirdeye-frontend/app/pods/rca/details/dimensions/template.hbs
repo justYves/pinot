@@ -30,7 +30,7 @@
       {{anomaly-graph
         componentId='correlated-dimensions'
         primaryMetric=primaryMetric.primaryMetric 
-        dimensions=dimensions.timeseries.subDimensionContributionMap
+        dimensions=dimensions.timeseries
         selectedDimensions=primaryMetric.selectedDimensions
         onSelection=(action actions.onSelection)
         showDimensions=true}}
@@ -60,7 +60,7 @@
                 {{ember-spinner}}
               </div>
             {{/if}}
-            {{contribution-table
+            {{!--{{contribution-table
               title="Primary Metric"
               granularity=dimensions.granularity
               dates=dimensions.timeseries.timeBucketsCurrent
@@ -69,7 +69,7 @@
               end=analysisEnd
               showDetails=(eq selectedTab "number")
               loading=(mut tableIsLoading)
-            }}
+            }}--}}
           {{/if}}
         </div>
       </div>
