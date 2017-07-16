@@ -252,7 +252,7 @@ function selectMetric(metric) {
     const { selectedMetricIds } = metrics;
     let updatedMetricIds = [];
 
-    if (selectedMetricIds.contains(metricId)) {
+    if (selectedMetricIds.includes(metricId)) {
       updatedMetricIds =  selectedMetricIds.filter((id) =>  (id !== metricId));
     } else {
       updatedMetricIds = [...selectedMetricIds, metric.metricId];

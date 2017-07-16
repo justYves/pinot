@@ -14,15 +14,22 @@ function select(store) {
 
   const {
     granularity
-
   } = store.primaryMetric;
+
+  const dimensionKeys = Object.keys(timeseries.subDimensionContributionMap || {});
 
   return {
     keys,
     loading,
     loaded,
     failed,
-    timeseries,
+    timeseries: dimensionKeys.map(key => {
+      const dimension = Object.assign({}, dimensionKeys[key], {name: key});
+
+      if (!dimension) { return;}
+      return dimension;
+    }),
+    dimensionKeys,
     granularity
   };
 }

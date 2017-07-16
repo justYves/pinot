@@ -219,13 +219,12 @@ function setSummary() {
 
 }
 
-function selectDimension(name, dimension) {
+function selectDimension(name) {
   return (dispatch, getState) => {
     debugger;
-    dispatch(setSelectedDimension({[name]: dimension}));
+    dispatch(setSelectedDimension(name));
   };
 }
-
 
 export const Actions = {
   loading,

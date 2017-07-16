@@ -35,24 +35,24 @@
       {{/if}}
 
       {{#if showDimensions}}
-        <h5 class="legend-title">Dimensions {{dimension.length}}
+        <h5 class="legend-title">Dimensions ({{dimensions.length}})
           <a class="pull-right legend-cta" {{action (toggle "isDimensionsHidden" this)}}>
             <i class="glyphicon {{if isDimensionsHidden "glyphicon-chevron-down" "glyphicon-chevron-up"}}"></i>
           </a>
         </h5>
         <ul class="anomaly-graph__filter-group {{if isDimensionsHidden "anomaly-graph__filter-group--hidden"}}">
-        {{#each-in dimensions as |key value|}}
+        {{#each dimensions as |dimension|}}
           <li class="anomaly-graph__filter-item">
             {{input
               type="checkbox"
-              id=(concat "dimension-" key)
-              click=(action "onSelection" key value)
+              id=(concat dimensionId dimension.name)
+              click=(action "onSelection" dimension.name)
               checked=false}}
-            <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{value.color}}" for="{{concat "dimension-" key}}" title={{key}}> {{key}} </label>
+            <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{dimension.color}}" for="{{concat dimensionId dimension.name}}" title={{dimension.name}}> {{dimension.name}} </label>
           </li>
         {{else}}
           No Dimensions.
-        {{/each-in}}
+        {{/each}}
         </ul>
       {{/if}}
 

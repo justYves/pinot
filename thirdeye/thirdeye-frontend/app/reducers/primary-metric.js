@@ -29,7 +29,7 @@ const INITIAL_STATE = {
 
   primaryMetricId: null,
   relatedMetricEntities: {},
-  selectedDimensions: {},
+  selectedDimensions: [],
   regions: {},
   currentStart: null,
   currentEnd: moment().subtract(1, 'week').valueOf(),
@@ -179,8 +179,15 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const { selectedDimensions } = state;
       const dimension = action.payload;
 
-      const newSelectedDimensions = Object.assign({}, selectedDimensions, dimension);
+      let newSelectedDimensions = [];
       debugger;
+
+      if (selectedDimensions.includes(dimension)) {
+        newSelectedDimensions =  selectedDimensions.filter((elem) =>  (elem !== dimension));
+      } else {
+        newSelectedDimensions = [...selectedDimensions, dimension];
+      }
+
       return Object.assign(state, {
         selectedDimensions: newSelectedDimensions
       });

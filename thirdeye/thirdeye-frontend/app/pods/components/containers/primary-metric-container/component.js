@@ -26,8 +26,14 @@ function select(store) {
     relatedMetricEntities
   } = store.metrics;
 
+  const {
+    timeseries
+  } = store.dimensions;
+
   // to do fix region and put this in reducer
   const uiRelatedMetric = _.merge(metricData, regions);
+
+  debugger;
 
   return {
     loading,
@@ -39,7 +45,14 @@ function select(store) {
     currentEnd,
     graphStart,
     graphEnd,
-    selectedDimensions,
+    selectedDimensions: selectedDimensions
+      .map(key => {
+        return Object.assign(
+          {name: key},
+          timeseries.subDimensionContributionMap[key],
+        );
+      })
+      .filter(dimension => dimension),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     selectedMetrics: selectedMetricIds
       .map(id => relatedMetricEntities[id])
@@ -62,9 +75,9 @@ function actions(dispatch) {
       return task.perform(dates);
     },
 
-    onSelection(name, dimension) {
+    onSelection(name) {
       debugger;
-      dispatch(Actions.selectDimension(name, dimension));
+      dispatch(Actions.selectDimension(name));
     }
   };
 }

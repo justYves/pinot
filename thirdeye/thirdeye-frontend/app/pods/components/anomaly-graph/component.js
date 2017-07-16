@@ -74,6 +74,11 @@ export default Ember.Component.extend({
     return this.get('componentId') + '-related-metric-';
   }),
 
+  dimensionId:  Ember.computed('componentId', function() {
+    return this.get('componentId') + '-dimension-';
+  }),
+
+
   /**
    * Graph Legend config
    */
