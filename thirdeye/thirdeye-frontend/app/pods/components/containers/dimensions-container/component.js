@@ -14,6 +14,7 @@ function select(store) {
 
   const {
     granularity
+
   } = store.primaryMetric;
 
   return {
@@ -28,15 +29,6 @@ function select(store) {
 
 function actions(dispatch) {
   return {
-    loading() {
-      dispatch(Actions.loading());
-    },
-    load() {
-      dispatch(Actions.load());
-    },
-    fail() {
-      dispatch(Actions.requestFail());
-    }
   };
 }
 

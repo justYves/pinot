@@ -1,6 +1,5 @@
-  
- <section class="paper-container__body">
-  {{#containers/dimensions-container as |dimensions actions|}}
+  <section class="paper-container__body">
+  {{#containers/dimensions-container as |dimensions|}}
     <div class="row">
       <div class="col-xs-9">
         <h3 class="te-sub-title te-sub-title--flush">Dimensions Analysis</h3>
@@ -24,8 +23,22 @@
         {{ember-spinner}}
       </div>
     {{/if}}
-    {{#if dimensions.loaded}}
+  {{!--{{/containers/dimensions-container}} --}}
 
+  {{#containers/primary-metric-container as |primaryMetric actions|}}
+    {{#if primaryMetric.loaded}}
+      {{anomaly-graph
+        componentId='correlated-dimensions'
+        primaryMetric=primaryMetric.primaryMetric 
+        dimensions=dimensions.timeseries.subDimensionContributionMap
+        selectedDimensions=primaryMetric.selectedDimensions
+        onSelection=(action actions.onSelection)
+        showDimensions=true}}
+    {{/if}}
+  {{/containers/primary-metric-container}}
+
+  {{!--{{#containers/dimensions-container as |dimensions actions|}}--}}
+    {{#if dimensions.loaded}}
       <div class="contribution-table">
         <div class="contribution-table__header">
           <div class="contribution-table__subnav">
@@ -34,23 +47,30 @@
           <div class="contribution-table__subnav">
             <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
           </div>
+          <div class="contribution-table__subnav">
+            <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "details") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "details"}}>Details</a>
+          </div>
         </div>
         <div class="contribution-table__body">
-          {{#if loading}}
-            <div class="spinner-wrapper spinner-wrapper--absolute">
-              {{ember-spinner}}
-            </div>
+          {{#if (eq selectedTab "details")}}
+            heatmap here
+          {{else}}
+            {{#if loading}}
+              <div class="spinner-wrapper spinner-wrapper--absolute">
+                {{ember-spinner}}
+              </div>
+            {{/if}}
+            {{contribution-table
+              title="Primary Metric"
+              granularity=dimensions.granularity
+              dates=dimensions.timeseries.timeBucketsCurrent
+              dimensions=dimensions.timeseries.subDimensionContributionMap
+              start=analysisStart
+              end=analysisEnd
+              showDetails=(eq selectedTab "number")
+              loading=(mut tableIsLoading)
+            }}
           {{/if}}
-          {{contribution-table
-            title="Primary Metric"
-            granularity=dimensions.granularity
-            dates=dimensions.timeseries.timeBucketsCurrent
-            dimensions=dimensions.timeseries.subDimensionContributionMap
-            start=analysisStart
-            end=analysisEnd
-            showDetails=(eq selectedTab "number")
-            loading=(mut tableIsLoading)
-          }}
         </div>
       </div>
 

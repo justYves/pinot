@@ -42,7 +42,7 @@
             showMetrics=true
             onSelection=(action actions.onSelection)
           }}
-          {{#each metricList.relatedMetrics as |metric|}}
+          {{#each metricList.selectedMetrics as |metric|}}
             {{anomaly-graph
               componentId='correlated-metrics'
               primaryMetric=metric
@@ -55,6 +55,7 @@
             componentId='correlated-metrics'
             primaryMetric=metricList.primaryMetric
             relatedMetrics=metricList.relatedMetrics
+            selectedMetrics=metricList.selectedMetrics
             showMetrics=true
             onSelection=(action actions.onSelection)
             onSubchartChange=(action "onDateChange")
@@ -89,7 +90,7 @@
                 primaryMetric=metricList.primaryMetric
                 start=analysisStart
                 end=analysisEnd
-                relatedMetrics=metricList.relatedMetrics
+                relatedMetrics=metricList.selectedMetrics
                 showDetails=(eq selectedTab "number")
                 loading=(mut loading)
                 groupings=(hash

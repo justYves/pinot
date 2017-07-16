@@ -10,10 +10,16 @@ function select(store) {
     events
   } = store.events;
 
+  const {
+    primaryMetricId,
+    relatedMetricEntities
+  } = store.primaryMetric;
+
   return {
     loading,
     loaded,
-    events
+    events,
+    primaryMetric: relatedMetricEntities[primaryMetricId]
   };
 }
 

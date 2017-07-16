@@ -6,10 +6,10 @@ export default Ember.Controller.extend({
   detailsController: Ember.inject.controller('rca/details'),
   splitView: false,
   selectedTab: 'change',
-  contributionTableMode: 'change',
 
   mostRecentTask: null,
   loading: false,
+  splitViewLoading: false,
 
   dateChangeTask: task(function* ([start, end]) {
     yield timeout(600);
@@ -27,13 +27,6 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
-    /**
-     * Toggles the split View for multimetric graphs
-     */
-    onSplitViewToggling() {
-      this.toggleProperty('splitView');
-    },
-
     onDateChange(date) {
       const mostRecentTask = this.get('mostRecentTask');
       mostRecentTask && mostRecentTask.cancel();

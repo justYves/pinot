@@ -13,7 +13,8 @@ export const ActionTypes = {
   LOAD_REGIONS: type('[Primary Metric] Load Primary Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Primary Metric] Load Primary Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Primary Metric] Update Compare Mode'),
-  UPDATE_DATES: type('[Primary Metric] Update Date')
+  UPDATE_DATES: type('[Primary Metric] Update Date'),
+  SELECT_DIMENSION: type('[Metric] Set Selected Dimension')
 };
 
 // Todo: move this in a constant.js file
@@ -70,6 +71,15 @@ function updateDates(response) {
     payload: response
   };
 }
+
+function setSelectedDimension(response) {
+  debugger;
+  return {
+    type: ActionTypes.SELECT_DIMENSION,
+    payload: response
+  };
+}
+
 
 /**
  * Initialize store with metric data from query params
@@ -199,6 +209,24 @@ function selectMetric(...args) {
   };
 }
 
+function fetchSummaryData() {
+  return (dispatch, getState) => {
+    dispatch(updateMetricDate(startDate, endDate));
+  };
+}
+
+function setSummary() {
+
+}
+
+function selectDimension(name, dimension) {
+  return (dispatch, getState) => {
+    debugger;
+    dispatch(setSelectedDimension({[name]: dimension}));
+  };
+}
+
+
 export const Actions = {
   loading,
   requestFail,
@@ -208,6 +236,7 @@ export const Actions = {
   updateCompareMode,
   updateMetricDate,
   updateAnalysisDates,
-  selectMetric
+  selectMetric,
+  selectDimension
 };
 

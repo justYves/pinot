@@ -26,6 +26,7 @@ const INITIAL_STATE = {
    */
   relatedMetricIds: [],
 
+  selectedMetricIds: [],
   primaryMetricId: null,
   relatedMetricEntities: {},
   regions: {},
@@ -129,6 +130,14 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         loading: true,
         loaded: false,
         failed: false
+      });
+    }
+
+    case ActionTypes.SELECT_METRIC: {
+      const { selectedMetricIds } = action.payload;
+
+      return Object.assign(state, {
+        selectedMetricIds
       });
     }
   }

@@ -1,14 +1,7 @@
 import { type } from './utils';
 import fetch from 'fetch';
 import moment from 'moment';
-
-const COMPARE_MODE_MAPPING = {
-  WoW: 1,
-  Wo2W: 2,
-  Wo3W: 3,
-  Wo4W: 4
-};
-
+import { COMPARE_MODE_MAPPING } from './constants';
 
 /**
  * Define the anomaly action types
