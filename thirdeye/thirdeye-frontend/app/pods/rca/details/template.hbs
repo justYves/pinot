@@ -61,12 +61,18 @@
                 classNames='anomaly-graph--no-border'
                 primaryMetric=primaryMetric.primaryMetric 
                 showGraphLegend=true
+                showEvents=true
+                showMetrics=true
+                showDimensions=true
                 onSubchartChange=(action (queue
                   (action "setDateParams")
                   (action actions.onDateChange))
                 )
                 subchartStart=primaryMetric.graphStart
                 subchartEnd=primaryMetric.graphEnd
+                relatedMetrics=primaryMetric.selectedMetrics
+                selectedMetrics=primaryMetric.selectedMetrics
+                selectedDimensions=primaryMetric.selectedDimensions
               }}
             {{/if}}
             {{!--<a {{action actions.onDateChange}}> dispatch </a>--}}

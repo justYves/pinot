@@ -9,7 +9,7 @@ function select(store) {
     loading,
     loaded,
     failed,
-    relatedMetricEntities = {},
+    relatedMetricEntities: metricData = {},
     regions,
     primaryMetricId,
     compareMode,
@@ -17,11 +17,17 @@ function select(store) {
     currentStart,
     currentEnd,
     graphStart,
-    graphEnd
+    graphEnd,
+    selectedDimensions
   } = store.primaryMetric;
 
+  const {
+    selectedMetricIds = [],
+    relatedMetricEntities
+  } = store.metrics;
+
   // to do fix region and put this in reducer
-  const uiRelatedMetric = _.merge(relatedMetricEntities, regions);
+  const uiRelatedMetric = _.merge(metricData, regions);
 
   return {
     loading,
@@ -33,7 +39,10 @@ function select(store) {
     currentEnd,
     graphStart,
     graphEnd,
-    primaryMetric: uiRelatedMetric[primaryMetricId]
+    selectedDimensions,
+    primaryMetric: uiRelatedMetric[primaryMetricId],
+    selectedMetrics: selectedMetricIds
+      .map(id => relatedMetricEntities[id])
   };
 }
 
@@ -51,6 +60,11 @@ function actions(dispatch) {
       const task = this.get('actions.dateChangeTask');
 
       return task.perform(dates);
+    },
+
+    onSelection(name, dimension) {
+      debugger;
+      dispatch(Actions.selectDimension(name, dimension));
     }
   };
 }

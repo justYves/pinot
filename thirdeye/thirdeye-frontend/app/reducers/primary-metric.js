@@ -29,6 +29,7 @@ const INITIAL_STATE = {
 
   primaryMetricId: null,
   relatedMetricEntities: {},
+  selectedDimensions: {},
   regions: {},
   currentStart: null,
   currentEnd: moment().subtract(1, 'week').valueOf(),
@@ -171,6 +172,17 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         currentEnd,
         analysisStart,
         analysisEnd
+      });
+    }
+
+    case ActionTypes.SELECT_DIMENSION: {
+      const { selectedDimensions } = state;
+      const dimension = action.payload;
+
+      const newSelectedDimensions = Object.assign({}, selectedDimensions, dimension);
+      debugger;
+      return Object.assign(state, {
+        selectedDimensions: newSelectedDimensions
       });
     }
   }

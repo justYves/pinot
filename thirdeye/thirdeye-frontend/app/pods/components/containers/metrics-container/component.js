@@ -5,37 +5,6 @@ import { Actions as Actions } from 'thirdeye-frontend/actions/primary-metric';
 import { task, timeout } from 'ember-concurrency';
 import _ from 'lodash';
 
-const colors = [
-  'orange',
-  'teal',
-  'purple',
-  'red',
-  'green',
-  'pink'
-];
-/**
- * Assigns colors to metric in the front end
- * @param {Object} elem metric
- * @param {Number} index
- */
-const assignColor = (elem, index) => {
-  elem.color = colors[index % colors.length];
-  return elem;
-};
-
-/**
- * Determines if a metric should be filtered out
- * @param {Object} metric
- * @returns {Boolean}
- */
-const filterMetric = (metric) => {
-  return metric
-  && metric.subDimensionContributionMap['All'].currentValues
-  && metric.subDimensionContributionMap['All'].currentValues.reduce((total, val) => {
-    return total + val;
-  }, 0);
-};
-
 function select(store) {
   const {
     loading,
@@ -43,6 +12,7 @@ function select(store) {
     failed,
     relatedMetricEntities = {},
     relatedMetricIds,
+    selectedMetricIds,
     regions,
     primaryMetricId,
     compareMode,
@@ -60,11 +30,10 @@ function select(store) {
     failed,
     compareMode,
     granularity,
+    selectedMetrics: selectedMetricIds.map(id => uiRelatedMetric[id]),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds
       .map(id => uiRelatedMetric[id])
-      .filter(filterMetric)
-      .map(assignColor)
   };
 }
 
@@ -72,8 +41,8 @@ function select(store) {
 function actions(dispatch) {
 
   return {
-    onSelection() {
-      dispatch(Actions.selectMetric(...arguments));
+    onSelection(metric) {
+      dispatch(metricActions.selectMetric(metric));
     }
   };
 }

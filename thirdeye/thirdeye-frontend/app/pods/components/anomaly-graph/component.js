@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     // alert('init!' + this.get('componentId'));
   },
 
-  didUpdateAttrs(){
+  didUpdateAttrs() {
     this._super(...arguments);
     // alert('attributes changed' + this.get('componentId'));
     debugger;
@@ -31,8 +31,9 @@ export default Ember.Component.extend({
 
     const colors = {};
     const primaryMetric = this.get('primaryMetric');
-    const relatedMetric = this.get('relatedMetrics');
-    const metrics = [primaryMetric, ...relatedMetric];
+    const relatedMetric = this.get('relatedMetrics') || [];
+    const selectedMetrics = this.get('selectedMetrics') || [];
+    const metrics = [primaryMetric, ...relatedMetric, ...selectedMetrics];
     metrics.forEach((metric) => {
       const name = metric.metricName;
       const color = metric.color || 'blue';
@@ -46,6 +47,11 @@ export default Ember.Component.extend({
   classNames: ['anomaly-graph'],
   primaryMetric: {},
   relatedMetrics: [],
+  selectedMetrics: [],
+  dimensions: {},
+  selectedDimensions: {},
+
+  showGraphLegend: true,
   colors: {},
   showSubChart: false,
   subchartStart: null,
@@ -105,6 +111,17 @@ export default Ember.Component.extend({
     }
   ),
 
+  //events points
+  //   point: Ember.computed(
+  //   'showGraphLegend',
+  //   function() {
+  //     return {
+  //       show: true,
+  //       r: 10
+  //     };
+  //   }
+  // ),
+
   /**
    * Graph axis config
    */
@@ -113,6 +130,8 @@ export default Ember.Component.extend({
     'primaryMetric',
     'subchartStart',
     'subchartEnd',
+    'minDate',
+    'maxDate',
     function() {
       const dates = this.get('primaryMetric.timeBucketsCurrent');
       const subchartStart = this.get('subchartStart');
@@ -138,6 +157,8 @@ export default Ember.Component.extend({
         x: {
           type: 'timeseries',
           show: true,
+          min: this.get('minDate'),
+          max: this.get('maxDate'),
           tick: {
             fit: false
             // format: function (x) { return new Date(x).toString(); }
@@ -186,7 +207,6 @@ export default Ember.Component.extend({
    */
   primaryMetricColumn: Ember.computed(
     'primaryMetric',
-    'primaryMetric.isSelected',
     function() {
       const primaryMetric = this.get('primaryMetric');
 
@@ -201,24 +221,41 @@ export default Ember.Component.extend({
   /**
    * Data massages relatedMetrics into Columns
    */
-  relatedMetricsColumn: Ember.computed(
-    'relatedMetrics',
-    'relatedMetrics.@each.isSelected',
+  selectedMetricsColumn: Ember.computed(
+    'selectedMetrics',
+    'selectedMetrics.@each',
     function() {
       const columns = [];
-      const relatedMetrics = this.get('relatedMetrics') || [];
+      const selectedMetrics = this.get('selectedMetrics') || [];
 
-      relatedMetrics
-        .filterBy('isSelected')
-        .forEach((metric)  => {
-          if (!metric) { return; }
-          const { baselineValues, currentValues } = metric.subDimensionContributionMap['All'];
-          columns.push([`${metric.metricName}-current`, ...currentValues]);
-          columns.push([`${metric.metricName}-baseline`, ...baselineValues]);
-        });
+      selectedMetrics.forEach((metric)  => {
+        if (!metric) { return; }
+        const { baselineValues, currentValues } = metric.subDimensionContributionMap['All'];
+        columns.push([`${metric.metricName}-current`, ...currentValues]);
+        columns.push([`${metric.metricName}-baseline`, ...baselineValues]);
+      });
       return columns;
     }
   ),
+
+  selectedDimensionsColumn: Ember.computed(
+    'selectedDimensions',
+    function() {
+      const columns = [];
+      const selectedDimensions = this.get('selectedDimensions') || {};
+
+      debugger;
+
+      Object.keys(selectedDimensions).forEach((key) => {
+        debugger;
+        const { baselineValues, currentValues } = selectedDimensions[key];
+        columns.push([`${key}-current`, ...currentValues]);
+        columns.push([`${key}-baseline`, ...baselineValues]);
+      });
+      return columns;
+    }
+  ),
+
 
   /**
    * Derives x axis from the primary metric
@@ -235,7 +272,8 @@ export default Ember.Component.extend({
    */
   data: Ember.computed(
     'primaryMetricColumn',
-    'relatedMetricsColumn',
+    'selectedMetricsColumn',
+    'selectedDimensionsColumn',
     'chartDates',
     'colors',
     function() {
@@ -243,7 +281,8 @@ export default Ember.Component.extend({
         columns: [
           this.get('chartDates'),
           ...this.get('primaryMetricColumn'),
-          ...this.get('relatedMetricsColumn')
+          ...this.get('selectedMetricsColumn'),
+          ...this.get('selectedDimensionsColumn')
         ],
         type: 'line',
         x: 'date',
@@ -282,14 +321,16 @@ export default Ember.Component.extend({
    * and assigns color class
    */
   relatedRegions: Ember.computed(
-    'relatedMetrics',
-    'relatedMetrics.@each.isSelected',
+    'selectedMetrics',
+    'selectedMetrics.@each',
     function() {
-      const relatedMetrics = this.get('relatedMetrics');
+      const selectedMetrics = this.get('selectedMetrics') || [];
+      debugger;
       const regions = [];
-      relatedMetrics
-      .filterBy('isSelected')
-      .forEach((metric)=> {
+      selectedMetrics.forEach((metric)=> {
+
+        if (!metric.regions) { return; }
+
         const metricRegions = metric.regions.map((region) => {
           return {
             axis: 'x',
@@ -303,6 +344,7 @@ export default Ember.Component.extend({
         });
         regions.push(...metricRegions);
       });
+
       return regions;
     }
   ),

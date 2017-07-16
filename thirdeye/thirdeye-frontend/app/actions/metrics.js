@@ -2,6 +2,7 @@ import { type } from './utils';
 import fetch from 'fetch';
 import Ember from 'ember';
 import moment from 'moment';
+import _ from 'lodash';
 /**
  * Define the metric action types
  */
@@ -13,7 +14,8 @@ export const ActionTypes = {
   LOAD_REGIONS: type('[Metric] Load Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Metric] Load Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Metric] Update Compare Mode'),
-  UPDATE_DATE: type('[Metric] Update Date')
+  UPDATE_DATE: type('[Metric] Update Date'),
+  SELECT_METRIC: type('[Metric] Set Selected Metric')
 };
 
 // Todo: move this in a constant.js file
@@ -24,9 +26,39 @@ const COMPARE_MODE_MAPPING = {
   Wo4W: 4
 };
 
+// to maintain consistent coloring throughout the app
+const colors = [
+  'orange',
+  'teal',
+  'purple',
+  'red',
+  'green',
+  'pink'
+];
+
+/**
+ * Determines if a metric should be filtered out
+ * @param {Object} metric
+ * @returns {Boolean}
+ */
+const filterMetric = (metric) => {
+  return metric
+  && metric.subDimensionContributionMap['All'].currentValues
+  && metric.subDimensionContributionMap['All'].currentValues.reduce((total, val) => {
+    return total + val;
+  }, 0);
+};
+
 function loading() {
   return {
     type: ActionTypes.LOADING
+  };
+}
+
+function setSelectedMetric(metric) {
+  return {
+    type: ActionTypes.SELECT_METRIC,
+    payload: metric
   };
 }
 
@@ -44,7 +76,6 @@ function loadRelatedMetricIds(response) {
 }
 
 function loadRelatedMetricsData(response) {
-  debugger;
   return {
     type: ActionTypes.LOAD_DATA,
     payload: response
@@ -161,9 +192,6 @@ function fetchRelatedMetricData() {
       compareMode
     } = store.metrics;
 
-    debugger;
-
-
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
     const metricIds = [primaryMetricId, ...relatedMetricIds];
     const baselineStart = moment(currentStart).subtract(offset, 'week').valueOf();
@@ -177,9 +205,14 @@ function fetchRelatedMetricData() {
       return hash;
     }, {});
 
-    debugger;
-
     return Ember.RSVP.hash(promiseHash)
+      .then((metrics) => {
+        const filteredMetrics = _.pickBy(metrics, filterMetric);
+        metricIds.forEach((id, index) => {
+          filteredMetrics[id].color = colors[index % colors.length];
+        });
+        return filteredMetrics;
+      })
       .then(res => dispatch(loadRelatedMetricsData(res)));
   };
 }
@@ -207,11 +240,27 @@ function updateMetricDate(startDate, endDate) {
       }));
 
       return Promise.resolve();
-
-      // return dispatch(fetchRegions()).then(() => {
-      //   return dispatch(fetchRelatedMetricData());
-      // });
     }
+  };
+}
+
+function selectMetric(metric) {
+  return (dispatch, getState) => {
+    const { metrics } = getState();
+    const { metricId } = metric;
+
+    const { selectedMetricIds } = metrics;
+    let updatedMetricIds = [];
+
+    if (selectedMetricIds.contains(metricId)) {
+      updatedMetricIds =  selectedMetricIds.filter((id) =>  (id !== metricId));
+    } else {
+      updatedMetricIds = [...selectedMetricIds, metric.metricId];
+    }
+
+    dispatch(setSelectedMetric({
+      selectedMetricIds: updatedMetricIds
+    }));
   };
 }
 
@@ -223,6 +272,7 @@ export const Actions = {
   fetchRegions,
   setPrimaryMetric,
   updateCompareMode,
-  updateMetricDate
+  updateMetricDate,
+  selectMetric
 };
 

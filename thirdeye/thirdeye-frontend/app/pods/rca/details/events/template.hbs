@@ -9,6 +9,17 @@
       </div>
     {{/if}}
     {{#if events.loaded}}
+
+        {{anomaly-graph
+          componentId='correlated-events'
+          primaryMetric=events.primaryMetric
+          showEvents=true
+        }}
+          {{!--relatedMetrics=metricList.relatedMetrics
+          selectedMetrics=metricList.selectedMetrics--}}
+
+                  {{!--onSelection=(action actions.onSelection)--}}
+          {{!--onSubchartChange=(action "onDateChange")--}}
       {{events-table
         events=events.data
       }}
