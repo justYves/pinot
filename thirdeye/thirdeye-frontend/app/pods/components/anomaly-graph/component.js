@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import _ from 'lodash';
+
 const d3 = window.d3;
 
 //Todo: move this into a constants.js file
@@ -68,6 +70,7 @@ export default Ember.Component.extend({
   showEvents: false,
   showDimensions: false,
   showMetrics: false,
+  events: [],
 
   primaryMetricId: Ember.computed('componentId', function() {
     return this.get('componentId') + '-primary-metric-';
@@ -81,6 +84,33 @@ export default Ember.Component.extend({
     return this.get('componentId') + '-dimension-';
   }),
 
+  holidayEvents: Ember.computed('events', function() {
+    const events = this.get('events');
+
+    return events.filterBy('eventType', 'holiday');
+  }),
+
+  holidayEventsColumn: Ember.computed(
+    'holidayEvents',
+    function() {
+      const holidays = this.get('holidayEvents');
+
+      return holidays.map((holiday) => {
+        return [holiday.label, holiday.score, holiday.score];
+      });
+    }
+  ),
+
+  holidayEventsDatesColumn: Ember.computed(
+    'holidayEvents',
+    function() {
+      const holidays = this.get('holidayEvents');
+
+      return holidays.map((holiday) => {
+        return [`${holiday.label}-date`, holiday.start, holiday.end];
+      });
+    }
+  ),
 
   /**
    * Graph Legend config
@@ -111,7 +141,16 @@ export default Ember.Component.extend({
     'showGraphLegend',
     function() {
       return {
-        show: false
+        show: true,
+        r: function(data) {
+          const { id } = data;
+          if (id.includes('current') || id.includes('baseline')) {
+            return 0;
+          }
+          data.id.includes('current');
+
+          return 5;
+        }
       };
     }
   ),
@@ -135,6 +174,7 @@ export default Ember.Component.extend({
     'primaryMetric',
     'subchartStart',
     'subchartEnd',
+    'showEvents',
     'minDate',
     'maxDate',
     function() {
@@ -158,6 +198,10 @@ export default Ember.Component.extend({
           tick: {
             format: d3.format("2s")
           }
+        },
+        y2: {
+          show: this.get('showEvents'),
+          label: 'events score'
         },
         x: {
           type: 'timeseries',
@@ -249,10 +293,7 @@ export default Ember.Component.extend({
       const columns = [];
       const selectedDimensions = this.get('selectedDimensions') || {};
 
-      debugger;
-
       Object.keys(selectedDimensions).forEach((key) => {
-        debugger;
         const { baselineValues, currentValues } = selectedDimensions[key];
         columns.push([`${key}-current`, ...currentValues]);
         columns.push([`${key}-baseline`, ...baselineValues]);
@@ -260,8 +301,6 @@ export default Ember.Component.extend({
       return columns;
     }
   ),
-
-
   /**
    * Derives x axis from the primary metric
    */
@@ -279,18 +318,65 @@ export default Ember.Component.extend({
     'primaryMetricColumn',
     'selectedMetricsColumn',
     'selectedDimensionsColumn',
+    'holidayEventsColumn',
+    'holidayEventsDatesColumn',
     'chartDates',
     'colors',
     function() {
+      const {
+        primaryMetricColumn,
+        selectedMetricsColumn,
+        selectedDimensionsColumn,
+        holidayEventsColumn,
+        holidayEventsDatesColumn
+      } = this.getProperties(
+        'primaryMetricColumn',
+        'selectedMetricsColumn',
+        'selectedDimensionsColumn',
+        'holidayEventsDatesColumn',
+        'holidayEventsColumn');
+
+      const columns = [
+        ...primaryMetricColumn,
+        ...selectedMetricsColumn,
+        ...selectedDimensionsColumn
+      ];
+
+      const holidayAxis = holidayEventsColumn
+        .map(column => column[0])
+        .reduce((hash, columnName) => {
+          hash[columnName] = `${columnName}-date`;
+
+          return hash;
+        }, {});
+
+      const holidayAxes = holidayEventsColumn
+        .map(column => column[0])
+        .reduce((hash, columnName) => {
+          hash[columnName] = 'y2';
+
+          return hash;
+        }, {});
+
+      const xAxis = columns
+        .map(column => column[0])
+        .reduce((hash, columnName) => {
+          hash[columnName] = 'date';
+
+          return hash;
+        }, {});
+
       return {
+        xs: Object.assign({}, xAxis, holidayAxis),
+        axes: Object.assign({ y2: 'y2'}, holidayAxes),
         columns: [
           this.get('chartDates'),
-          ...this.get('primaryMetricColumn'),
-          ...this.get('selectedMetricsColumn'),
-          ...this.get('selectedDimensionsColumn')
+          ...holidayEventsColumn,
+          ...holidayEventsDatesColumn,
+          ...columns
         ],
         type: 'line',
-        x: 'date',
+        // x: 'date',
         xFormat: '%Y-%m-%d %H:%M',
         colors: this.get('colors')
       };

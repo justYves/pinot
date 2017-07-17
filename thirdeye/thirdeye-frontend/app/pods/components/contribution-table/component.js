@@ -43,7 +43,6 @@ export default Ember.Component.extend({
   start: null,
   end: null,
   loading: false,
-  // groupings: {},
 
   didUpdateAttrs(...args) {
     Ember.run.later(() => {
