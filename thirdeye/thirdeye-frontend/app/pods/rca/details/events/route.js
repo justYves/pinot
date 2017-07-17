@@ -18,41 +18,61 @@ export default Ember.Route.extend({
 
     if (!metricId) { return; }
 
-    debugger;
-
-
     redux.dispatch(Actions.fetchEvents(Number(start), Number(end)));
     return {};
 
   },
+
+
+  // setupController: function(controller, model) {
+  //   this._super(controller, model);
+
+
+  //   controller.set('model', this.modelFor('rca.details'));
+  // },
+
   actions: {
-    // queryParamsDidChange(changedParams, oldParams) {
-    //   this._super(...arguments);
+    queryParamsDidChange(changedParams, oldParams) {
 
-    //   if (!(changedParams.analysisStart
-    //     || changedParams.analysisEnd
-    //     || changedParams.compareMode)) {
-    //     return true;
-    //   }
+      const redux = this.get('redux');
+      const {
+        analysisStart: start,
+        analysisEnd: end
+      } = changedParams;
+      const params = Object.keys(changedParams || {});
 
-    //   const redux = this.get('redux');
-    //   const {
-    //     analysisStart: start,
-    //     analysisEnd: end,
-    //     compareMode
-    //   } = Object.assign(oldParams, changedParams);
 
-    //   if (!(start && end && compareMode)) {
-    //     return true;
-    //   }
-    //   redux.dispatch(Actions.updateDates(
-    //     Number(start),
-    //     Number(end),
-    //     compareMode
-    //   ));
+      debugger;
 
-    //   // bubbling up
-    //   return true;
-    // }
+      if (params.length === 2 && start && end) {
+        Ember.run.later(() => {
+          redux.dispatch(Actions.updateDates(
+            Number(start),
+            Number(end)
+          ));
+        });
+      }
+      this._super(...arguments);
+
+      // if (!(changedParams.analysisStart
+      //   || changedParams.analysisEnd
+      //   || changedParams.compareMode)) {
+      //   return true;
+      // }
+
+      // const {
+      //   analysisStart: start,
+      //   analysisEnd: end,
+      //   compareMode
+      // } = Object.assign(oldParams, changedParams);
+
+      // if (!(start && end && compareMode)) {
+      //   return true;
+      // }
+
+
+      // bubbling up
+      return true;
+    }
   }
 });

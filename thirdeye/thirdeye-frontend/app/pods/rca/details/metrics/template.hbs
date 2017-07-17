@@ -48,7 +48,9 @@
               primaryMetric=metric
               showMetrics=true
               onSelection=(action actions.onSelection)
+              onSubchartChange=(action "onDateChange")
               showGraphLegend=false}}
+              
           {{/each}}
         {{else}}
           {{anomaly-graph

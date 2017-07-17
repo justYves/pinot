@@ -76,8 +76,12 @@ function fetchEvents(start, end, mode) {
   };
 }
 
-function updateDates(start, end, compareMode = 'WoW') {
+function updateDates(start, end, compareMode) {
   return (dispatch, getState) => {
+
+    const { primaryMetric } = getState();
+    compareMode = compareMode || primaryMetric.compareMode;
+
     return dispatch(fetchEvents(start, end, compareMode));
   };
 }

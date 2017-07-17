@@ -43,6 +43,7 @@ function load(response, metricId) {
 }
 
 function requestFail() {
+  debugger;
   return {
     type: ActionTypes.REQUEST_FAIL
   };
@@ -60,13 +61,12 @@ function fetchDimensions(metricId) {
       return {};
     }
 
-    dispatch(loading());
     // TODO: save url in an API folder
     // need to have a new endpoint with just the anomaly details
     return fetch(`/data/autocomplete/dimensions/metric/${metricId}`)
       .then(res => res.json())
       .then(res => dispatch(load(res, metricId)))
-      .catch(() => dispatch(requestFail()));
+      .catch((res) => dispatch(requestFail(res)));
   };
 }
 
@@ -76,8 +76,8 @@ function updateDimension(newDimension) {
     const {
       granularity,
       compareMode,
-      analysisStart,
-      analysisEnd,
+      currentStart: analysisStart,
+      currentEnd: analysisEnd,
       primaryMetricId
     } = primaryMetric;
 

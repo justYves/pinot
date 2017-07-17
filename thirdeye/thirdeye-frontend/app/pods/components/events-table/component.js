@@ -4,11 +4,14 @@ export default Ember.Component.extend({
   events: [],
   selectedTab: 'all',
 
+  start: null,
+  end: null,
+
   filteredEvents: Ember.computed(
-    'events.@each.type',
+    'eventsInRange.@each.type',
     'selectedTab',
     function() {
-      const events = this.get('events');
+      const events = this.get('eventsInRange');
       const selectedTab = this.get('selectedTab');
 
       if (selectedTab === 'all') { return events; }
@@ -17,6 +20,25 @@ export default Ember.Component.extend({
         .sortBy('score');
     }
   ),
+
+  eventsInRange: Ember.computed(
+    'events',
+    'start',
+    'end',
+    function() {
+      const events = this.get('events');
+      const start = this.get('start');
+      const end = this.get('end');
+
+      if (!(start && end)) { return events; }
+
+      return events.filter((event) => {
+        return (event.end && ((event.end > start) && (event.end < end)))
+          || ((event.start < end) && (event.start > start));
+      });
+    }
+  ),
+
 
   didUpdateAttrs(...args) {
     Ember.run.later(() => {

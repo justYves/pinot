@@ -52,19 +52,20 @@ export default Ember.Controller.extend({
           endDate: currentEnd
         } = this.getProperties('startDate', 'endDate');
 
-      this.setProperties({
-        analysisStart,
-        analysisEnd
-      });
-
       if (analysisStart < currentStart) {
         const newStartDate = +currentStart - (currentEnd - currentStart);
-        debugger;
-        this.set('startDate', newStartDate);
-      } else {
-        this.send('refreshModel');
-      }
 
+        this.setProperties({
+          startDate: newStartDate,
+          analysisStart,
+          analysisEnd
+        });
+      } else {
+        this.setProperties({
+          analysisStart,
+          analysisEnd
+        });
+      }
     },
 
     setDateParams([start, end]) {
