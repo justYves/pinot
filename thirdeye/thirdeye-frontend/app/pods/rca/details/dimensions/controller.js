@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 export default Ember.Controller.extend({
   queryParams: ['dimension'],
@@ -8,7 +9,26 @@ export default Ember.Controller.extend({
   splitView: false,
   selectedTab: 'change',
 
+  dimensionsStart: null,
+  dimensionsEnd: null,
+
+
   actions: {
+    setNewDate({ start, end }) {
+      const dimensionsStart = moment(start).valueOf();
+      const dimensionsEnd = moment(end).valueOf();
+
+      this.setProperties({
+        dimensionsStart,
+        dimensionsEnd
+      });
+
+    },
+
+    setDateParams([start, end]) {
+      Ember.run.debounce(this, this.get('actions.setNewDate'), { start, end }, 1000);
+    },
+
     /**
      * Handles Contribution Table Tab selection
      * @param {String} tab Name of selected Tab
@@ -28,6 +48,3 @@ export default Ember.Controller.extend({
   }
 
 });
-
-
-// /timeseries/compare/194591/1499839200000/1499914800000/1499234400000/1499310000000?dimension=continent&filters={}&granularity=HOURS

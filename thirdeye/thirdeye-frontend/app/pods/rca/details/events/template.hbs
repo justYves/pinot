@@ -4,6 +4,7 @@
   </div>
   {{#containers/events-table-container as |events|}}
     {{#containers/primary-metric-container as |primaryMetric actions|}}
+
       {{#if events.loading}}
         <div class="spinner-wrapper">
           {{ember-spinner}}
@@ -16,11 +17,14 @@
             primaryMetric=events.primaryMetric
             events=events.data
             showEvents=true
+            onSubchartChange=(action "setDateParams")
             onSelection=(action actions.onEventSelection)
           }}
 
         {{events-table
           events=events.data
+          start=eventsStart
+          end=eventsEnd
         }}
       {{/if}}
     {{/containers/primary-metric-container}}

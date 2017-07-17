@@ -39,7 +39,7 @@ export default Ember.Component.extend({
   granularity: 'DAYS',
   primaryMetric: [],
   relatedMetrics: [],
-  dimensions: {},
+  dimensions: [],
   start: null,
   end: null,
   loading: false,
@@ -62,19 +62,19 @@ export default Ember.Component.extend({
   primaryMetricRows: Ember.computed('primaryMetric', function() {
     const metrics = this.get('primaryMetric');
 
-    return Ember.isArray(metrics) ? metrics : [metrics];
+    return Ember.isArray(metrics) ? [...metrics] : [Object.assign({}, metrics)];
   }),
 
   relatedMetricRows: Ember.computed('relatedMetrics', function() {
     const metrics = this.get('relatedMetrics');
 
-    return Ember.isArray(metrics) ? metrics : [metrics];
+    return Ember.isArray(metrics) ? [...metrics] : [Object.assign({}, metrics)];
   }),
 
   dimensionRows: Ember.computed('dimensions', function() {
     const dimensions = this.get('dimensions');
 
-    return Object.keys(dimensions);
+    return Ember.isArray(dimensions) ? [...dimensions] : [Object.assign({}, dimensions)];
   }),
 
 
@@ -129,7 +129,7 @@ export default Ember.Component.extend({
       const rows = this.get('primaryMetricRows');
 
 
-      return filterRow(rows, startIndex, endIndex);
+      return filterRow(rows, startIndex, endIndex) || [];
     }
   ),
 
@@ -143,7 +143,7 @@ export default Ember.Component.extend({
        const rows = this.get('relatedMetricRows');
 
 
-       return filterRow(rows, startIndex, endIndex);
+       return filterRow(rows, startIndex, endIndex) || [];
      }
   ),
 
@@ -154,23 +154,42 @@ export default Ember.Component.extend({
      function() {
        const startIndex = this.get('startIndex') || 0;
        const endIndex = this.get('endIndex') || 0;
-       const dimensions = this.get('dimensions');
+       const dimensions = this.get('dimensionRows');
+       const valueKeys = [
+         'baselineValues',
+         'cumulativeBaselineValues',
+         'cumulativeCurrentValues',
+         'cumulativePercentageChange',
+         'currentValues',
+         'percentageChange'
+       ];
 
        if (!startIndex && !endIndex) {
-         return rows;
+         return dimensions;
        }
 
+      //  return dimensions;
 
-       return Object.keys(dimensions).reduce((agg, key) => {
-         const dimensionsData = dimensions[key];
-         const data = Object.keys(dimensionsData).reduce((agg, key) => {
-           agg[key]= _.slice(dimensionsData[key], startIndex, endIndex);
-           return agg;
-         }, {});
+       return dimensions.map((dimension) => {
+         const hash = {
+           name: dimension.name
+         };
+         valueKeys.forEach((key) => {
+           hash[key] = _.slice(dimension[key], startIndex, endIndex);
+         });
+         return hash;
+       }) || [];
 
-         agg[key] = Object.assign({}, data);
-         return agg;
-       }, {});
+      //  return Object.keys(dimensions).reduce((agg, key) => {
+      //    const dimensionsData = dimensions[key];
+      //    const data = Object.keys(dimensionsData).reduce((agg, key) => {
+      //      agg[key]= _.slice(dimensionsData[key], startIndex, endIndex);
+      //      return agg;
+      //    }, {});
+
+      //    agg[key] = Object.assign({}, data);
+      //    return agg;
+      //  }, {});
 
       //  return filterRow(rows, startIndex, endIndex);
      }

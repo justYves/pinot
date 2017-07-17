@@ -50,7 +50,7 @@ export default Ember.Component.extend({
   relatedMetrics: [],
   selectedMetrics: [],
   dimensions: {},
-  selectedDimensions: {},
+  selectedDimensions: [],
 
   showGraphLegend: true,
   colors: {},
@@ -191,13 +191,25 @@ export default Ember.Component.extend({
       return {
         y: {
           show: true,
+          min: 0,
+          padding: {
+            bottom: 0
+          },
           tick: {
             format: d3.format("2s")
           }
         },
         y2: {
           show: this.get('showEvents'),
-          label: 'events score'
+          label: 'events score',
+          min: 0,
+          max: 1,
+          padding: {
+            bottom: 0
+          },
+          tick: {
+            values: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+          }
         },
         x: {
           type: 'timeseries',
@@ -283,12 +295,12 @@ export default Ember.Component.extend({
     'selectedDimensions',
     function() {
       const columns = [];
-      const selectedDimensions = this.get('selectedDimensions') || {};
+      const selectedDimensions = this.get('selectedDimensions') || [];
 
-      Object.keys(selectedDimensions).forEach((key) => {
-        const { baselineValues, currentValues } = selectedDimensions[key];
-        columns.push([`${key}-current`, ...currentValues]);
-        columns.push([`${key}-baseline`, ...baselineValues]);
+      selectedDimensions.forEach((dimension) => {
+        const { baselineValues, currentValues } = dimension;
+        columns.push([`${dimension.name}-current`, ...currentValues]);
+        columns.push([`${dimension.name}-baseline`, ...baselineValues]);
       });
       return columns;
     }

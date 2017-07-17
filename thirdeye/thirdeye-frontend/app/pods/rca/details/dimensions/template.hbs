@@ -17,73 +17,74 @@
       </div>
     </div>
 
-    {{moment-format dimensions.analysisStart}} - {{moment-format dimensions.analysisEnd}}
     {{#if dimensions.loading}}
       <div class="spinner-wrapper">
         {{ember-spinner}}
       </div>
     {{/if}}
 
-    {{#containers/primary-metric-container as |primaryMetric actions|}}
-      {{#if primaryMetric.loaded}}
+    {{#containers/primary-metric-container as |summary actions|}}
+      {{#if summary.loaded}}
         {{anomaly-graph
           componentId='correlated-dimensions'
-          primaryMetric=primaryMetric.primaryMetric 
+          primaryMetric=summary.primaryMetric 
           dimensions=dimensions.timeseries
-          selectedDimensions=primaryMetric.selectedDimensions
+          selectedDimensions=summary.selectedDimensions
+          onSubchartChange=(action "setDateParams")
           onSelection=(action actions.onSelection)
           showDimensions=true}}
-      {{/if}}
 
     {{!--{{#containers/dimensions-container as |dimensions actions|}}--}}
-      {{#if dimensions.loaded}}
-        <div class="contribution-table">
-          <div class="contribution-table__header">
-            <div class="contribution-table__subnav">
-              <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>% Change</a>
+        {{#if dimensions.loaded}}
+          <div class="contribution-table">
+            <div class="contribution-table__header">
+              <div class="contribution-table__subnav">
+                <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>% Change</a>
+              </div>
+              <div class="contribution-table__subnav">
+                <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
+              </div>
+              <div class="contribution-table__subnav">
+                <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "details") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "details"}}>Details</a>
+              </div>
             </div>
-            <div class="contribution-table__subnav">
-              <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
-            </div>
-            <div class="contribution-table__subnav">
-              <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "details") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "details"}}>Details</a>
-            </div>
-          </div>
-          <div class="contribution-table__body">
-            {{#if (eq selectedTab "details")}}
-              heatmap here
-            {{else}}
-              {{#if loading}}
-                <div class="spinner-wrapper spinner-wrapper--absolute">
-                  {{ember-spinner}}
-                </div>
-              {{/if}}
-              {{contribution-table
-                dates=primaryMetric.primaryMetric.timeBucketsCurrent
-                granularity=primaryMetric.granularity
-                dimensions=primaryMetric.selectedDimensions
+            <div class="contribution-table__body">
+              {{#if (eq selectedTab "details")}}
+                heatmap here
+              {{else}}
+                {{#if loading}}
+                  <div class="spinner-wrapper spinner-wrapper--absolute">
+                    {{ember-spinner}}
+                  </div>
+                {{/if}}
+                {{contribution-table
+                  primaryMetric=summary.primaryMetric
+                  dates=summary.primaryMetric.timeBucketsCurrent
+                  granularity=summary.granularity
+                  start=dimensionsStart
+                  end=dimensionsEnd
+                  dimensions=summary.selectedDimensions
+                  showDetails=(eq selectedTab "number")
+                  loading=(mut tableIsLoading)
+                }}
+                  {{!--primaryMetric=dimensions.timeseries.subDimensionContributionMap--}}
+
+        
+              {{!--{{contribution-table
+                title="Primary Metric"
+                granularity=dimensions.granularity
+                dates=dimensions.timeseries.timeBucketsCurrent
+                dimensions=dimensions.timeseries.subDimensionContributionMap
                 start=analysisStart
                 end=analysisEnd
                 showDetails=(eq selectedTab "number")
                 loading=(mut tableIsLoading)
-              }}
-                {{!--primaryMetric=dimensions.timeseries.subDimensionContributionMap--}}
-
-      
-            {{!--{{contribution-table
-              title="Primary Metric"
-              granularity=dimensions.granularity
-              dates=dimensions.timeseries.timeBucketsCurrent
-              dimensions=dimensions.timeseries.subDimensionContributionMap
-              start=analysisStart
-              end=analysisEnd
-              showDetails=(eq selectedTab "number")
-              loading=(mut tableIsLoading)
-            }}--}}
-            {{/if}}
+              }}--}}
+              {{/if}}
+            </div>
           </div>
-        </div>
 
+        {{/if}}
       {{/if}}
 
     {{/containers/primary-metric-container}}
