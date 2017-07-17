@@ -29,7 +29,7 @@ export default Ember.Route.extend({
   },
 
   model(params) {
-    alert('resetting model');
+    // alert('resetting model');
     const { metricId: id } = params;
     if (!id) { return; }
 
@@ -56,7 +56,6 @@ export default Ember.Route.extend({
       compareMode = 'WoW'
     } = transition.queryParams;
 
-    debugger;
 
     if (granularity === 'DAYS') {
       start = moment().subtract(29, 'days').startOf('day');
@@ -64,7 +63,6 @@ export default Ember.Route.extend({
       start = moment().subtract(24, 'hours').startOf('hour');
     }
 
-    debugger;
 
     const params = {
       startDate: startDate || start,
@@ -78,11 +76,8 @@ export default Ember.Route.extend({
       graphEnd: analysisEnd,
       compareMode
     };
-    debugger;
 
     Object.assign(model, params);
-
-    debugger;
 
     redux.dispatch(MetricsActions.setPrimaryMetric(params))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
@@ -92,7 +87,7 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, model) {
-    alert('setting controller');
+    // alert('setting controller');
 
     this._super(controller, model);
     const {
@@ -123,11 +118,10 @@ export default Ember.Route.extend({
 
   actions: {
     onDateChangeTest(dates) {
-      alert('route action');
+      // alert('route action');
     },
 
     willTransition(transition) {
-      alert('will transition from details');
       if (transition.targetName === 'rca.index') {
         this.refresh();
       }

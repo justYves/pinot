@@ -17,13 +17,12 @@ const COLOR_MAPPING = {
 export default Ember.Component.extend({
   init() {
     this._super(...arguments);
-    alert('init!' + this.get('componentId'));
+    // alert('init!' + this.get('componentId'));
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    alert('attributes changed' + this.get('componentId'));
-    debugger;
+    // alert('attributes changed' + this.get('componentId'));
   },
   /**
    * Maps each metric to a color / class
@@ -47,7 +46,7 @@ export default Ember.Component.extend({
       const name = datum.metricName || datum.name;
       const color = datum.color || 'blue';
       colors[`${name}-current`] = COLOR_MAPPING[color];
-      colors[`${name}-baseline`] = COLOR_MAPPING[color];
+      colors[`${name}-expected`] = COLOR_MAPPING[color];
     });
     this.set('colors', colors);
   },
@@ -148,10 +147,9 @@ export default Ember.Component.extend({
         show: true,
         r: function(data) {
           const { id } = data;
-          if (id.includes('current') || id.includes('baseline')) {
+          if (id.includes('current') || id.includes('expected')) {
             return 0;
           }
-          data.id.includes('current');
 
           return 5;
         }
@@ -274,7 +272,7 @@ export default Ember.Component.extend({
       const { baselineValues, currentValues } = primaryMetric.subDimensionContributionMap['All'];
       return [
         [`${primaryMetric.metricName}-current`, ...currentValues],
-        [`${primaryMetric.metricName}-baseline`, ...baselineValues]
+        [`${primaryMetric.metricName}-expected`, ...baselineValues]
       ];
     }
   ),
@@ -293,12 +291,15 @@ export default Ember.Component.extend({
         if (!metric) { return; }
         const { baselineValues, currentValues } = metric.subDimensionContributionMap['All'];
         columns.push([`${metric.metricName}-current`, ...currentValues]);
-        columns.push([`${metric.metricName}-baseline`, ...baselineValues]);
+        columns.push([`${metric.metricName}-expected`, ...baselineValues]);
       });
       return columns;
     }
   ),
 
+  /**
+   * Data massages dimensions into Columns
+   */
   selectedDimensionsColumn: Ember.computed(
     'selectedDimensions',
     function() {
@@ -308,7 +309,7 @@ export default Ember.Component.extend({
       selectedDimensions.forEach((dimension) => {
         const { baselineValues, currentValues } = dimension;
         columns.push([`${dimension.name}-current`, ...currentValues]);
-        columns.push([`${dimension.name}-baseline`, ...baselineValues]);
+        columns.push([`${dimension.name}-expected`, ...baselineValues]);
       });
       return columns;
     }
