@@ -4,6 +4,8 @@ import fetch from 'fetch';
 export default Ember.Route.extend({
 
   model(params, transition) {
+
+    alert('initial route');
     const {
       'rca.details': detailsParams = {}
     } = transition.params;
@@ -15,9 +17,22 @@ export default Ember.Route.extend({
       .then(res => res.json());
   },
 
-  setupController(controller, model) {
-    this._super(...arguments);
+  // setupController(controller, model) {
+  //   this._super(...arguments);
 
-    controller.set('primaryMetric', model);
+  //   controller.set('primaryMetric', model);
+  // },
+  actions: {
+    transitionToDetails(id) {
+      this.transitionTo('rca.details', id, { queryParams: {
+        startDate: undefined,
+        endDate: undefined,
+        analysisStart: undefined,
+        analysisEnd: undefined,
+        granularity: undefined,
+        filters: JSON.stringify({}),
+        compareMode: 'WoW'
+      }});
+    }
   }
 });

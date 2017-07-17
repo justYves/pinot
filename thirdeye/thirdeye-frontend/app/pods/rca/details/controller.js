@@ -22,9 +22,26 @@ export default Ember.Controller.extend({
   mostRecentTask: null,
   metricFilters: Ember.computed.reads('model.metricFilters'),
 
+  uiGranularity: Ember.computed('granularity', {
+    get() {
+      return this.get('granularity');
+    },
+    set(key, value){
+      this.setProperties({
+        granularity: value,
+        startDate: undefined,
+        endDate: undefined,
+        analysisEnd: undefined,
+        analysisStart: undefined
+      });
+
+      return value;
+    }
+  }),
+
   actions: {
     onGranularityChange(granularity) {
-      this.set('granularity', granularity);
+      this.set('uiGranularity', granularity);
     },
 
     setNewDate({ start, end }) {
@@ -42,8 +59,12 @@ export default Ember.Controller.extend({
 
       if (analysisStart < currentStart) {
         const newStartDate = +currentStart - (currentEnd - currentStart);
+        debugger;
         this.set('startDate', newStartDate);
+      } else {
+        this.send('refreshModel');
       }
+
     },
 
     setDateParams([start, end]) {

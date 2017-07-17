@@ -17,12 +17,12 @@ const COLOR_MAPPING = {
 export default Ember.Component.extend({
   init() {
     this._super(...arguments);
-    // alert('init!' + this.get('componentId'));
+    alert('init!' + this.get('componentId'));
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    // alert('attributes changed' + this.get('componentId'));
+    alert('attributes changed' + this.get('componentId'));
   },
   /**
    * Maps each metric to a color / class
@@ -408,7 +408,6 @@ export default Ember.Component.extend({
     'selectedMetrics.@each',
     function() {
       const selectedMetrics = this.get('selectedMetrics') || [];
-      debugger;
       const regions = [];
       selectedMetrics.forEach((metric)=> {
 

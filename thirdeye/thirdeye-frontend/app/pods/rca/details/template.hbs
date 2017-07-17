@@ -8,7 +8,7 @@
           <div class="form-group col-xs-6">
             <label class="te-label" for="select-granularity">Granularity: </label>
             {{#power-select
-              selected=granularity
+              selected=uiGranularity
               options=granularities
               triggerId="select-granularity"
               onchange=(action "onGranularityChange") 
@@ -64,10 +64,7 @@
                 showEvents=true
                 showMetrics=true
                 showDimensions=true
-                onSubchartChange=(action (queue
-                  (action "setDateParams")
-                  (action actions.onDateChange))
-                )
+                onSubchartChange=(action "setDateParams")
                 subchartStart=primaryMetric.graphStart
                 subchartEnd=primaryMetric.graphEnd
                 relatedMetrics=primaryMetric.selectedMetrics
