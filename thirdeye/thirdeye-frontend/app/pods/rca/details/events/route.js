@@ -18,6 +18,8 @@ export default Ember.Route.extend({
 
     if (!metricId) { return; }
 
+    debugger;
+
 
     redux.dispatch(Actions.fetchEvents(Number(start), Number(end)));
     return {};

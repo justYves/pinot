@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
-  primaryMetric: [],
+  primaryMetric: Ember.computed.oneWay('model'),
   mostRecentSearch: null,
 
   searchMetrics: task(function* (metric) {
@@ -17,12 +17,16 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
+    /**
+     * Action handler for metric search changes
+     * @param {Object} metric
+     */
     onMetricChange(metric) {
       const { id } = metric;
       if (!id) { return; }
       this.set('primaryMetric', metric);
 
-      this.transitionToRoute('rca.details', id);
+      this.send('transitionToDetails', id);
     },
 
     /**

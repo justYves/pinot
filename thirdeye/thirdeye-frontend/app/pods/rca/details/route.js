@@ -22,14 +22,19 @@ export default Ember.Route.extend({
 
   redux: Ember.inject.service(),
 
+  beforeModel(transition) {
+    if (transition.targetName === 'rca.details.index') {
+      this.replaceWith('rca.details.events');
+    }
+  },
+
   model(params) {
+    alert('resetting model');
     const { metricId: id } = params;
     if (!id) { return; }
 
     return RSVP.hash({
       granularities: fetch(`/data/agg/granularity/metric/${id}`).then(res => res.json()),
-      // primaryMetric: fetch(`/data/metric/${id}`).then(res => res.json()),
-      // dimension: fetch(`/data/autocomplete/dimensions/metric/${id}`).then(res => res.json()),
       metricFilters: fetch(`/data/autocomplete/filters/metric/${id}`).then(res => res.json()),
       maxTime: fetch(`/data/maxDataTime/metricId/${id}`).then(res => res.json()),
       id
@@ -39,21 +44,32 @@ export default Ember.Route.extend({
   afterModel(model, transition) {
     const redux = this.get('redux');
     const maxTime = moment(model.maxTime);
+    let start = null;
+
     const {
-      startDate = moment().subtract(1, 'week').endOf('day').valueOf(),
+      startDate,
       endDate = moment().subtract(1, 'day').endOf('day').valueOf(),
       analysisStart,
       analysisEnd,
-      granularity,
+      granularity = model.granularities[0],
       filters = JSON.stringify({}),
       compareMode = 'WoW'
     } = transition.queryParams;
 
-    // TODO startDAte based on granularity
+    debugger;
+
+    if (granularity === 'DAYS') {
+      start = moment().subtract(29, 'days').startOf('day');
+    } else {
+      start = moment().subtract(24, 'hours').startOf('hour');
+    }
+
+    debugger;
+
     const params = {
-      startDate,
+      startDate: startDate || start,
       endDate: maxTime.isValid() ? maxTime.valueOf() : endDate,
-      granularity: granularity || model.granularities[0],
+      granularity: granularity,
       filters,
       id: model.id,
       analysisStart,
@@ -62,22 +78,21 @@ export default Ember.Route.extend({
       graphEnd: analysisEnd,
       compareMode
     };
-
+    debugger;
 
     Object.assign(model, params);
+
+    debugger;
 
     redux.dispatch(MetricsActions.setPrimaryMetric(params))
       .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
       .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)));
 
-    if (transition.targetName === 'rca.details.index') {
-      this.replaceWith('rca.details.events');
-    }
-
     return {};
   },
 
   setupController(controller, model) {
+    alert('setting controller');
 
     this._super(controller, model);
     const {
@@ -109,27 +124,31 @@ export default Ember.Route.extend({
   actions: {
     onDateChangeTest(dates) {
       alert('route action');
+    },
 
-    },  
-    // queryParamsDidChange(changedParams, oldParams) {
-    //   this._super(...arguments);
-    //   const controller = this.get('controller');
-    //   const hasChangedParams = Ember.isEmpty(Object.keys(changedParams));
+    willTransition(transition) {
+      alert('will transition from details');
+      if (transition.targetName === 'rca.index') {
+        this.refresh();
+      }
+    },
 
+    queryParamsDidChange(changedParams, oldParams, removed) {
+      // const params = Object.keys(changedParams);
 
-    //   if (!controller || hasChangedParams) { return true; }
+      // if (params.length === 1 && params[0] ==='granularity') {
 
-    //   const {
-    //     analysisStart: extentStart,
-    //     analysisEnd: extentEnd
-    //   } = Object.assign(oldParams, changedParams);
+      //   // removed = {
+      //   //   analysisStart: undefined,
+      //   //   analysisEnd: undefined,
+      //   //   startDate: undefined,
+      //   //   endDate: undefined
+      //   // };
+      // }
 
-    //   this.get('controller').setProperties({
-    //     extentStart,
-    //     extentEnd
-    //   });
+      this._super(changedParams, oldParams, removed);
 
-    //   return true;
-    // }
+      return true;
+    }
   }
 });
