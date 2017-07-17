@@ -35,10 +35,17 @@ export default Ember.Component.extend({
     const primaryMetric = this.get('primaryMetric');
     const relatedMetric = this.get('relatedMetrics') || [];
     const selectedMetrics = this.get('selectedMetrics') || [];
-    const metrics = [primaryMetric, ...relatedMetric, ...selectedMetrics];
-    metrics.forEach((metric) => {
-      const name = metric.metricName;
-      const color = metric.color || 'blue';
+    const selectedDimensions = this.get('selectedDimensions') || [];
+
+    const data = [
+      primaryMetric,
+      ...relatedMetric,
+      ...selectedMetrics,
+      ...selectedDimensions];
+
+    data.forEach((datum) => {
+      const name = datum.metricName || datum.name;
+      const color = datum.color || 'blue';
       colors[`${name}-current`] = COLOR_MAPPING[color];
       colors[`${name}-baseline`] = COLOR_MAPPING[color];
     });

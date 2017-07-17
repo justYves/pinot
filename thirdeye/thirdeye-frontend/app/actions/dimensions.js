@@ -1,7 +1,7 @@
 import { type } from './utils';
 import fetch from 'fetch';
 import moment from 'moment';
-import { COMPARE_MODE_MAPPING } from './constants';
+import { COMPARE_MODE_MAPPING, colors } from './constants';
 
 /**
  * Define the anomaly action types

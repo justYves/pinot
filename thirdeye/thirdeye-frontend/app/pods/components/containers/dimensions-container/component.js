@@ -27,12 +27,12 @@ function select(store) {
     loading,
     loaded,
     failed,
-    timeseries: dimensionKeys.map(key => {
-      const dimension = Object.assign({}, dimensionKeys[key], {name: key});
+    // timeseries: dimensionKeys.map(key => {
+    //   const dimension = Object.assign({}, dimensionKeys[key], {name: key});
 
-      if (!dimension) { return;}
-      return dimension;
-    }),
+    //   if (!dimension) { return;}
+    //   return dimension;
+    // }),
     subdimensions: dimensionKeys.map((key) => {
       return dimensions[`${selectedDimension}-${key}`];
     }).filter(dimension => dimension),
