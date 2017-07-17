@@ -1,4 +1,6 @@
 import { ActionTypes } from '../actions/dimensions';
+import { colors } from '../actions/constants';
+
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -64,12 +66,13 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const { selectedDimension } = state;
 
       const dimensions = Object.keys(subdimensionMap)
-        .reduce((hash, subdimension) => {
+        .reduce((hash, subdimension, index) => {
           const subdimensionData = _.merge(
             {
               name: subdimension,
               dimension: selectedDimension,
-              id: `${selectedDimension}-${subdimension}`
+              id: `${selectedDimension}-${subdimension}`,
+              color: colors[index % colors.length]
             },
             subdimensionMap[subdimension]);
 

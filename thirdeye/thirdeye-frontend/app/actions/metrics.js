@@ -3,6 +3,8 @@ import fetch from 'fetch';
 import Ember from 'ember';
 import moment from 'moment';
 import _ from 'lodash';
+
+import { COMPARE_MODE_MAPPING, colors } from './constants';
 /**
  * Define the metric action types
  */
@@ -17,24 +19,6 @@ export const ActionTypes = {
   UPDATE_DATE: type('[Metric] Update Date'),
   SELECT_METRIC: type('[Metric] Set Selected Metric')
 };
-
-// Todo: move this in a constant.js file
-const COMPARE_MODE_MAPPING = {
-  WoW: 1,
-  Wo2W: 2,
-  Wo3W: 3,
-  Wo4W: 4
-};
-
-// to maintain consistent coloring throughout the app
-const colors = [
-  'orange',
-  'teal',
-  'purple',
-  'red',
-  'green',
-  'pink'
-];
 
 /**
  * Determines if a metric should be filtered out
