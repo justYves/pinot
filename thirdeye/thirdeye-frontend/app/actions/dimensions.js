@@ -90,7 +90,6 @@ function updateDimension(newDimension) {
     // Todo use compareMode to update analysisStart and End
 
     const url = `timeseries/compare/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?dimension=${newDimension}&filters={}&granularity=${granularity}`;
-    debugger;
     dispatch(setDimension(newDimension));
     return fetch(url)
       .then(res => res.json())

@@ -24,33 +24,33 @@ export default Ember.Route.extend({
 
   },
   actions: {
-    queryParamsDidChange(changedParams, oldParams) {
-      this._super(...arguments);
+    // queryParamsDidChange(changedParams, oldParams) {
+    //   this._super(...arguments);
 
-      if (!(changedParams.analysisStart
-        || changedParams.analysisEnd
-        || changedParams.compareMode)) {
-        return true;
-      }
+    //   if (!(changedParams.analysisStart
+    //     || changedParams.analysisEnd
+    //     || changedParams.compareMode)) {
+    //     return true;
+    //   }
 
-      const redux = this.get('redux');
-      const {
-        analysisStart: start,
-        analysisEnd: end,
-        compareMode
-      } = Object.assign(oldParams, changedParams);
+    //   const redux = this.get('redux');
+    //   const {
+    //     analysisStart: start,
+    //     analysisEnd: end,
+    //     compareMode
+    //   } = Object.assign(oldParams, changedParams);
 
-      if (!(start && end && compareMode)) {
-        return true;
-      }
-      redux.dispatch(Actions.updateDates(
-        Number(start),
-        Number(end),
-        compareMode
-      ));
+    //   if (!(start && end && compareMode)) {
+    //     return true;
+    //   }
+    //   redux.dispatch(Actions.updateDates(
+    //     Number(start),
+    //     Number(end),
+    //     compareMode
+    //   ));
 
-      // bubbling up
-      return true;
-    }
+    //   // bubbling up
+    //   return true;
+    // }
   }
 });

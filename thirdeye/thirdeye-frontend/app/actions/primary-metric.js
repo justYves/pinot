@@ -14,7 +14,8 @@ export const ActionTypes = {
   LOAD_PRIMARY_METRIC: type('[Primary Metric] Load Primary Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Primary Metric] Update Compare Mode'),
   UPDATE_DATES: type('[Primary Metric] Update Date'),
-  SELECT_DIMENSION: type('[Metric] Set Selected Dimension')
+  SELECT_DIMENSION: type('[Primary Metric] Set Selected Dimension'),
+  SELECT_EVENTS: type('[Primary Metric] Set Selected Events')
 };
 
 // Todo: move this in a constant.js file
@@ -73,9 +74,15 @@ function updateDates(response) {
 }
 
 function setSelectedDimension(response) {
-  debugger;
   return {
     type: ActionTypes.SELECT_DIMENSION,
+    payload: response
+  };
+}
+
+function setSelectedEvent(response) {
+  return {
+    type: ActionTypes.SELECT_EVENTS,
     payload: response
   };
 }
@@ -220,9 +227,14 @@ function setSummary() {
 }
 
 function selectDimension(name) {
-  return (dispatch, getState) => {
-    debugger;
-    dispatch(setSelectedDimension(name));
+  return (dispatch) => {
+    return dispatch(setSelectedDimension(name));
+  };
+}
+
+function selectEvent(name) {
+  return (dispatch) => {
+    return dispatch(setSelectedEvent(name));
   };
 }
 
@@ -236,6 +248,7 @@ export const Actions = {
   updateMetricDate,
   updateAnalysisDates,
   selectMetric,
-  selectDimension
+  selectDimension,
+  selectEvent
 };
 
