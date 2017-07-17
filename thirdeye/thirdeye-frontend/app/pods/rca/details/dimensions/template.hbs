@@ -67,6 +67,19 @@
                 showDetails=(eq selectedTab "number")
                 loading=(mut tableIsLoading)
               }}
+                {{!--primaryMetric=dimensions.timeseries.subDimensionContributionMap--}}
+
+      
+            {{!--{{contribution-table
+              title="Primary Metric"
+              granularity=dimensions.granularity
+              dates=dimensions.timeseries.timeBucketsCurrent
+              dimensions=dimensions.timeseries.subDimensionContributionMap
+              start=analysisStart
+              end=analysisEnd
+              showDetails=(eq selectedTab "number")
+              loading=(mut tableIsLoading)
+            }}--}}
             {{/if}}
           </div>
         </div>
