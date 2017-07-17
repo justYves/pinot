@@ -89,8 +89,8 @@ export default Ember.Component.extend({
 
   holidayEvents: Ember.computed('events', function() {
     const events = this.get('events');
-
-    return events.filterBy('eventType', 'holiday');
+    return events;
+    // return events.filterBy('eventType', 'holiday');
   }),
 
   holidayEventsColumn: Ember.computed(

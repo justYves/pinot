@@ -28,17 +28,12 @@ function select(store) {
   } = store.metrics;
 
   const {
-    timeseries,
     dimensions
   } = store.dimensions;
 
   const {
-    events
+    events = []
   } = store.events;
-
-  events.filter((event) => {
-    return selectedEvents.includes(event.urn);
-  });
 
   // to do fix region and put this in reducer
   const uiRelatedMetric = _.merge(metricData, regions);
