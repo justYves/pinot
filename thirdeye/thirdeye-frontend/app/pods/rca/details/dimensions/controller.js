@@ -12,6 +12,15 @@ export default Ember.Controller.extend({
   dimensionsStart: null,
   dimensionsEnd: null,
 
+  // uiDimension: Ember.computed('dimension', function() {
+  //   get() {
+  //     return this.get('dimensions');
+  //   },
+  //   set(value) {
+
+  //   }
+  // })
+
 
   actions: {
     setNewDate({ start, end }) {

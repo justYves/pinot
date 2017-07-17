@@ -28,7 +28,8 @@ function select(store) {
   } = store.metrics;
 
   const {
-    timeseries
+    timeseries,
+    dimensions
   } = store.dimensions;
 
   const {
@@ -54,13 +55,9 @@ function select(store) {
     graphStart,
     graphEnd,
     selectedDimensions: selectedDimensions
-      .map(key => {
-        return Object.assign(
-          {name: key},
-          timeseries.subDimensionContributionMap[key],
-        );
-      })
-      .filter(dimension => dimension),
+      .map((key) => {
+        return dimensions[key];
+      }).filter(dimension => dimension),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     selectedMetrics: selectedMetricIds
       .map(id => relatedMetricEntities[id]),

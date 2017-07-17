@@ -9,7 +9,9 @@ function select(store) {
     loading,
     loaded,
     failed,
-    timeseries
+    timeseries,
+    dimensions,
+    selectedDimension
   } = store.dimensions;
 
   const {
@@ -17,6 +19,8 @@ function select(store) {
   } = store.primaryMetric;
 
   const dimensionKeys = Object.keys(timeseries.subDimensionContributionMap || {});
+
+  debugger;
 
   return {
     keys,
@@ -29,6 +33,9 @@ function select(store) {
       if (!dimension) { return;}
       return dimension;
     }),
+    subdimensions: dimensionKeys.map((key) => {
+      return dimensions[`${selectedDimension}-${key}`];
+    }).filter(dimension => dimension),
     dimensionKeys,
     granularity
   };

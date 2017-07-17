@@ -1,5 +1,7 @@
 import { ActionTypes } from '../actions/dimensions';
 import moment from 'moment';
+import _ from 'lodash';
+
 /**
  * Define the schema
  */
@@ -22,8 +24,9 @@ const INITIAL_STATE = {
 
   keys: [],
   metricId: null,
-  selectedDimension: null,
-  timeseries: []
+  dimensions: {},
+  timeseries: [],
+  selectedDimension: 'All'
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
@@ -57,9 +60,27 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
     case ActionTypes.LOAD_TIMESERIES: {
       const timeseries = action.payload;
+      const { subDimensionContributionMap: subdimensionMap } = timeseries;
+      const { selectedDimension } = state;
+
+      const dimensions = Object.keys(subdimensionMap)
+        .reduce((hash, subdimension) => {
+          const subdimensionData = _.merge(
+            {
+              name: subdimension,
+              dimension: selectedDimension,
+              id: `${selectedDimension}-${subdimension}`
+            },
+            subdimensionMap[subdimension]);
+
+          hash[`${selectedDimension}-${subdimension}`] = subdimensionData;
+
+          return hash;
+        }, {});
 
       return Object.assign(state, {
         timeseries,
+        dimensions: Object.assign({}, state.dimensions, dimensions),
         loaded: true,
         loading: false,
         failed: false
