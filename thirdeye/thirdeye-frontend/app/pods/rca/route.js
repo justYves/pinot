@@ -4,8 +4,6 @@ import fetch from 'fetch';
 export default Ember.Route.extend({
 
   model(params, transition) {
-
-    alert('initial route');
     const {
       'rca.details': detailsParams = {}
     } = transition.params;
