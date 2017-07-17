@@ -41,14 +41,14 @@
           </a>
         </h5>
         <ul class="anomaly-graph__filter-group {{if isDimensionsHidden "anomaly-graph__filter-group--hidden"}}">
-        {{#each dimensions as |dimension|}}
+        {{#each dimensions as |subdimension|}}
           <li class="anomaly-graph__filter-item">
             {{input
               type="checkbox"
-              id=(concat dimensionId dimension.name)
-              click=(action "onSelection" dimension.name)
+              id=(concat dimensionId subdimension.id)
+              click=(action "onSelection" subdimension)
               checked=false}}
-            <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{dimension.color}}" for="{{concat dimensionId dimension.name}}" title={{dimension.name}}> {{dimension.name}} </label>
+            <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{subdimension.color}}" for="{{concat dimensionId subdimension.id}}" title={{subdimension.name}}> {{subdimension.name}} </label>
           </li>
         {{else}}
           No Dimensions.

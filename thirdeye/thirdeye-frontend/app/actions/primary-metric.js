@@ -226,8 +226,10 @@ function setSummary() {
 
 }
 
-function selectDimension(name) {
+function selectDimension(subdimension) {
   return (dispatch) => {
+    const name = `${subdimension.dimension}-${subdimension.name}`;
+
     return dispatch(setSelectedDimension(name));
   };
 }

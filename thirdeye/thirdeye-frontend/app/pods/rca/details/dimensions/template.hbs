@@ -28,7 +28,7 @@
         {{anomaly-graph
           componentId='correlated-dimensions'
           primaryMetric=summary.primaryMetric 
-          dimensions=dimensions.timeseries
+          dimensions=dimensions.subdimensions
           selectedDimensions=summary.selectedDimensions
           onSubchartChange=(action "setDateParams")
           onSelection=(action actions.onSelection)
