@@ -23,7 +23,6 @@ export default Ember.Component.extend({
   didUpdateAttrs() {
     this._super(...arguments);
     // alert('attributes changed' + this.get('componentId'));
-    debugger;
   },
   /**
    * Maps each metric to a color / class
@@ -450,7 +449,6 @@ export default Ember.Component.extend({
 
   actions: {
     onSelection() {
-      debugger;
       this.attrs.onSelection(...arguments);
     },
     onToggle() {

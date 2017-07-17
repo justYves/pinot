@@ -2,29 +2,28 @@
   <div class="rca-header">
     <h3 class="te-sub-title te-sub-title--flush">Events Correlation</h3>
   </div>
-  {{#containers/events-table-container as |events actions|}}
-    {{#if events.loading}}
-      <div class="spinner-wrapper">
-        {{ember-spinner}}
-      </div>
-    {{/if}}
-    {{#if events.loaded}}
+  {{#containers/events-table-container as |events|}}
+    {{#containers/primary-metric-container as |primaryMetric actions|}}
+      {{#if events.loading}}
+        <div class="spinner-wrapper">
+          {{ember-spinner}}
+        </div>
+      {{/if}}
+      {{#if events.loaded}}
 
-        {{anomaly-graph
-          componentId='correlated-events'
-          primaryMetric=events.primaryMetric
+          {{anomaly-graph
+            componentId='correlated-events'
+            primaryMetric=events.primaryMetric
+            events=events.data
+            showEvents=true
+            onSelection=(action actions.onEventSelection)
+          }}
+
+        {{events-table
           events=events.data
-          showEvents=true
         }}
-          {{!--relatedMetrics=metricList.relatedMetrics
-          selectedMetrics=metricList.selectedMetrics--}}
-
-                  {{!--onSelection=(action actions.onSelection)--}}
-          {{!--onSubchartChange=(action "onDateChange")--}}
-      {{events-table
-        events=events.data
-      }}
-    {{/if}}
+      {{/if}}
+    {{/containers/primary-metric-container}}
   {{/containers/events-table-container}}
     {{!--useFilteringByColumns=false--}}
 </section>
