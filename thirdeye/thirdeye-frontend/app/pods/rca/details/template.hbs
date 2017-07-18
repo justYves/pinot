@@ -42,8 +42,8 @@
           }}
         </div>
         <main class="paper-container">
-          {{#containers/primary-metric-container as |primaryMetric actions|}}
-            {{#if primaryMetric.loading}}
+          {{#containers/primary-metric-container as |summary actions|}}
+            {{#if summary.loading}}
               <section class="paper-container">
                 <div class="spinner-wrapper">
                   {{ember-spinner}}
@@ -55,23 +55,23 @@
               Oops, something went wrong...
             {{/if}}--}}
 
-            {{#if primaryMetric.loaded}}
-
+            {{#if summary.loaded}}
               {{anomaly-graph 
                 classNames='anomaly-graph--no-border'
-                primaryMetric=primaryMetric.primaryMetric 
+                primaryMetric=summary.primaryMetric 
                 showGraphLegend=true
                 showEvents=true
                 showMetrics=true
                 showDimensions=true
                 onSubchartChange=(action "setDateParams")
+                onSelection=(action actions.onDeselect)
                 subchartStart=analysisStart
                 subchartEnd=analysisEnd
-                relatedMetrics=primaryMetric.selectedMetrics
-                selectedMetrics=primaryMetric.selectedMetrics
-                dimensions=primaryMetric.selectedDimensions
-                selectedDimensions=primaryMetric.selectedDimensions
-                events=primaryMetric.selectedEvents
+                relatedMetrics=summary.selectedMetrics
+                selectedMetrics=summary.selectedMetrics
+                dimensions=summary.selectedDimensions
+                selectedDimensions=summary.selectedDimensions
+                events=summary.selectedEvents
               }}
             {{/if}}
             {{!--<a {{action actions.onDateChange}}> dispatch </a>--}}

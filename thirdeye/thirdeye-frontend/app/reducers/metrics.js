@@ -140,6 +140,10 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         selectedMetricIds
       });
     }
+
+    case ActionTypes.RESET: {
+      state = undefined;
+    }
   }
-  return state;
+  return state || INITIAL_STATE;
 }

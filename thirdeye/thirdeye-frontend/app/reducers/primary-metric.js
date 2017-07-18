@@ -31,6 +31,7 @@ const INITIAL_STATE = {
   relatedMetricEntities: {},
   selectedDimensions: [],
   selectedEvents: [],
+  selectedMetricIds: [],
   regions: {},
   currentStart: null,
   currentEnd: moment().subtract(1, 'week').valueOf(),
@@ -86,7 +87,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const baselineStart = moment(startDate).clone().subtract(offset, 'week').valueOf();
       const baselineEnd = moment(endDate).clone().subtract(offset, 'week').valueOf();
 
-      return _.merge(state, {
+      return _.merge({}, state, {
         primaryMetricId,
         analysisStart,
         analysisEnd,
@@ -208,12 +209,28 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       });
     }
 
-    case ActionTypes.RESET: {
+    case ActionTypes.SELECT_METRICS: {
+
+      const { selectedMetricIds } = state;
+      const { metricId } = action.payload;
+      let updatedMetricIds = [];
+
+      if (selectedMetricIds.includes(metricId)) {
+        updatedMetricIds =  selectedMetricIds.filter((id) =>  (id !== metricId));
+      } else {
+        updatedMetricIds = [...selectedMetricIds, metricId];
+      }
+
       return Object.assign({}, state, {
-        selectedDimensions: [],
-        selectedEvents: []
+        selectedMetricIds: updatedMetricIds
       });
+
+
+    }
+
+    case ActionTypes.RESET: {
+      state = undefined;
     }
   }
-  return state;
+  return state || INITIAL_STATE;
 }

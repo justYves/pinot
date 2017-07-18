@@ -55,7 +55,10 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         failed: false
       });
     }
-  }
 
-  return state;
+    case ActionTypes.RESET: {
+      state = undefined;
+    }
+  }
+  return state || INITIAL_STATE;
 }

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import _ from 'lodash';
+import moment from 'moment';
 
 const d3 = window.d3;
 
@@ -225,7 +226,7 @@ export default Ember.Component.extend({
             bottom: 0
           },
           tick: {
-            format: d3.format("2s")
+            format: d3.format('2s')
           }
         },
         y2: {
@@ -358,6 +359,7 @@ export default Ember.Component.extend({
     'holidayEventsDatesColumn',
     'chartDates',
     'colors',
+    'onEventClick',
     function() {
       const {
         primaryMetricColumn,
@@ -414,7 +416,8 @@ export default Ember.Component.extend({
         type: 'line',
         // x: 'date',
         xFormat: '%Y-%m-%d %H:%M',
-        colors: this.get('colors')
+        colors: this.get('colors'),
+        onclick: this.get('onEventClick')
       };
     }
   ),
@@ -474,6 +477,17 @@ export default Ember.Component.extend({
       return regions;
     }
   ),
+
+  tooltip: {
+    format: {
+      title: function(d) {
+        return moment(d).format('MM/DD hh:mm a');
+      },
+      value: function(val) {
+        return d3.format('2s')(val);
+      }
+    }
+  },
 
 
   /**

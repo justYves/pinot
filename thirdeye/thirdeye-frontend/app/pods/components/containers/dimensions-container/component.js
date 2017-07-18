@@ -15,27 +15,27 @@ function select(store) {
   } = store.dimensions;
 
   const {
-    granularity
+    granularity,
+    selectedDimensions
   } = store.primaryMetric;
 
   const dimensionKeys = Object.keys(timeseries.subDimensionContributionMap || {});
-
-  debugger;
 
   return {
     keys,
     loading,
     loaded,
     failed,
-    // timeseries: dimensionKeys.map(key => {
-    //   const dimension = Object.assign({}, dimensionKeys[key], {name: key});
+    subdimensions: dimensionKeys
+      .map((key) => {
+        const keyName = `${selectedDimension}-${key}`;
+        const subDimension = Object.assign({}, dimensions[keyName]);
 
-    //   if (!dimension) { return;}
-    //   return dimension;
-    // }),
-    subdimensions: dimensionKeys.map((key) => {
-      return dimensions[`${selectedDimension}-${key}`];
-    }).filter(dimension => dimension),
+        if (subDimension && selectedDimensions.includes(keyName)) {
+          subDimension.isSelected = true;
+        }
+        return subDimension;
+      }),
     dimensionKeys,
     granularity
   };
@@ -48,3 +48,4 @@ function actions(dispatch) {
 
 export default connect(select, actions)(Ember.Component.extend({
 }));
+

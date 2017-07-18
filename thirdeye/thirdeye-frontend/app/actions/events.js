@@ -15,7 +15,8 @@ export const ActionTypes = {
   LOAD_REGIONS: type('[Events] Load Metric Regions'),
   LOAD_PRIMARY_METRIC: type('[Events] Load Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Events] Update Compare Mode'),
-  UPDATE_DATE: type('[Events] Update Date')
+  UPDATE_DATE: type('[Events] Update Date'),
+  RESET: type('[Event] Reset Data')
 };
 
 const modeMap = {
@@ -24,6 +25,12 @@ const modeMap = {
   Wo3W: 3,
   Wo4W: 4
 };
+
+function resetData() {
+  return {
+    type: ActionTypes.RESET
+  };
+}
 
 function loading() {
   return {
@@ -108,10 +115,18 @@ function updateDates(start, end, compareMode) {
   };
 }
 
+function reset() {
+  return (dispatch) => {
+    dispatch(resetData());
+    return Promise.resolve();
+  };
+}
+
 export const Actions = {
   loading,
   loaded,
   loadEvents,
   fetchEvents,
-  updateDates
+  updateDates,
+  reset
 };

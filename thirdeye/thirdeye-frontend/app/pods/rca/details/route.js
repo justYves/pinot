@@ -4,6 +4,11 @@ import moment from 'moment';
 import fetch from 'fetch';
 import { Actions } from 'thirdeye-frontend/actions/primary-metric';
 
+import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
+import { Actions as DimensionsActions } from 'thirdeye-frontend/actions/dimensions';
+import { Actions as EventsActions } from 'thirdeye-frontend/actions/events';
+
+
 const queryParamsConfig = {
   refreshModel: true,
   replace: false
@@ -29,7 +34,10 @@ export default Ember.Route.extend({
       this.replaceWith('rca.details.events');
     }
 
-    redux.dispatch(Actions.reset());
+    return redux.dispatch(Actions.reset())
+      .then(() => redux.dispatch(MetricsActions.reset()))
+      .then(() => redux.dispatch(DimensionsActions.reset()))
+      .then(() => redux.dispatch(EventsActions.reset()));
   },
 
   model(params) {
@@ -98,6 +106,7 @@ export default Ember.Route.extend({
       granularity,
       startDate,
       endDate,
+      filters,
       analysisStart,
       analysisEnd,
       compareMode
@@ -109,6 +118,7 @@ export default Ember.Route.extend({
 
     controller.setProperties({
       model,
+      filters,
       analysisStart: initStart,
       analysisEnd: initEnd,
       extentStart: initStart,

@@ -11,15 +11,19 @@ function select(store) {
   } = store.events;
 
   const {
-    primaryMetricId,
-    relatedMetricEntities
+    selectedEvents = []
   } = store.primaryMetric;
 
   return {
     loading,
     loaded,
-    events,
-    primaryMetric: relatedMetricEntities[primaryMetricId]
+    events: events.map((event) => {
+      event = Object.assign({}, event);
+      if (selectedEvents.includes(event.urn)) {
+        event.isSelected = true;
+      }
+      return event;
+    })
   };
 }
 

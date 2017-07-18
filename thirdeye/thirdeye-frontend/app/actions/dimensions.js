@@ -11,8 +11,15 @@ export const ActionTypes = {
   LOADING: type('[Dimensions] Loading'),
   REQUEST_FAIL: type('[Dimensions] Request Fail'),
   SET: type('[Dimension] Set Dimension'),
-  LOAD_TIMESERIES: type('[Dimensions] Load TimeSeries')
+  LOAD_TIMESERIES: type('[Dimensions] Load TimeSeries'),
+  RESET: type('[Dimensions] Reset Data')
 };
+
+function resetData() {
+  return {
+    type: ActionTypes.RESET
+  };
+}
 
 function loading() {
   return {
@@ -43,7 +50,6 @@ function load(response, metricId) {
 }
 
 function requestFail() {
-  debugger;
   return {
     type: ActionTypes.REQUEST_FAIL
   };
@@ -97,10 +103,18 @@ function updateDimension(newDimension) {
   };
 }
 
+function reset() {
+  return (dispatch) => {
+    dispatch(resetData());
+    return Promise.resolve();
+  };
+}
+
 export const Actions = {
   loading,
   load,
   requestFail,
   fetchDimensions,
-  updateDimension
+  updateDimension,
+  reset
 };
