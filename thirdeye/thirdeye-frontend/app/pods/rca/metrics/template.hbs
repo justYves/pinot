@@ -25,7 +25,6 @@
           Oops, something went wrong...
         {{/if}}
 
-<<<<<<< HEAD
       {{#if metricList.loaded}}
         <section>
           {{#if splitView}}
@@ -51,20 +50,6 @@
           {{/if}}
         </section>
       {{/if}}
-=======
-        {{#if metricList.loaded}}
-          <section>
-            {{#if splitView}}
-              {{anomaly-graph primaryMetric=metricList.primaryMetric showGraphLegend=false}}
-              {{#each metricList.relatedMetrics as |metric|}}
-                {{anomaly-graph primaryMetric=metric showGraphLegend=false}}
-              {{/each}}
-            {{else}}
-              {{anomaly-graph primaryMetric=metricList.primaryMetric relatedMetrics=metricList.relatedMetrics}}
-            {{/if}}
-          </section>
-        {{/if}}
->>>>>>>  working filters and hash params
 
         <div class="contribution-table">
           <div class="contribution-table__header">

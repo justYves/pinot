@@ -27,6 +27,8 @@
       {{#if summary.loaded}}
         {{anomaly-graph
           componentId='correlated-dimensions'
+          showGraphLegend=false
+          showLegend=true
           primaryMetric=summary.primaryMetric 
           dimensions=dimensions.subdimensions
           selectedDimensions=summary.selectedDimensions
@@ -44,9 +46,9 @@
               <div class="contribution-table__subnav">
                 <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
               </div>
-              <div class="contribution-table__subnav">
+              {{!-- <div class="contribution-table__subnav">
                 <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "details") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "details"}}>Details</a>
-              </div>
+              </div> --}}
             </div>
             <div class="contribution-table__body">
               {{#if (eq selectedTab "details")}}

@@ -73,7 +73,7 @@ export default Ember.Component.extend({
   subchartStart: null,
   subchartEnd: null,
   showLegend: false,
-  showSubchart: false,
+
   showTitle: false,
   height: 0,
   componentId: 'main-graph',
@@ -145,11 +145,11 @@ export default Ember.Component.extend({
   /**
    * Graph Legend config
    */
-  legend: Ember.computed('showLegend', function() {
-    const showLegend = this.get('showLegend');
+  legend: Ember.computed('showGraphLegend', function() {
+    const showGraphLegend = this.get('showGraphLegend');
     return {
       position: 'inset',
-      show: showLegend
+      show: showGraphLegend
     };
   }),
 

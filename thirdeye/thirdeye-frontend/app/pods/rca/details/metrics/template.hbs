@@ -41,14 +41,19 @@
                 componentId='correlated-metrics'
                 primaryMetric=summary.primaryMetric 
                 showGraphLegend=false
+                showLegend=false
                 showMetrics=true
+                showTitle=true
+                onSubchartChange=(action "onDateChange")
                 onSelection=(action actions.onMetricSelection)
               }}
-              {{#each primaryMetric.selectedMetrics as |metric|}}
+              {{#each summary.selectedMetrics as |metric|}}
                 {{anomaly-graph
                   componentId='correlated-metrics'
                   primaryMetric=metric
+                  showLegend=false
                   showMetrics=true
+                  showTitle=true
                   onSelection=(action actions.onMetricSelection)
                   onSubchartChange=(action "onDateChange")
                   showGraphLegend=false}}
@@ -60,7 +65,10 @@
                 primaryMetric=summary.primaryMetric
                 relatedMetrics=metricList.relatedMetrics
                 selectedMetrics=summary.selectedMetrics
+                showGraphLegend=false
+                showLegend=true
                 showMetrics=true
+                showSubchart=true
                 onSelection=(action actions.onMetricSelection)
                 onSubchartChange=(action "onDateChange")
               }}
