@@ -41,7 +41,7 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case ActionTypes.LOADING:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: true,
         loaded: false,
         failed: false
@@ -60,7 +60,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       startDate = Number(startDate);
       endDate = Number(endDate);
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         primaryMetricId,
         currentStart: startDate,
         currentEnd: endDate,
@@ -74,7 +74,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     }
 
     case ActionTypes.REQUEST_FAIL:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: false,
         failed: true
       });
@@ -85,7 +85,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         .sort((prev, next) => next.score > prev.score)
         .map((metric) => Number(metric.urn.split('thirdeye:metric:').pop()));
 
-      return Object.assign(state,  {
+      return Object.assign({}, state,  {
         relatedMetricIds
       });
     }
@@ -97,7 +97,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         return aggr;
       }, {});
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: false,
         loaded: true,
         failed: false,
@@ -108,7 +108,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.LOAD_DATA: {
       const relatedMetricEntities = Object.assign({}, action.payload);
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         relatedMetricEntities
       });
     }
@@ -116,7 +116,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.UPDATE_COMPARE_MODE: {
       const compareMode = action.payload;
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         compareMode
       });
     }
@@ -124,7 +124,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.UPDATE_DATE: {
       const { currentStart, currentEnd } = action.payload;
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         currentStart,
         currentEnd,
         loading: true,
@@ -136,7 +136,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.SELECT_METRIC: {
       const { selectedMetricIds } = action.payload;
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         selectedMetricIds
       });
     }

@@ -41,9 +41,6 @@ export default Ember.Route.extend({
       } = changedParams;
       const params = Object.keys(changedParams || {});
 
-
-      debugger;
-
       if (params.length === 2 && start && end) {
         Ember.run.later(() => {
           redux.dispatch(Actions.updateDates(

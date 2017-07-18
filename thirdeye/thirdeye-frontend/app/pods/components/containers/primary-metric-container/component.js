@@ -35,8 +35,10 @@ function select(store) {
     events = []
   } = store.events;
 
+  const isSelected = true;
+
   // to do fix region and put this in reducer
-  const uiRelatedMetric = _.merge(metricData, regions);
+  const uiRelatedMetric = _.merge({}, metricData, regions);
 
 
   return {
@@ -51,17 +53,23 @@ function select(store) {
     graphEnd,
     selectedDimensions: selectedDimensions
       .map((key) => {
-        return dimensions[key];
+        return Object.assign({},
+          dimensions[key],
+          { isSelected });
       }).filter(dimension => dimension),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     selectedMetrics: selectedMetricIds
-      .map(id => relatedMetricEntities[id]),
-    selectedEvents: events.filter((event) => {
-      return selectedEvents.includes(event.urn);
-    })
+      .map((id) => {
+        return Object.assign({},
+          relatedMetricEntities[id],
+          { isSelected });
+      }),
+    selectedEvents: events
+      .filter((event) => {
+        return selectedEvents.includes(event.urn);
+      }).map((event) => Object.assign({}, event, { isSelected }))
   };
 }
-
 
 function actions(dispatch) {
   return {

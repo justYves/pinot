@@ -54,7 +54,7 @@ const modeMap = {
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case ActionTypes.LOADING:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: true,
         loaded: false,
         failed: false
@@ -106,7 +106,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     }
 
     case ActionTypes.REQUEST_FAIL:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: false,
         failed: true
       });
@@ -117,7 +117,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         .sort((prev, next) => next.score > prev.score)
         .map((metric) => Number(metric.urn.split('thirdeye:metric:').pop()));
 
-      return Object.assign(state,  {
+      return Object.assign({}, state,  {
         relatedMetricIds
       });
     }
@@ -129,7 +129,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         return aggr;
       }, {});
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         regions
       });
     }
@@ -137,7 +137,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.LOAD_DATA: {
       const relatedMetricEntities = Object.assign({}, action.payload);
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: false,
         loaded: true,
         failed: false,
@@ -153,7 +153,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const baselineEnd = moment(state.currentEnd).clone().subtract(offset, 'week').valueOf();
 
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         compareMode,
         baselineStart,
         baselineEnd
@@ -187,7 +187,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         newSelectedDimensions = [...selectedDimensions, dimension];
       }
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         selectedDimensions: newSelectedDimensions
       });
     }
@@ -203,13 +203,13 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         newSelectedEvents = [...selectedEvents, event];
       }
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         selectedEvents: newSelectedEvents
       });
     }
 
     case ActionTypes.RESET: {
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         selectedDimensions: [],
         selectedEvents: []
       });

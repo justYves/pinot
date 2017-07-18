@@ -1,7 +1,8 @@
 import { type } from './utils';
 import fetch from 'fetch';
-import Ember from 'ember';
 import moment from 'moment';
+
+import { colors } from './constants';
 
 /**
  * Define the metric action types
@@ -43,6 +44,18 @@ function loaded() {
   };
 }
 
+const eventColorMapping = {
+  holiday: 'green',
+  informed: 'red',
+  gcn: 'orange'
+};
+
+const assignEventColor = (event) => {
+  const color = eventColorMapping[event.eventType];
+
+  return Object.assign(event, { color });
+};
+
 function fetchEvents(start, end, mode) {
   return (dispatch, getState) => {
     const { primaryMetric, events } = getState();
@@ -71,6 +84,11 @@ function fetchEvents(start, end, mode) {
     dispatch(loading());
     return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&metricUrn=thirdeye:metric:${metricId}`)
       .then(res => res.json())
+      .then((res => {
+        return res.map((event) => {
+          return assignEventColor(event);
+        });
+      }))
       .then(res => dispatch(loadEvents(res)
     ));
   };
@@ -80,6 +98,10 @@ function updateDates(start, end, compareMode) {
   return (dispatch, getState) => {
 
     const { primaryMetric } = getState();
+
+    if (primaryMetric.selectedEvents.length) {
+      return;
+    }
     compareMode = compareMode || primaryMetric.compareMode;
 
     return dispatch(fetchEvents(start, end, compareMode));
