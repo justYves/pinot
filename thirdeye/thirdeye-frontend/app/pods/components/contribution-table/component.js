@@ -5,7 +5,8 @@ import _ from 'lodash';
 const GRANULARITY_MAPPING = {
   DAYS: 'M/D',
   HOURS: 'M/D h a',
-  MINUTES: 'M/D hh:mm a'
+  MINUTES: 'M/D hh:mm a',
+  '5_MINUTES': 'M/D hh:mm a'
 };
 
 /**

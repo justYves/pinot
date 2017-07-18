@@ -15,11 +15,6 @@ export default Ember.Route.extend({
       .then(res => res.json());
   },
 
-  // setupController(controller, model) {
-  //   this._super(...arguments);
-
-  //   controller.set('primaryMetric', model);
-  // },
   actions: {
     transitionToDetails(id) {
       this.transitionTo('rca.details', id, { queryParams: {

@@ -128,10 +128,7 @@ function fetchRelatedMetricIds() {
     // todo: identify better way for query params
     return fetch(`/rootcause/query?framework=relatedMetrics&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&urns=thirdeye:metric:${metricId}`)
       .then(res => res.json())
-      .then(res => dispatch(loadRelatedMetricIds(res)))
-      .catch(() => {
-        dispatch(requestFail());
-      });
+      .then(res => dispatch(loadRelatedMetricIds(res)));
   };
 }
 
@@ -200,12 +197,17 @@ function fetchRelatedMetricData() {
     return Ember.RSVP.hash(promiseHash)
       .then((metrics) => {
         const filteredMetrics = _.pickBy(metrics, filterMetric);
+
         metricIds.forEach((id, index) => {
-          filteredMetrics[id].color = colors[index % colors.length];
+          const filter = filteredMetrics[id];
+          if (filter) {
+            filter.color = colors[index % colors.length];
+          }
         });
         return filteredMetrics;
       })
-      .then(res => dispatch(loadRelatedMetricsData(res)));
+      .then(res => dispatch(loadRelatedMetricsData(res)))
+      .catch((res) => {});
   };
 }
 

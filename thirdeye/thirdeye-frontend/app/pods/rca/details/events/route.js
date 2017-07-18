@@ -23,14 +23,6 @@ export default Ember.Route.extend({
 
   },
 
-
-  // setupController: function(controller, model) {
-  //   this._super(controller, model);
-
-
-  //   controller.set('model', this.modelFor('rca.details'));
-  // },
-
   actions: {
     queryParamsDidChange(changedParams, oldParams) {
 
@@ -51,24 +43,6 @@ export default Ember.Route.extend({
       }
       this._super(...arguments);
 
-      // if (!(changedParams.analysisStart
-      //   || changedParams.analysisEnd
-      //   || changedParams.compareMode)) {
-      //   return true;
-      // }
-
-      // const {
-      //   analysisStart: start,
-      //   analysisEnd: end,
-      //   compareMode
-      // } = Object.assign(oldParams, changedParams);
-
-      // if (!(start && end && compareMode)) {
-      //   return true;
-      // }
-
-
-      // bubbling up
       return true;
     }
   }

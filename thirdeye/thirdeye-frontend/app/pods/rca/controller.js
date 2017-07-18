@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
   mostRecentSearch: null,
 
   searchMetrics: task(function* (metric) {
-    yield timeout(1000);
+    yield timeout(3000);
     let url = `/data/autocomplete/metric?name=${metric}`;
     return fetch(url)
       .then(res => res.json());

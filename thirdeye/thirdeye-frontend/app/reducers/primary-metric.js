@@ -199,7 +199,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       let newSelectedEvents = [];
 
       if (selectedEvents.includes(event)) {
-        newSelectedEvents =  newSelectedEvents.filter((elem) =>  (elem !== event));
+        newSelectedEvents =  selectedEvents.filter((elem) =>  (elem !== event));
       } else {
         newSelectedEvents = [...selectedEvents, event];
       }
