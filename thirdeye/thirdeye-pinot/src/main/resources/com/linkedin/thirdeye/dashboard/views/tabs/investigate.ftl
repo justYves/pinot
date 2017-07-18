@@ -139,6 +139,9 @@
               <a href="{{wow.url}}" target="_blank" class="thirdeye-link">View Contribution Analysis</a>
             </div>
           {{/unless}}
+            <div class="wow-card-footer">
+              <a href="{{wow.newUrl}}" target="_blank" class="thirdeye-link">View Contribution Analysis (new link)</a>
+            </div>
         </li>
       {{/each}}
     </ul>
