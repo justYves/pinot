@@ -18,14 +18,14 @@
         </h5>
         <ul class="anomaly-graph__filter-group {{if isEventsHidden "anomaly-graph__filter-group--hidden"}}">
 
-          {{#each holidayEvents as |holiday|}}
+          {{#each holidayEvents as |event|}}
             <li class="anomaly-graph__filter-item">
               {{input 
                 type="checkbox" 
-                change=(action "onSelection" holiday.urn)
-                id=(concat relatedMetricId holiday.urn) 
-                checked=false}}
-              <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{holiday.color}}" for="{{concat relatedMetricId holiday.urn}}" title={{holiday.label}}> {{holiday.label}} </label>
+                change=(action "onSelection" event.urn)
+                id=(concat relatedMetricId event.urn) 
+                checked=event.isSelected}}
+              <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{event.color}}" for="{{concat relatedMetricId event.urn}}" title={{event.label}}> {{event.label}} </label>
             </li>
           {{else}}
             No Related Events.
@@ -47,7 +47,7 @@
               type="checkbox"
               id=(concat dimensionId subdimension.id)
               click=(action "onSelection" subdimension)
-              checked=false}}
+              checked=subdimension.isSelected}}
             <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{subdimension.color}}" for="{{concat dimensionId subdimension.id}}" title={{subdimension.name}}> {{subdimension.name}} </label>
           </li>
         {{else}}

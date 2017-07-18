@@ -32,7 +32,7 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case ActionTypes.LOADING:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: true,
         loaded: false,
         failed: false
@@ -40,7 +40,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
     case ActionTypes.LOAD_EVENTS: {
       const events = action.payload || [];
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: false,
         loaded: true,
         failed: false,
@@ -49,7 +49,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     }
 
     case ActionTypes.LOADED: {
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: false,
         loaded: true,
         failed: false

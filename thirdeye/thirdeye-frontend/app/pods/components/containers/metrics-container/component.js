@@ -22,7 +22,6 @@ function select(store) {
   // const uiRelatedMetric = _.merge(relatedMetricEntities, regions);
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
 
-
   // improve this so that it isn't called twice
   return {
     loading,
@@ -33,7 +32,15 @@ function select(store) {
     selectedMetrics: selectedMetricIds.map(id => uiRelatedMetric[id]),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds
-      .map(id => uiRelatedMetric[id])
+      .map((id) => {
+        const relatedMetric = uiRelatedMetric[id];
+
+        if (selectedMetricIds.includes(id)) {
+          relatedMetric.isSelected = true;
+        }
+
+        return relatedMetric;
+      })
   };
 }
 

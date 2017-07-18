@@ -35,6 +35,7 @@ export default Ember.Component.extend({
     const relatedMetric = this.get('relatedMetrics') || [];
     const selectedMetrics = this.get('selectedMetrics') || [];
     const selectedDimensions = this.get('selectedDimensions') || [];
+    const events = this.get('holidayEvents') || [];
 
     const data = [
       primaryMetric,
@@ -44,10 +45,16 @@ export default Ember.Component.extend({
 
     data.forEach((datum) => {
       const name = datum.metricName || datum.name;
-      const color = datum.color || 'blue';
+      const { color = 'blue' } = datum;
       colors[`${name}-current`] = COLOR_MAPPING[color];
       colors[`${name}-expected`] = COLOR_MAPPING[color];
     });
+
+    events.forEach((event) => {
+      const { color = 'blue'} = event;
+      colors[event.label] = COLOR_MAPPING[color];
+    });
+
     this.set('colors', colors);
   },
 

@@ -37,7 +37,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const keys = action.payload || [];
       const { metricId } = action;
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         keys,
         metricId,
         loading: false,
@@ -47,7 +47,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     }
 
     case ActionTypes.LOADING:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loading: true,
         loaded: false,
         failed: false
@@ -55,7 +55,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 
     case ActionTypes.SET: {
       const selectedDimension = action.payload;
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         selectedDimension
       });
     }
@@ -81,7 +81,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
           return hash;
         }, {});
 
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         timeseries,
         dimensions: Object.assign({}, state.dimensions, dimensions),
         loaded: true,
@@ -91,7 +91,7 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     }
 
     case ActionTypes.REQUEST_FAIL:
-      return Object.assign(state, {
+      return Object.assign({}, state, {
         loaded: false,
         loading: false,
         failed: true
