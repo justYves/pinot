@@ -23,9 +23,7 @@ export default Ember.Route.extend({
     if (!metricId) { return; }
     redux.dispatch(Actions.loading());
     Ember.run.later(() => {
-      debugger;
       redux.dispatch(Actions.updateDimension(dimension)).then(() => {
-        debugger;
         redux.dispatch(Actions.fetchDimensions(metricId));
       });
     });

@@ -207,6 +207,13 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         selectedEvents: newSelectedEvents
       });
     }
+
+    case ActionTypes.RESET: {
+      return Object.assign(state, {
+        selectedDimensions: [],
+        selectedEvents: []
+      });
+    }
   }
   return state;
 }
