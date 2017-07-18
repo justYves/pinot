@@ -17,7 +17,8 @@ export const ActionTypes = {
   LOAD_PRIMARY_METRIC: type('[Metric] Load Primary Metric'),
   UPDATE_COMPARE_MODE: type('[Metric] Update Compare Mode'),
   UPDATE_DATE: type('[Metric] Update Date'),
-  SELECT_METRIC: type('[Metric] Set Selected Metric')
+  SELECT_METRIC: type('[Metric] Set Selected Metric'),
+  RESET: type('[Metric] Reset Data')
 };
 
 /**
@@ -93,6 +94,13 @@ function updateDate(response) {
     payload: response
   };
 }
+
+function resetData() {
+  return {
+    type: ActionTypes.RESET
+  };
+}
+
 
 /**
  * Get all related metric's id for the primary metric
@@ -248,6 +256,13 @@ function selectMetric(metric) {
   };
 }
 
+function reset() {
+  return (dispatch) => {
+    dispatch(resetData());
+    return Promise.resolve();
+  };
+}
+
 export const Actions = {
   loading,
   requestFail,
@@ -257,6 +272,7 @@ export const Actions = {
   setPrimaryMetric,
   updateCompareMode,
   updateMetricDate,
-  selectMetric
+  selectMetric,
+  reset
 };
 

@@ -12,12 +12,15 @@ function select(store) {
     failed,
     relatedMetricEntities = {},
     relatedMetricIds,
-    selectedMetricIds,
     regions,
     primaryMetricId,
     compareMode,
     granularity
   } = store.metrics;
+
+  const {
+    selectedMetricIds
+  } = store.primaryMetric;
 
   // const uiRelatedMetric = _.merge(relatedMetricEntities, regions);
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
@@ -29,7 +32,6 @@ function select(store) {
     failed,
     compareMode,
     granularity,
-    selectedMetrics: selectedMetricIds.map(id => uiRelatedMetric[id]),
     primaryMetric: uiRelatedMetric[primaryMetricId],
     relatedMetrics: relatedMetricIds
       .map((id) => {

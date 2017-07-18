@@ -29,28 +29,5 @@ export default Ember.Route.extend({
     });
 
     return {};
-  },
-
-  actions: {
-    queryParamsDidChange(params) {
-      debugger;
-      this._super(...arguments);
-      return true;
-    //   const redux = this.get('redux');
-    //   const {
-    //     analysisStart,
-    //     analysisEnd,
-    //     dimension
-    //   } = params;
-
-    //   if (dimension) {
-    //     return true;
-    //   }
-
-
-    //   redux.dispatch(Actions.loading());
-    //   redux.dispatch(Actions.updateDimension());
-    //   return true;
-    }
   }
 });

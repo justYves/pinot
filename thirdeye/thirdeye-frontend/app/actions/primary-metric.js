@@ -16,6 +16,7 @@ export const ActionTypes = {
   UPDATE_DATES: type('[Primary Metric] Update Date'),
   SELECT_DIMENSION: type('[Primary Metric] Set Selected Dimension'),
   SELECT_EVENTS: type('[Primary Metric] Set Selected Events'),
+  SELECT_METRICS: type('[Primary Metric] set Selected Metrics'),
   RESET: type('[Primary Metric] Reset Selected Data')
 };
 
@@ -84,6 +85,13 @@ function setSelectedDimension(response) {
 function setSelectedEvent(response) {
   return {
     type: ActionTypes.SELECT_EVENTS,
+    payload: response
+  };
+}
+
+function setSelectedMetrics(response) {
+  return {
+    type: ActionTypes.SELECT_METRICS,
     payload: response
   };
 }
@@ -173,10 +181,7 @@ function updateMetricDate(startDate, endDate) {
   return (dispatch, getState) => {
 
     const store = getState();
-    const {
-      currentStart,
-      currentEnd
-    } = store.primaryMetric;
+
     startDate = startDate? moment(Number(startDate)) : startDate;
     endDate = endDate ? moment(Number(endDate)) : endDate;
 
@@ -184,29 +189,6 @@ function updateMetricDate(startDate, endDate) {
       analysisStart: startDate.valueOf(),
       analysisEnd: endDate.valueOf()
     }));
-
-    // const shouldUpdateStart = startDate.isBefore(currentStart);
-    // const shouldUpdateEnd = endDate.isAfter(currentEnd);
-
-    // if (shouldUpdateStart && !shouldUpdateEnd) {
-    //   const newStartDate = +currentStart - (currentEnd - currentStart) ;
-
-
-    //   dispatch(setPrimaryMetric({
-    //     startDate: newStartDate,
-    //     graphStart: startDate.valueOf(),
-    //     graphEnd: endDate.valueOf()
-    //   }))
-    //     .then((res) => dispatch(fetchRegions(res)))
-    //     .then((res) => dispatch(fetchRelatedMetricData(res)));
-
-    //   return Promise.resolve();
-
-      // return dispatch(fetchRegions()).then(() => {
-      //   return dispatch(fetchRelatedMetricData());
-      // });
-    // }
-  //}
   };
 }
 
@@ -216,22 +198,15 @@ function updateAnalysisDates(startDate, endDate) {
   };
 }
 
-function selectMetric(...args) {
-  return (dispatch, getState) => {
-    const argh = args;
-    debugger;
-  };
-}
+// function fetchSummaryData() {
+//   return (dispatch, getState) => {
+//     dispatch(updateMetricDate(startDate, endDate));
+//   };
+// }
 
-function fetchSummaryData() {
-  return (dispatch, getState) => {
-    dispatch(updateMetricDate(startDate, endDate));
-  };
-}
+// function setSummary() {
 
-function setSummary() {
-
-}
+// }
 
 function selectDimension(subdimension) {
   return (dispatch) => {
@@ -247,9 +222,16 @@ function selectEvent(name) {
   };
 }
 
+function selectMetric(metric) {
+  return (dispatch) => {
+    return dispatch(setSelectedMetrics(metric));
+  };
+}
+
 function reset() {
   return (dispatch) => {
-    return dispatch(resetSelectedData());
+    dispatch(resetSelectedData());
+    return Promise.resolve();
   };
 }
 

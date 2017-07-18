@@ -48,6 +48,11 @@ export default Ember.Component.extend({
 
   columns: [
     {
+      template: 'custom/checkbox',
+      useFilter: true,
+      mayBeHidden: false
+    },
+    {
       propertyName: 'label',
       title: 'Event Name',
       className: 'events-table__column'
@@ -79,6 +84,10 @@ export default Ember.Component.extend({
       if (currentTab !== tab) {
         this.set('selectedTab', tab);
       }
+    },
+
+    onSelection(event) {
+      this.get('onSelection')(event.urn);
     }
   }
 });

@@ -96,7 +96,10 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         loading: false,
         failed: true
       });
-  }
 
-  return state;
+    case ActionTypes.RESET: {
+      state = undefined;
+    }
+  }
+  return state || INITIAL_STATE;
 }

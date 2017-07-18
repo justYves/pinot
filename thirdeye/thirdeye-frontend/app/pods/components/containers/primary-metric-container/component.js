@@ -19,11 +19,11 @@ function select(store) {
     graphStart,
     graphEnd,
     selectedDimensions,
-    selectedEvents
+    selectedEvents,
+    selectedMetricIds
   } = store.primaryMetric;
 
   const {
-    selectedMetricIds = [],
     relatedMetricEntities
   } = store.metrics;
 
@@ -39,7 +39,6 @@ function select(store) {
 
   // to do fix region and put this in reducer
   const uiRelatedMetric = _.merge({}, metricData, regions);
-
 
   return {
     loading,
@@ -92,6 +91,23 @@ function actions(dispatch) {
 
     onEventSelection(name) {
       dispatch(Actions.selectEvent(name));
+    },
+
+    onMetricSelection(metric) {
+      dispatch(Actions.selectMetric(metric));
+    },
+
+    onDeselect(entity) {
+      if (this.get('selectedDimensions').includes(entity)) {
+        dispatch(Actions.selectDimension(entity));
+      }
+
+      if (_.map(this.get('selectedEvents'), 'urn').includes(entity)) {
+        dispatch(Actions.selectEvent(entity));
+      }
+      if (this.get('selectedMetrics').includes(entity)) {
+        dispatch(Actions.selectMetric(entity));
+      }
     }
   };
 }

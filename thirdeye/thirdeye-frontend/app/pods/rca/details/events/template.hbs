@@ -3,32 +3,34 @@
     <h3 class="te-sub-title te-sub-title--flush">Events Correlation</h3>
   </div>
   {{#containers/events-table-container as |events|}}
-    {{#containers/primary-metric-container as |primaryMetric actions|}}
+    {{#containers/primary-metric-container as |summary actions|}}
+      {{#if summary.loaded }}
 
-      {{#if events.loading}}
-        <div class="spinner-wrapper">
-          {{ember-spinner}}
-        </div>
-      {{/if}}
-      {{#if events.loaded}}
+        {{#if events.loading}}
+          <div class="spinner-wrapper">
+            {{ember-spinner}}
+          </div>
+        {{/if}}
+        {{#if events.loaded}}
 
           {{anomaly-graph
             componentId='correlated-events'
-            primaryMetric=events.primaryMetric
+            primaryMetric=summary.primaryMetric
             events=events.data
             showEvents=true
             onSubchartChange=(action "setDateParams")
             onSelection=(action actions.onEventSelection)
           }}
 
-        {{events-table
-          events=events.data
-          start=eventsStart
-          end=eventsEnd
-        }}
+          {{events-table
+            events=events.data
+            start=eventsStart
+            end=eventsEnd
+            onSelection=(action actions.onEventSelection)
+          }}
+        {{/if}}
       {{/if}}
     {{/containers/primary-metric-container}}
   {{/containers/events-table-container}}
-    {{!--useFilteringByColumns=false--}}
 </section>
 

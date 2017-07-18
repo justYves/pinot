@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
   granularities: Ember.computed.reads('model.granularities'),
   // granularity: Ember.computed.reads('granularities.firstObject'),
   noMatchesMessage: '',
-  filters: JSON.stringify({}),
+  filters: null,
 
   compareMode: null,
   compareModeOptions: ['WoW', 'Wo2W', 'Wo3W', 'Wo4W'],

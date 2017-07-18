@@ -46,7 +46,7 @@
             {{input
               type="checkbox"
               id=(concat dimensionId subdimension.id)
-              click=(action "onSelection" subdimension)
+              change=(action "onSelection" subdimension)
               checked=subdimension.isSelected}}
             <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{subdimension.color}}" for="{{concat dimensionId subdimension.id}}" title={{subdimension.name}}> {{subdimension.name}} </label>
           </li>
@@ -67,7 +67,7 @@
           <li class="anomaly-graph__filter-item">
             {{input 
               type="checkbox" 
-              click=(action "onSelection" metric checked)
+              change=(action "onSelection" metric checked)
               id=(concat relatedMetricId index) 
               checked=metric.isSelected
               }}
