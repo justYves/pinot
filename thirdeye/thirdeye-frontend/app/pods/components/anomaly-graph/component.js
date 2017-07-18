@@ -99,10 +99,20 @@ export default Ember.Component.extend({
   holidayEventsColumn: Ember.computed(
     'holidayEvents',
     function() {
-      const holidays = this.get('holidayEvents');
+      const events = this.get('holidayEvents');
 
-      return holidays.map((holiday) => {
-        return [holiday.label, holiday.score, holiday.score];
+      return events.map((event) => {
+        const {
+          start,
+          end,
+          score,
+          label
+        } = event;
+
+        const scores = (!end || start === end)
+          ? [score, score]
+          : [score];
+        return [label, score];
       });
     }
   ),
@@ -113,7 +123,13 @@ export default Ember.Component.extend({
       const holidays = this.get('holidayEvents');
 
       return holidays.map((holiday) => {
-        return [`${holiday.label}-date`, holiday.start, holiday.end];
+        const { start, end } = holiday;
+
+        const dates = (!end || start === end)
+          ? [start, end]
+          : [start];
+
+        return [`${holiday.label}-date`, end];
       });
     }
   ),
