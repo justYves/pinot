@@ -2,7 +2,7 @@ import Ember from 'ember';
 import RSVP from 'rsvp';
 import moment from 'moment';
 import fetch from 'fetch';
-import { Actions as MetricsActions } from 'thirdeye-frontend/actions/primary-metric';
+import { Actions } from 'thirdeye-frontend/actions/primary-metric';
 
 const queryParamsConfig = {
   refreshModel: true,
@@ -23,9 +23,13 @@ export default Ember.Route.extend({
   redux: Ember.inject.service(),
 
   beforeModel(transition) {
+    const redux = this.get('redux');
+
     if (transition.targetName === 'rca.details.index') {
       this.replaceWith('rca.details.events');
     }
+
+    redux.dispatch(Actions.reset());
   },
 
   model(params) {
@@ -79,9 +83,9 @@ export default Ember.Route.extend({
 
     Object.assign(model, params);
 
-    redux.dispatch(MetricsActions.setPrimaryMetric(params))
-      .then((res) => redux.dispatch(MetricsActions.fetchRegions(res)))
-      .then((res) => redux.dispatch(MetricsActions.fetchRelatedMetricData(res)));
+    redux.dispatch(Actions.setPrimaryMetric(params))
+      .then((res) => redux.dispatch(Actions.fetchRegions(res)))
+      .then((res) => redux.dispatch(Actions.fetchRelatedMetricData(res)));
 
     return {};
   },

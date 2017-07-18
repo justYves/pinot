@@ -15,7 +15,8 @@ export const ActionTypes = {
   UPDATE_COMPARE_MODE: type('[Primary Metric] Update Compare Mode'),
   UPDATE_DATES: type('[Primary Metric] Update Date'),
   SELECT_DIMENSION: type('[Primary Metric] Set Selected Dimension'),
-  SELECT_EVENTS: type('[Primary Metric] Set Selected Events')
+  SELECT_EVENTS: type('[Primary Metric] Set Selected Events'),
+  RESET: type('[Primary Metric] Reset Selected Data')
 };
 
 // Todo: move this in a constant.js file
@@ -84,6 +85,12 @@ function setSelectedEvent(response) {
   return {
     type: ActionTypes.SELECT_EVENTS,
     payload: response
+  };
+}
+
+function resetSelectedData() {
+  return {
+    type: ActionTypes.RESET
   };
 }
 
@@ -240,6 +247,12 @@ function selectEvent(name) {
   };
 }
 
+function reset() {
+  return (dispatch) => {
+    return dispatch(resetSelectedData());
+  };
+}
+
 export const Actions = {
   loading,
   requestFail,
@@ -251,6 +264,7 @@ export const Actions = {
   updateAnalysisDates,
   selectMetric,
   selectDimension,
-  selectEvent
+  selectEvent,
+  reset
 };
 
