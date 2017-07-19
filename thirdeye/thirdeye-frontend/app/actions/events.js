@@ -91,11 +91,11 @@ function fetchEvents(start, end, mode) {
     dispatch(loading());
     return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&urns=thirdeye:metric:${metricId}`)
       .then(res => res.json())
-      .then((res => {
+      .then((res) => {
         return res.map((event) => {
           return assignEventColor(event);
         });
-      }))
+      })
       .then(res => dispatch(loadEvents(res)
     ));
   };

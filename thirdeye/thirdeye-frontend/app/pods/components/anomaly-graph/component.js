@@ -100,8 +100,10 @@ export default Ember.Component.extend({
 
   holidayEvents: Ember.computed('events', function() {
     const events = this.get('events');
-    return events;
-    // return events.filterBy('eventType', 'holiday');
+    const hiddenEvents = ['lix', 'informed'];
+    return events.filter((event) => {
+      return !hiddenEvents.includes(event.eventType);
+    });
   }),
 
   holidayEventsColumn: Ember.computed(
@@ -133,11 +135,9 @@ export default Ember.Component.extend({
       return holidays.map((holiday) => {
         const { start, end } = holiday;
 
-        const dates = (!end || start === end)
-          ? [start, end]
-          : [start];
+        const date = !end ? [end] : [start];
 
-        return [`${holiday.label}-date`, end];
+        return [`${holiday.label}-date`, date];
       });
     }
   ),
