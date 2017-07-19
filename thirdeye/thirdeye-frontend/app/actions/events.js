@@ -89,7 +89,7 @@ function fetchEvents(start, end, mode) {
     const windowSize = Math.max(endDate - startDate, 0);
 
     dispatch(loading());
-    return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&metricUrn=thirdeye:metric:${metricId}`)
+    return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&urns=thirdeye:metric:${metricId}`)
       .then(res => res.json())
       .then((res => {
         return res.map((event) => {

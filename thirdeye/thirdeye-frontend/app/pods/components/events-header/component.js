@@ -36,6 +36,16 @@ export default Ember.Component.extend({
   ),
   informedCount: Ember.computed.alias('informed.length'),
 
+  lix: Ember.computed(
+    'events.@each',
+    function() {
+      return this.get('events')
+        .filter(event => event.eventType === 'lix');
+    }
+  ),
+
+  lixCount: Ember.computed.alias('lix.length'),
+
   actions: {
     onTabClick(tab) {
 
