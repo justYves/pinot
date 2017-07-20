@@ -100,7 +100,7 @@ export default Ember.Component.extend({
 
   holidayEvents: Ember.computed('events', function() {
     const events = this.get('events');
-    const hiddenEvents = ['lix', 'informed'];
+    const hiddenEvents = ['informed'];
     return events.filter((event) => {
       return !hiddenEvents.includes(event.eventType);
     });
@@ -211,6 +211,9 @@ export default Ember.Component.extend({
       const subchartStart = this.get('subchartStart');
       const subchartEnd = this.get('subchartEnd');
 
+      const min = dates.get('firstObject');
+      const max = dates.get('lastObject');
+
       const startIndex = Math.floor(dates.length / 4);
       const endIndex = Math.ceil(dates.length * (3/4));
       const extentStart = subchartStart
@@ -247,13 +250,12 @@ export default Ember.Component.extend({
         x: {
           type: 'timeseries',
           show: true,
-          min: this.get('minDate'),
-          max: this.get('maxDate'),
+          min: this.get('minDate') || min,
+          max: this.get('maxDate') || max,
           tick: {
             fit: false
             // format: function (x) { return new Date(x).toString(); }
           },
-          // TODO: add the extent functionality
           extent: [extentStart, extentEnd]
         }
       };

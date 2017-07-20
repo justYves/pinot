@@ -15,7 +15,15 @@ const colors = [
   'pink'
 ];
 
+const eventColorMapping = {
+  holiday: 'green',
+  informed: 'red',
+  lix: 'purple',
+  gcn: 'orange'
+};
+
 export {
   COMPARE_MODE_MAPPING,
-  colors
+  colors,
+  eventColorMapping
 };

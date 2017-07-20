@@ -49,7 +49,7 @@ export default Ember.Component.extend({
   columns: [
     {
       template: 'custom/checkbox',
-      useFilter: true,
+      useFilter: false,
       mayBeHidden: false
     },
     {
@@ -61,6 +61,7 @@ export default Ember.Component.extend({
       propertyName: 'eventType',
       title: 'Type',
       filterWithSelect: true,
+      sortFilterOptions: true,
       className: 'events-table__column'
     },
     {

@@ -10,7 +10,6 @@ function select(store) {
     loaded,
     failed,
     relatedMetricEntities: metricData = {},
-    regions,
     primaryMetricId,
     compareMode,
     granularity,
@@ -24,7 +23,8 @@ function select(store) {
   } = store.primaryMetric;
 
   const {
-    relatedMetricEntities
+    relatedMetricEntities,
+    regions
   } = store.metrics;
 
   const {
@@ -38,7 +38,8 @@ function select(store) {
   const isSelected = true;
 
   // to do fix region and put this in reducer
-  const uiRelatedMetric = _.merge({}, metricData, regions);
+  const uiMainMetric = _.merge({}, metricData, regions);
+  const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
 
   return {
     loading,
@@ -52,17 +53,25 @@ function select(store) {
     graphEnd,
     selectedDimensions: selectedDimensions
       .map((key) => {
+
+        const dimension = dimensions[key];
+        if (!dimension) { return; }
+
         return Object.assign({},
-          dimensions[key],
+          dimensions,
           { isSelected });
       }).filter(dimension => dimension),
-    primaryMetric: uiRelatedMetric[primaryMetricId],
+    primaryMetric: uiMainMetric[primaryMetricId],
     selectedMetrics: selectedMetricIds
       .map((id) => {
+
+        const metric = uiRelatedMetric[id];
+        if (!metric) { return; }
+
         return Object.assign({},
-          relatedMetricEntities[id],
+          metric,
           { isSelected });
-      }),
+      }).filter(metric => metric && metric.metricName),
     selectedEvents: events
       .filter((event) => {
         return selectedEvents.includes(event.urn);

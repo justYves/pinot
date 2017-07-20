@@ -1,13 +1,14 @@
 .events-summary {
   display: flex;
   width: 100%;
+  margin-top: $te-spacing-lg;
   border: 1px solid $te-border-color;
   border-bottom: 0;
 }
 
 .events-summary__item {
-  padding: 14px;
-  padding-top: 24px;
+  padding: $te-spacing;
+  padding-top: $te-spacing-lg;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -16,13 +17,25 @@
   flex-basis: 0;
   flex-grow: 1;
 
-  &--no-border { 
+  &:last-child() { 
     border-right: 0;
   }
 
   &--active,
   &:hover {
     border-bottom: 2px solid $te-blue;
+  }
+
+  &--purple {
+    color: $te-purple;
+  }
+
+  &--orange {
+    color: $te-orange
+  }
+
+  &--green {
+    color: $te-green
   }
 }
 

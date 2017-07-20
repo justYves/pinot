@@ -2,7 +2,7 @@ import { type } from './utils';
 import fetch from 'fetch';
 import moment from 'moment';
 
-import { colors } from './constants';
+import { eventColorMapping } from './constants';
 
 /**
  * Define the metric action types
@@ -51,12 +51,6 @@ function loaded() {
   };
 }
 
-const eventColorMapping = {
-  holiday: 'green',
-  informed: 'red',
-  gcn: 'orange'
-};
-
 const assignEventColor = (event) => {
   const color = eventColorMapping[event.eventType];
 
@@ -92,9 +86,9 @@ function fetchEvents(start, end, mode) {
     return fetch(`/rootcause/query?framework=relatedEvents&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&urns=thirdeye:metric:${metricId}`)
       .then(res => res.json())
       .then((res) => {
-        return res.map((event) => {
-          return assignEventColor(event);
-        });
+        return res
+          .filter(event => event.eventType !== 'informed')
+          .map(assignEventColor);
       })
       .then(res => dispatch(loadEvents(res)
     ));

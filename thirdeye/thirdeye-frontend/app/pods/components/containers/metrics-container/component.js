@@ -42,7 +42,7 @@ function select(store) {
         }
 
         return relatedMetric;
-      })
+      }).filter(metric => metric && metric.metricName)
   };
 }
 
