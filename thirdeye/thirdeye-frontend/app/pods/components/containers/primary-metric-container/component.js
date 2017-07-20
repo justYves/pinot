@@ -58,7 +58,7 @@ function select(store) {
         if (!dimension) { return; }
 
         return Object.assign({},
-          dimensions,
+          dimension,
           { isSelected });
       }).filter(dimension => dimension),
     primaryMetric: uiMainMetric[primaryMetricId],
