@@ -4,6 +4,13 @@ import moment from 'moment';
 export default Ember.Controller.extend({
   queryParams: ['dimension'],
   dimension: 'All',
+  heatmapMode: 'Percentage Change',
+  heatmapModes: [
+    'Percentage Change',
+    'Change in Contribution',
+    'Contribution To Overall Change'
+  ],
+
   tableIsLoading: false,
 
   splitView: false,

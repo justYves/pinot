@@ -12,7 +12,8 @@ export const ActionTypes = {
   REQUEST_FAIL: type('[Dimensions] Request Fail'),
   SET: type('[Dimension] Set Dimension'),
   LOAD_TIMESERIES: type('[Dimensions] Load TimeSeries'),
-  RESET: type('[Dimensions] Reset Data')
+  RESET: type('[Dimensions] Reset Data'),
+  LOAD_HEATMAP: type('[Dimensions] Load HeatMap')
 };
 
 function resetData() {
@@ -37,6 +38,13 @@ function setDimension(dimension = 'All') {
 function loadTimeSeries(response) {
   return {
     type: ActionTypes.LOAD_TIMESERIES,
+    payload: response
+  };
+}
+
+function loadHeatMap(response) {
+  return {
+    type: ActionTypes.LOAD_HEATMAP,
     payload: response
   };
 }
@@ -84,7 +92,8 @@ function updateDimension(newDimension) {
       compareMode,
       currentStart: analysisStart,
       currentEnd: analysisEnd,
-      primaryMetricId
+      primaryMetricId,
+      filters
     } = primaryMetric;
 
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
@@ -95,11 +104,16 @@ function updateDimension(newDimension) {
 
     // Todo use compareMode to update analysisStart and End
 
-    const url = `timeseries/compare/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?dimension=${newDimension}&filters={}&granularity=${granularity}`;
+    const url = `/timeseries/compare/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?dimension=${newDimension}&filters=${filters}&granularity=${granularity}`;
+    const heatmapUrl = `/data/heatmap/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?filters=${filters}`;
+
     dispatch(setDimension(newDimension));
     return fetch(url)
       .then(res => res.json())
-      .then(res => dispatch(loadTimeSeries(res)));
+      .then(res => dispatch(loadTimeSeries(res)))
+      .then(() => fetch(heatmapUrl))
+      .then(res => res.json())
+      .then(res => dispatch(loadHeatMap(res)));
   };
 }
 

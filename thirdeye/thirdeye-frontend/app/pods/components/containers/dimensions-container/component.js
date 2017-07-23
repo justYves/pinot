@@ -11,7 +11,8 @@ function select(store) {
     failed,
     timeseries,
     dimensions,
-    selectedDimension
+    selectedDimension,
+    heatmapData
   } = store.dimensions;
 
   const {
@@ -37,7 +38,8 @@ function select(store) {
         return subDimension;
       }),
     dimensionKeys,
-    granularity
+    granularity,
+    heatmapData
   };
 }
 

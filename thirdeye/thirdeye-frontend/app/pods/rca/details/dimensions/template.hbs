@@ -47,13 +47,23 @@
               <div class="contribution-table__subnav">
                 <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "number") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "number"}}>Raw Numbers</a>
               </div>
-              {{!-- <div class="contribution-table__subnav">
+               <div class="contribution-table__subnav">
                 <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "details") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "details"}}>Details</a>
-              </div> --}}
+              </div> 
             </div>
             <div class="contribution-table__body">
               {{#if (eq selectedTab "details")}}
-                heatmap here
+                {{#power-select 
+                  triggerId="select-heatmap-mode"
+                  selected=heatmapMode
+                  options=heatmapModes
+                  onchange=(action (mut heatmapMode))
+                  as |mode|}}
+                  {{mode}}
+                {{/power-select}}
+                {{dimension-heatmap
+                  heatMapData=dimensions.heatmapData
+                  heatmapMode=heatmapMode}}
               {{else}}
                 {{#if loading}}
                   <div class="spinner-wrapper spinner-wrapper--absolute">

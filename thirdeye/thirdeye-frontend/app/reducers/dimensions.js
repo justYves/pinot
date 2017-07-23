@@ -28,7 +28,8 @@ const INITIAL_STATE = {
   metricId: null,
   dimensions: {},
   timeseries: [],
-  selectedDimension: 'All'
+  selectedDimension: 'All',
+  heatmapData: {}
 };
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
@@ -58,6 +59,15 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       return Object.assign({}, state, {
         selectedDimension
       });
+    }
+
+
+    case ActionTypes.LOAD_HEATMAP: {
+      const heatmapData = _.merge({}, action.payload);
+
+      debugger;
+
+      return Object.assign({}, state, { heatmapData });
     }
 
     case ActionTypes.LOAD_TIMESERIES: {
