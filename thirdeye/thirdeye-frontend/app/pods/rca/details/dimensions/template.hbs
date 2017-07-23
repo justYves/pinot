@@ -53,14 +53,20 @@
             </div>
             <div class="contribution-table__body">
               {{#if (eq selectedTab "details")}}
-                {{#power-select 
-                  triggerId="select-heatmap-mode"
-                  selected=heatmapMode
-                  options=heatmapModes
-                  onchange=(action (mut heatmapMode))
-                  as |mode|}}
-                  {{mode}}
-                {{/power-select}}
+                <div class="row rca-header">
+                  <div class="col-xs-9"></div>
+                  <div class="col-xs-3 pull-right">
+                    <label class="te-label" for="select-heatmap-mode">Mode: </label>
+                    {{#power-select 
+                      triggerId="select-heatmap-mode"
+                      selected=heatmapMode
+                      options=heatmapModes
+                      onchange=(action (mut heatmapMode))
+                      as |mode|}}
+                      {{mode}}
+                    {{/power-select}}
+                  </div>
+                </div>
                 {{dimension-heatmap
                   heatMapData=dimensions.heatmapData
                   heatmapMode=heatmapMode}}

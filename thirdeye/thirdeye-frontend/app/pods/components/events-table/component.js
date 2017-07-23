@@ -50,7 +50,8 @@ export default Ember.Component.extend({
     {
       template: 'custom/checkbox',
       useFilter: false,
-      mayBeHidden: false
+      mayBeHidden: false,
+      className: 'events-table__column--flush'
     },
     {
       propertyName: 'label',
@@ -68,14 +69,14 @@ export default Ember.Component.extend({
       template: 'custom/date-cell',
       title: 'Start Date - End Date',
       className: 'events-table__column'
-    },
-    {
-      propertyName: 'score',
-      title: 'Score',
-      disableFiltering: true,
-      className: 'events-table__column',
-      sortDirection: 'desc'
     }
+    // {
+    //   propertyName: 'score',
+    //   title: 'Score',
+    //   disableFiltering: true,
+    //   className: 'events-table__column',
+    //   sortDirection: 'desc'
+    // }
   ],
 
   actions: {

@@ -86,6 +86,8 @@ export default Ember.Component.extend({
   showMetrics: false,
   events: [],
 
+  enableZoom: false,
+
   primaryMetricId: Ember.computed('componentId', function() {
     return this.get('componentId') + '-primary-metric-';
   }),
@@ -156,13 +158,17 @@ export default Ember.Component.extend({
   /**
    * Graph Zoom config
    */
-  zoom: Ember.computed('onSubchartChange', function() {
-    const onSubchartBrush = this.get('onSubchartChange');
-    return {
-      enabled: true,
-      onzoomend: onSubchartBrush
-    };
-  }),
+  zoom: Ember.computed(
+    'onSubchartChange',
+    'enableZoom',
+    function() {
+      const onSubchartBrush = this.get('onSubchartChange');
+      return {
+        enabled: this.get('enableZoom'),
+        onzoomend: onSubchartBrush
+      };
+    }
+  ),
 
   /**
    * Graph Point Config
@@ -236,7 +242,7 @@ export default Ember.Component.extend({
           }
         },
         y2: {
-          show: this.get('showEvents'),
+          show: false,
           label: 'events score',
           min: 0,
           max: 1,
