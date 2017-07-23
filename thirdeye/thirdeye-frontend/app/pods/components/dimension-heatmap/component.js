@@ -190,6 +190,6 @@ export default Ember.Component.extend({
 
     }
     // anchor page to dimension tree map if exists
-    Ember.$('.dimension-heatmap').get(0).scrollIntoView();
+    Ember.$('.contribution-table').get(0).scrollIntoView();
   }
 });

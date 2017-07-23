@@ -518,6 +518,11 @@ export default Ember.Component.extend({
     },
     onToggle() {
       this.toggleProperty('showGraphLegend');
+    },
+    scrollToSection() {
+      Ember.run.later(() => {
+        Ember.$('#root-cause-analysis').get(0).scrollIntoView();
+      });
     }
   }
 });

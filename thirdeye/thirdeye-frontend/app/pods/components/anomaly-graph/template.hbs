@@ -28,7 +28,8 @@
               <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{event.color}}" for="{{concat relatedMetricId event.urn}}" title={{event.label}}> {{event.label}} </label>
             </li>
           {{else}}
-            No Related Events.
+            No Related Events. 
+            {{#link-to 'rca.details.events' class="thirdeye-link"}} <a {{action "scrollToSection" bubbles=true}}> (Add an event) </a>{{/link-to}}
           {{/each}}
           
         </ul>
@@ -52,6 +53,7 @@
           </li>
         {{else}}
           No Dimensions.
+          {{#link-to 'rca.details.dimensions' class="thirdeye-link"}} <a {{action "scrollToSection" bubbles=true}}> (Add a dimension) </a>{{/link-to}}
         {{/each}}
         </ul>
       {{/if}}
@@ -76,6 +78,7 @@
           </li>
         {{else}}
           No Related Metrics.
+          {{#link-to 'rca.details.metrics' class="thirdeye-link"}} <a {{action "scrollToSection" bubbles=true}}> (Add a metric) </a>{{/link-to}}
         {{/each}}
         </ul>
       {{/if}}
