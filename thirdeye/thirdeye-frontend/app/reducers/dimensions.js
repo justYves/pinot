@@ -65,8 +65,6 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
     case ActionTypes.LOAD_HEATMAP: {
       const heatmapData = _.merge({}, action.payload);
 
-      debugger;
-
       return Object.assign({}, state, { heatmapData });
     }
 

@@ -1,3 +1,5 @@
+
+// compare mode to week offset mapping
 const COMPARE_MODE_MAPPING = {
   WoW: 1,
   Wo2W: 2,
@@ -5,7 +7,7 @@ const COMPARE_MODE_MAPPING = {
   Wo4W: 4
 };
 
-// // to maintain consistent coloring throughout the app
+// colors used to maintain consistent coloring throughout the app
 const colors = [
   'orange',
   'teal',
@@ -15,6 +17,7 @@ const colors = [
   'pink'
 ];
 
+// colors for events
 const eventColorMapping = {
   holiday: 'green',
   informed: 'red',

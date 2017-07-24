@@ -176,7 +176,7 @@
             <ul class="nav navbar-nav thirdeye-nav__tabs" id="main-tabs">
               <li><a href="#anomalies">Anomalies</a></li>
               <li class="hidden"><a href="#investigate">Investigate</a></li>
-              <li><a href="#analysis">Root Cause Analysis</a></li>
+              <li><a href="app/#/rca">Root Cause Analysis</a></li>
             </ul>
             <div class="thirdeye-nav__oldui">
               <div class="thirdeye-nav__divider"></div>

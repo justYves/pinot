@@ -1,9 +1,6 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions as metricActions } from 'thirdeye-frontend/actions/metrics';
-import { Actions as Actions } from 'thirdeye-frontend/actions/primary-metric';
-import { task, timeout } from 'ember-concurrency';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 function select(store) {
   const {
@@ -22,8 +19,7 @@ function select(store) {
     selectedMetricIds
   } = store.primaryMetric;
 
-  // const uiRelatedMetric = _.merge(relatedMetricEntities, regions);
-  const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
+  const uiRelatedMetric = merge({}, relatedMetricEntities, regions);
 
   // improve this so that it isn't called twice
   return {
@@ -48,12 +44,7 @@ function select(store) {
 
 
 function actions(dispatch) {
-
-  return {
-    onSelection(metric) {
-      dispatch(metricActions.selectMetric(metric));
-    }
-  };
+  return {};
 }
 
 export default connect(select, actions)(Ember.Component.extend({

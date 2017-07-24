@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   // get this from controller
   heatmapMode: 'Percentage Change',
 
+  // Copy pasted code from all Thirdeye UI
   treeMapData: Ember.computed(
     'dimensions',
     'dimensions.@each',
@@ -63,10 +64,16 @@ export default Ember.Component.extend({
     d3.select('.dimension-heatmap').selectAll('svg').remove();
   },
 
+  willRender() {
+    this._super(...arguments);
+
+    d3.select('.dimension-heatmap').selectAll('svg').remove();
+  },
 
   didRender() {
     this._super(...arguments);
 
+    // Copy pasted code from all Thirdeye UI
     const heatmapMode = this.get('heatmapMode');
     const inverseMetric = this.get('inverseMetric');
 
@@ -154,8 +161,6 @@ export default Ember.Component.extend({
         return d.dy - 1;
       }).style("fill", function(d) {
         var factor = getChangeFactor(d);
-        var test = heatmapMode;
-        debugger;
         return getBackgroundColor(factor);
       });
 
@@ -164,7 +169,6 @@ export default Ember.Component.extend({
       }).attr("y", function(d) {
         return d.dy / 2;
       }).attr("dy", ".35em").attr("text-anchor", "middle").text(function(d) {
-        // TODO : add a condition here based on that show percentage change or contribution
         var factor = getChangeFactor(d);
         var text = d.t + '(' + factor + ')';
 
@@ -177,11 +181,6 @@ export default Ember.Component.extend({
         }
       }).style('opacity', function(d) {
         d.w = this.getComputedTextLength();
-        //uncomment this code to detect the average number of pixels per character. Currently its 6 but we use 7 to estimate the text length.
-//        if(d.dx < d.w) {
-//          text = d.t + '(' + d.percentageChange + ')'  ;
-//          //console.log("text-length:"+ d.w + " cell-width:"+ d.dx + " text:" + text + " length:" + text.length + " pixels-per-letter:" + (d.w/text.length))
-//        }
         return d.dx > d.w ? 1 : 0;
       }).style('fill', function(d){
         var factor = getChangeFactor(d);

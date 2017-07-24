@@ -39,7 +39,7 @@
 
     {{!--{{#containers/dimensions-container as |dimensions actions|}}--}}
         {{#if dimensions.loaded}}
-          <div class="contribution-table">
+          <div class="contribution-table paper-container">
             <div class="contribution-table__header">
               <div class="contribution-table__subnav">
                 <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "change") "thirdeye-link--active"}}" href="#" {{action "onTabChange" "change"}}>% Change</a>
@@ -51,10 +51,16 @@
                 <a class="thirdeye-link thirdeye-link--nav {{if (eq selectedTab "details") "thirdeye-link--active"}}"  href="#" {{action "onTabChange" "details"}}>Details</a>
               </div> 
             </div>
-            <div class="contribution-table__body">
+            <div class="contribution-table__body paper-container__body">
               {{#if (eq selectedTab "details")}}
+                {{#with dimensions.heatmapData.summary.simpleFields as |summary|}}
+                  {{dimension-summary
+                    data=summary
+                  }}
+                {{/with}}
                 <div class="row rca-header">
-                  <div class="col-xs-9"></div>
+                  <div class="col-xs-9">
+                  </div>
                   <div class="col-xs-3 pull-right">
                     <label class="te-label" for="select-heatmap-mode">Mode: </label>
                     {{#power-select 

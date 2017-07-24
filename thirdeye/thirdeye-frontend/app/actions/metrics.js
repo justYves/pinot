@@ -207,10 +207,15 @@ function fetchRelatedMetricData() {
         return filteredMetrics;
       })
       .then(res => dispatch(loadRelatedMetricsData(res)))
-      .catch((res) => {});
+      .catch(() => {});
   };
 }
 
+/**
+ * Updates the date range for the correlated metrics
+ * @param {Number} start The start time in unix ms
+ * @param {Number} end The end time in unix ms
+ */
 function updateMetricDate(startDate, endDate) {
   return (dispatch, getState) => {
     const store = getState();
@@ -238,26 +243,6 @@ function updateMetricDate(startDate, endDate) {
   };
 }
 
-function selectMetric(metric) {
-  return (dispatch, getState) => {
-    const { metrics } = getState();
-    const { metricId } = metric;
-
-    const { selectedMetricIds } = metrics;
-    let updatedMetricIds = [];
-
-    if (selectedMetricIds.includes(metricId)) {
-      updatedMetricIds =  selectedMetricIds.filter((id) =>  (id !== metricId));
-    } else {
-      updatedMetricIds = [...selectedMetricIds, metric.metricId];
-    }
-
-    dispatch(setSelectedMetric({
-      selectedMetricIds: updatedMetricIds
-    }));
-  };
-}
-
 function reset() {
   return (dispatch) => {
     dispatch(resetData());
@@ -274,7 +259,6 @@ export const Actions = {
   setPrimaryMetric,
   updateCompareMode,
   updateMetricDate,
-  selectMetric,
   reset
 };
 

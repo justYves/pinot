@@ -1,7 +1,7 @@
 import { type } from './utils';
+import { COMPARE_MODE_MAPPING } from './constants';
 import fetch from 'fetch';
 import moment from 'moment';
-import { COMPARE_MODE_MAPPING, colors } from './constants';
 
 /**
  * Define the anomaly action types
@@ -9,11 +9,11 @@ import { COMPARE_MODE_MAPPING, colors } from './constants';
 export const ActionTypes = {
   LOAD: type('[Dimensions] Load'),
   LOADING: type('[Dimensions] Loading'),
-  REQUEST_FAIL: type('[Dimensions] Request Fail'),
-  SET: type('[Dimension] Set Dimension'),
   LOAD_TIMESERIES: type('[Dimensions] Load TimeSeries'),
+  LOAD_HEATMAP: type('[Dimensions] Load HeatMap'),
+  SET: type('[Dimension] Set Dimension'),
   RESET: type('[Dimensions] Reset Data'),
-  LOAD_HEATMAP: type('[Dimensions] Load HeatMap')
+  REQUEST_FAIL: type('[Dimensions] Request Fail')
 };
 
 function resetData() {
@@ -64,9 +64,9 @@ function requestFail() {
 }
 
 /**
- * Fetches the anomaly details for one anomaly
- *
- */
+* Fetches the dimensions data for a specific metric
+* @param {Number} metricId
+*/
 function fetchDimensions(metricId) {
   return (dispatch, getState) => {
     const { dimensions } = getState();
@@ -84,6 +84,10 @@ function fetchDimensions(metricId) {
   };
 }
 
+/**
+ * Fetches subdimensions and heatmap Data for a dimension
+ * @param {String} newDimension
+ */
 function updateDimension(newDimension) {
   return (dispatch, getState) => {
     const { primaryMetric, dimensions } = getState();
@@ -99,10 +103,7 @@ function updateDimension(newDimension) {
     const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
     const baselineStart = moment(+analysisStart).subtract(offset, 'week').valueOf();
     const baselineEnd = moment(+analysisEnd).subtract(offset, 'week').valueOf();
-
     newDimension = newDimension || dimensions.selectedDimension;
-
-    // Todo use compareMode to update analysisStart and End
 
     const url = `/timeseries/compare/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?dimension=${newDimension}&filters=${filters}&granularity=${granularity}`;
     const heatmapUrl = `/data/heatmap/${primaryMetricId}/${analysisStart}/${analysisEnd}/${baselineStart}/${baselineEnd}?filters=${filters}`;
@@ -117,6 +118,7 @@ function updateDimension(newDimension) {
   };
 }
 
+// Resets the store to its initial state
 function reset() {
   return (dispatch) => {
     dispatch(resetData());
