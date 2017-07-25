@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default function() {
 
   // These comments are here to help you get started. Feel free to delete them.
@@ -41,8 +43,8 @@ export default function() {
       urn: "thirdeye:metric:1234",
       score: 0.955,
       label: "exampleMetric",
-      type: "Metric",
-    }]
+      type: "Metric"
+    }];
   });
 
   /**
@@ -60,13 +62,13 @@ export default function() {
         }];
 
         return regions;
-      }, {})
+      }, {});
 
     return regions;
-  })
+  });
 
   /**
-   * Mocks time series compare endpoints 
+   * Mocks time series compare endpoints
    */
   this.get('/timeseries/compare/:id/:currentStart/:currentEnd/:baselineStart/:baselineEnd', (server, request) => {
     const { id, currentStart, currentEnd } = request.params;
@@ -83,7 +85,7 @@ export default function() {
       timeBucketsCurrent: [...new Array(dataPoint)].map((point, index) => {
         return +currentStart + (index * interval);
       }),
-      
+
       subDimensionContributionMap: {
         All: {
           currentValues: [...new Array(dataPoint)].map(() => {
@@ -100,6 +102,46 @@ export default function() {
           })
         }
       }
-    }
+    };
   });
+
+  /**
+   * Mocks data for metric granularity
+   */
+  this.get('data/agg/granularity/metric/:id', () => {
+    return [
+      'MINUTES',
+      'HOURS',
+      'DAYS'
+    ];
+  });
+
+  /**
+   * Mocks the metric's max time
+   */
+
+  this.get('/data/maxDataTime/**', () => {
+    return moment().valueOf();
+  });
+
+  this.get('/data/autocomplete/filters/metric/:id', () => {
+    return {
+      browserName: ["chrome", "unknown", "mobile iphone", "firefox", "safari", "internet explorer", "mozilla", "iemobile"],
+      continent: ["Europe", "Asia", "unknown", "Latin America", "North America", "Africa", "Middle East", "Oceania"],
+      countryCode: ["OTHER", "us", "gb", "fr", "ca", "nl", "es", "de", "it", "in", "cn", "br", "ch", "se", "au", "tr"],
+      deviceName: ["Desktop", "Android", "iPhone", "Tablet", "OTHER"],
+      environment: ["prod-lor1", "prod-ltx1", "prod-lva1", "prod-lsg1", "", "PRODUCTION"],
+      locale: ["en", "fr", "es", "OTHER", "de", "pt", "it", "nl", "zh", "ru", "tr", "sv", "da", "pl", "ko", "cs", ""],
+      locale_topk: ["en", "fr", "es", "OTHER", "de", "pt", "it", "nl", "zh", "ru", "tr", "sv", "da", "pl", "ko", "cs", ""],
+      osName: ["android", "iphone", "windows 7", "windows 10.0", "unknown", "macintosh", "windows 8.1", "ipad"],
+      osName_topk: ["android", "iphone", "windows 7", "windows 10.0", "unknown", "macintosh", "windows 8.1", "ipad"],
+      pageKey: ["d_flagship3_feed_updates", "d_flagship3_profile_view", "p_flagship3_feed_updates"],
+      pageKey_topk: ["other", "d_flagship3_feed_updates", "d_flagship3_profile_view", "p_flagship3_feed_updates"],
+      service: ["mobile-tracking-frontend", "uas-tomcat", "lighthouse-frontend", "nux-frontend", "cap-frontend"],
+      service_topk: ["mobile-tracking-frontend", "uas-tomcat", "lighthouse-frontend", "nux-frontend", "cap-frontend"],
+      sourceApp: ["", "voyager", "mobileweb", "titan"]
+    };
+  });
+
 }
+
