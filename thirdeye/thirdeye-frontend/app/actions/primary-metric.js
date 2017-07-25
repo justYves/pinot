@@ -2,6 +2,8 @@ import { type } from './utils';
 import fetch from 'fetch';
 import Ember from 'ember';
 import moment from 'moment';
+import { COMPARE_MODE_MAPPING } from './constants';
+
 /**
  * Define the metric action types
  */
@@ -20,13 +22,6 @@ export const ActionTypes = {
   RESET: type('[Primary Metric] Reset Selected Data')
 };
 
-// Todo: move this in a constant.js file
-const COMPARE_MODE_MAPPING = {
-  WoW: 1,
-  Wo2W: 2,
-  Wo3W: 3,
-  Wo4W: 4
-};
 
 function loading() {
   return {
@@ -177,11 +172,13 @@ function fetchRelatedMetricData() {
   };
 }
 
+/**
+ * Updates the date range for the primary metric
+ * @param {Number} startDate The start time in unix ms
+ * @param {Number} endDate The end time in unix ms
+ */
 function updateMetricDate(startDate, endDate) {
-  return (dispatch, getState) => {
-
-    const store = getState();
-
+  return (dispatch) => {
     startDate = startDate? moment(Number(startDate)) : startDate;
     endDate = endDate ? moment(Number(endDate)) : endDate;
 
@@ -192,22 +189,21 @@ function updateMetricDate(startDate, endDate) {
   };
 }
 
+/**
+ * Updates the anallysis date range for the primary metric
+ * @param {Number} startDate The start time in unix ms
+ * @param {Number} endDate The end time in unix ms
+ */
 function updateAnalysisDates(startDate, endDate) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(updateMetricDate(startDate, endDate));
   };
 }
 
-// function fetchSummaryData() {
-//   return (dispatch, getState) => {
-//     dispatch(updateMetricDate(startDate, endDate));
-//   };
-// }
-
-// function setSummary() {
-
-// }
-
+/**
+ * Sets the subdimension as selected
+ * @param {Object} subdimension The newly selected subdimension object
+ */
 function selectDimension(subdimension) {
   return (dispatch) => {
     const name = `${subdimension.dimension}-${subdimension.name}`;
@@ -216,18 +212,27 @@ function selectDimension(subdimension) {
   };
 }
 
+/**
+ * Sets the event as selected
+ * @param {String} name The name of the newly selected event
+ */
 function selectEvent(name) {
   return (dispatch) => {
     return dispatch(setSelectedEvent(name));
   };
 }
 
+/**
+ * Sets the metric as selected
+ * @param {String} metric The name of the newly selected event
+ */
 function selectMetric(metric) {
   return (dispatch) => {
     return dispatch(setSelectedMetrics(metric));
   };
 }
 
+// Resets the store to its initial state
 function reset() {
   return (dispatch) => {
     dispatch(resetSelectedData());

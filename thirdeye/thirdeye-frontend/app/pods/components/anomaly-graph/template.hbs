@@ -1,4 +1,3 @@
-{{!-- TODO: move legend into own component--}}
 {{#if showLegend}}
   <section class="anomaly-graph__left-panel">
     <div class="anomaly_graph__filters">
@@ -11,7 +10,7 @@
       </ul>
 
       {{#if showEvents}}
-      <h5 class="legend-title">Related Events ({{holidayEvents.length}})
+        <h5 class="legend-title">Related Events ({{holidayEvents.length}})
           <a class="pull-right legend-cta" {{action (toggle "isEventsHidden" this)}}>
             <i class="glyphicon {{if isEventsHidden "glyphicon-chevron-down" "glyphicon-chevron-up"}}"></i>
           </a>
@@ -42,25 +41,25 @@
           </a>
         </h5>
         <ul class="anomaly-graph__filter-group {{if isDimensionsHidden "anomaly-graph__filter-group--hidden"}}">
-        {{#each dimensions as |subdimension|}}
-          <li class="anomaly-graph__filter-item">
-            {{input
-              type="checkbox"
-              id=(concat dimensionId subdimension.id)
-              change=(action "onSelection" subdimension)
-              checked=subdimension.isSelected}}
-            <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{subdimension.color}}" for="{{concat dimensionId subdimension.id}}" title={{subdimension.name}}> {{subdimension.name}} </label>
-          </li>
-        {{else}}
-          No Dimensions.
-          {{#link-to 'rca.details.dimensions' class="thirdeye-link"}} <a {{action "scrollToSection" bubbles=true}}> (Add a dimension) </a>{{/link-to}}
-        {{/each}}
+          {{#each dimensions as |subdimension|}}
+            <li class="anomaly-graph__filter-item">
+              {{input
+                type="checkbox"
+                id=(concat dimensionId subdimension.id)
+                change=(action "onSelection" subdimension)
+                checked=subdimension.isSelected}}
+              <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{subdimension.color}}" for="{{concat dimensionId subdimension.id}}" title={{subdimension.name}}> {{subdimension.name}} </label>
+            </li>
+          {{else}}
+            No Dimensions.
+            {{#link-to 'rca.details.dimensions' class="thirdeye-link"}} <a {{action "scrollToSection" bubbles=true}}> (Add a dimension) </a>{{/link-to}}
+          {{/each}}
         </ul>
       {{/if}}
 
       {{#if showMetrics}}
-      <h5 class="legend-title">Related Metrics ({{relatedMetrics.length}})
-        <a class="pull-right legend-cta" {{action (toggle "isMetricsHidden" this)}}>
+        <h5 class="legend-title">Related Metrics ({{relatedMetrics.length}})
+          <a class="pull-right legend-cta" {{action (toggle "isMetricsHidden" this)}}>
             <i class="glyphicon {{if isMetricsHidden "glyphicon-chevron-down" "glyphicon-chevron-up"}}"></i>
           </a>
         </h5>
@@ -73,7 +72,6 @@
               id=(concat relatedMetricId index) 
               checked=metric.isSelected
               }}
-            {{!--{{input type="checkbox" id=(concat relatedMetricId index) checked=metric.isSelected}}--}}
             <label class="anomaly-graph__filter-label anomaly-graph__filter-label--{{metric.color}}" for="{{concat relatedMetricId index}}" title={{metric.metricName}}> {{metric.metricName}} </label>
           </li>
         {{else}}

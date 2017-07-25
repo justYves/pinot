@@ -1,7 +1,5 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions } from 'thirdeye-frontend/actions/events';
-
 
 function select(store) {
   const {
@@ -27,12 +25,8 @@ function select(store) {
   };
 }
 
-function actions(dispatch) {
-  return {
-    onLoad() {
-      // dispatch(Actions.fetchEvents);
-    }
-  };
+function actions() {
+  return {};
 }
 
 export default connect(select, actions)(Ember.Component.extend({

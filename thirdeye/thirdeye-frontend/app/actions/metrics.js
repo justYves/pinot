@@ -40,13 +40,6 @@ function loading() {
   };
 }
 
-function setSelectedMetric(metric) {
-  return {
-    type: ActionTypes.SELECT_METRIC,
-    payload: metric
-  };
-}
-
 function requestFail() {
   return {
     type: ActionTypes.REQUEST_FAIL
@@ -108,24 +101,29 @@ function resetData() {
 function fetchRelatedMetricIds() {
   return (dispatch, getState) => {
     dispatch(loading());
-    const store = getState();
+    const { metrics, primaryMetric } = getState();
 
     let {
       primaryMetricId: metricId,
       currentStart: startDate,
       currentEnd: endDate
-    } = store.metrics;
+    } = metrics;
+
+    const {
+      compareMode
+    } = primaryMetric;
 
     endDate = endDate || moment().subtract(1, 'day').endOf('day').valueOf();
     startDate = startDate || moment(endDate).subtract(1, 'week').valueOf();
 
-    const baselineStart = moment(startDate).subtract(1, 'week').valueOf();
-    const windowSize = Math.max(endDate - startDate, 0);
+    const offset = COMPARE_MODE_MAPPING[compareMode] || 1;
+    const windowSize = Math.max(endDate - startDate, 1);
+    const baselineStart = moment(startDate).subtract(offset, 'week').valueOf();
 
     if (!metricId) {
       return Promise.reject(new Error("Must provide a metricId"));
     }
-    // todo: identify better way for query params
+
     return fetch(`/rootcause/query?framework=relatedMetrics&current=${startDate}&baseline=${baselineStart}&windowSize=${windowSize}&urns=thirdeye:metric:${metricId}`)
       .then(res => res.json())
       .then(res => dispatch(loadRelatedMetricIds(res)));
@@ -158,7 +156,7 @@ function fetchRegions() {
     } = store.metrics;
 
     const metricIds = [primaryMetricId, ...relatedMetricIds].join(',');
-     // todo: identify better way for query params
+
     return fetch(`/data/anomalies/ranges?metricIds=${metricIds}&start=${currentStart}&end=${currentEnd}&filters=${filters}`)
       .then(res => res.json())
       .then(res => dispatch(loadRegions(res)));
@@ -243,6 +241,7 @@ function updateMetricDate(startDate, endDate) {
   };
 }
 
+// Resets the store to its initial state
 function reset() {
   return (dispatch) => {
     dispatch(resetData());

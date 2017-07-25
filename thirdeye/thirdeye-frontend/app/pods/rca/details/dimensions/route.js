@@ -1,11 +1,11 @@
 import Ember from 'ember';
-// import moment from 'moment';
 
 import { Actions } from 'thirdeye-frontend/actions/dimensions';
 
 export default Ember.Route.extend({
   redux: Ember.inject.service(),
 
+  // queryParam unique to the dimension route
   queryParams: {
     dimension: {
       replace: true,
@@ -21,6 +21,7 @@ export default Ember.Route.extend({
     } = transition.queryParams;
 
     if (!metricId) { return; }
+
     redux.dispatch(Actions.loading());
     Ember.run.later(() => {
       redux.dispatch(Actions.updateDimension(dimension)).then(() => {

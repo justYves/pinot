@@ -5,6 +5,9 @@ export default Ember.Controller.extend({
   primaryMetric: Ember.computed.oneWay('model'),
   mostRecentSearch: null,
 
+  /**
+   * Ember concurrency task that triggers the metric autocomplete
+   */
   searchMetrics: task(function* (metric) {
     yield timeout(600);
     let url = `/data/autocomplete/metric?name=${metric}`;

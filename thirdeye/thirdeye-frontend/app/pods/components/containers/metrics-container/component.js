@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import merge from 'lodash/merge';
+import _ from 'lodash';
 
 function select(store) {
   const {
@@ -19,9 +19,8 @@ function select(store) {
     selectedMetricIds
   } = store.primaryMetric;
 
-  const uiRelatedMetric = merge({}, relatedMetricEntities, regions);
+  const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
 
-  // improve this so that it isn't called twice
   return {
     loading,
     loaded,
@@ -42,8 +41,8 @@ function select(store) {
   };
 }
 
-
-function actions(dispatch) {
+// no action defined for this container
+function actions() {
   return {};
 }
 

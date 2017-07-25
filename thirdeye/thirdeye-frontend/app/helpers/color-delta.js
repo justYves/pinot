@@ -3,7 +3,7 @@ import Ember from 'ember';
 /**
  * Template helper that computes the color
  * for delta changes
- * @param {Number} [value=0] Contribution change in percentage
+ * @param {Number} [value='N/A'] Contribution change in percentage
  * @return {String}          positive or negative modifier for BEM class
  */
 export function colorDelta([value = 'N/A']) {

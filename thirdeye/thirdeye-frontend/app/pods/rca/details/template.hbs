@@ -2,7 +2,6 @@
   <h2 class="te-title">Summary</h2>
   <div class="paper-container">
     <div class="paper-container__body">
-      {{!--<h3 class="te-sub-title te-sub-title--flush">Summary</h3>--}}
       <section class="rca-summary">
         <div class="row">
           <div class="form-group col-xs-6">
@@ -51,10 +50,6 @@
               </section>
             {{/if}}
 
-            {{!--{{#if primaryMetric.failed}}
-              Oops, something went wrong...
-            {{/if}}--}}
-
             {{#if summary.loaded}}
               {{anomaly-graph 
                 classNames='anomaly-graph--no-border'
@@ -76,12 +71,12 @@
                 events=summary.selectedEvents
               }}
             {{/if}}
-            {{!--<a {{action actions.onDateChange}}> dispatch </a>--}}
           {{/containers/primary-metric-container}}
         </main>
       </section>
     </div>
   </div>
+
   <h2 class="te-title">Root Cause Analysis</h2>
   <div id="root-cause-analysis" class="paper-container">
     <div class="contribution-table__header">

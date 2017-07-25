@@ -7,8 +7,10 @@ export default Ember.Component.extend({
   // default active tab
   activeTab: 'all',
 
-  allCount: Ember.computed.alias('events.length'),
 
+  /**
+   * Holiday Events
+   */
   holidays: Ember.computed(
     'events.@each',
     function() {
@@ -16,8 +18,10 @@ export default Ember.Component.extend({
         .filter(event => event.eventType === 'holiday');
     }
   ),
-  holidayCount: Ember.computed.alias('holidays.length'),
 
+  /**
+   * GCN events
+   */
   gcn: Ember.computed(
     'events.@each',
     function() {
@@ -25,8 +29,11 @@ export default Ember.Component.extend({
         .filter(event => event.eventType === 'gcn');
     }
   ),
-  gcnCount: Ember.computed.alias('gcn.length'),
 
+
+  /**
+   * Informed events
+   */
   informed: Ember.computed(
     'events.@each',
     function() {
@@ -34,8 +41,11 @@ export default Ember.Component.extend({
         .filter(event => event.eventType === 'informed');
     }
   ),
-  informedCount: Ember.computed.alias('informed.length'),
 
+
+  /**
+   * Lix events
+   */
   lix: Ember.computed(
     'events.@each',
     function() {
@@ -44,15 +54,18 @@ export default Ember.Component.extend({
     }
   ),
 
+  /**
+   * Count of events
+   */
+  allCount: Ember.computed.alias('events.length'),
+  holidayCount: Ember.computed.alias('holidays.length'),
+  gcnCount: Ember.computed.alias('gcn.length'),
+  informedCount: Ember.computed.alias('informed.length'),
   lixCount: Ember.computed.alias('lix.length'),
 
   actions: {
+    // Handles tab change on click
     onTabClick(tab) {
-
-      // const currentTab = this.get('activeTab');
-      // if (currentTab !== tab) {
-      //   this.set('activeTab', tab);
-      // }
       this.attrs.onTabChange(tab);
     }
   }

@@ -7,7 +7,6 @@ export default Ember.Component.extend({
   metricName: Ember.computed.alias('heatMapData.metrics.firstObject'),
   inverseMetric:Ember.computed.alias('heatMapData.inverseMetric'),
   classNames: ['dimension-heatmap'],
-  // get this from controller
   heatmapMode: 'Percentage Change',
 
   // Copy pasted code from all Thirdeye UI

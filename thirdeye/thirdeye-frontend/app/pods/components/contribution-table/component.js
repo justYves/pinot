@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import _ from 'lodash';
 
-// TODO: save this in a constant file
 const GRANULARITY_MAPPING = {
   DAYS: 'M/D',
   HOURS: 'M/D h a',
@@ -10,10 +9,11 @@ const GRANULARITY_MAPPING = {
 };
 
 /**
- * Helper Function
- * @param {*} rows
- * @param {*} startIndex
- * @param {*} endIndex
+ * Helper Function that filters cells betwen 2 index
+ * @param {Array} rows
+ * @param {Number} startIndex
+ * @param {Number} endIndex
+ * @return {Object} Hash of the rows with ids as key
  */
 const filterRow = (rows, startIndex, endIndex) => {
   if (!startIndex && !endIndex) {
@@ -45,9 +45,11 @@ export default Ember.Component.extend({
   end: null,
   loading: false,
 
+  // This is needed so that a loading spinner appears for long rendering
   didUpdateAttrs(...args) {
     Ember.run.later(() => {
       this._super(args);
+
       this.set('loading', false);
     });
   },
@@ -60,26 +62,39 @@ export default Ember.Component.extend({
     return GRANULARITY_MAPPING[granularity];
   }),
 
+  /**
+   * Contribution data of the primary metric
+   */
   primaryMetricRows: Ember.computed('primaryMetric', function() {
     const metrics = this.get('primaryMetric');
 
     return Ember.isArray(metrics) ? [...metrics] : [Object.assign({}, metrics)];
   }),
 
+  /**
+   * Contribution data of the related metrics
+   */
   relatedMetricRows: Ember.computed('relatedMetrics', function() {
     const metrics = this.get('relatedMetrics');
 
     return Ember.isArray(metrics) ? [...metrics] : [Object.assign({}, metrics)];
   }),
 
+  /**
+   * Contribution data of the dimension
+   */
   dimensionRows: Ember.computed('dimensions', function() {
     const dimensions = this.get('dimensions');
 
     return Ember.isArray(dimensions) ? [...dimensions] : [Object.assign({}, dimensions)];
   }),
 
-
-
+  /**
+   * Finds the index of the first date greater than start
+   * @param {Array} dates Array of dates
+   * @param {Number} start Start date in unix ms
+   * @return {Number} The start Index
+   */
   startIndex: Ember.computed('dates', 'start', function() {
     const dates = this.get('dates');
     const start = this.get('start');
@@ -92,6 +107,12 @@ export default Ember.Component.extend({
     return false;
   }),
 
+  /**
+   * Finds the index of last date smaller than end
+   * @param {Array} dates Array of dates
+   * @param {Number} end end date in unix ms
+   * @return {Number} The end Index
+   */
   endIndex: Ember.computed('dates', 'end', function() {
     const dates = this.get('dates');
     const end = this.get('end');
@@ -104,6 +125,9 @@ export default Ember.Component.extend({
     return dates.length - 1;
   }),
 
+  /**
+   * Filters the date to return only those in range
+   */
   filteredDates: Ember.computed(
     'startIndex',
     'endIndex',
@@ -169,8 +193,6 @@ export default Ember.Component.extend({
          return dimensions;
        }
 
-      //  return dimensions;
-
        return dimensions.map((dimension) => {
          const hash = {
            name: dimension.name
@@ -180,19 +202,6 @@ export default Ember.Component.extend({
          });
          return hash;
        }) || [];
-
-      //  return Object.keys(dimensions).reduce((agg, key) => {
-      //    const dimensionsData = dimensions[key];
-      //    const data = Object.keys(dimensionsData).reduce((agg, key) => {
-      //      agg[key]= _.slice(dimensionsData[key], startIndex, endIndex);
-      //      return agg;
-      //    }, {});
-
-      //    agg[key] = Object.assign({}, data);
-      //    return agg;
-      //  }, {});
-
-      //  return filterRow(rows, startIndex, endIndex);
      }
   )
 });

@@ -1,10 +1,7 @@
 import Ember from 'ember';
-import _ from 'lodash';
 import moment from 'moment';
+import d3 from 'd3';
 
-const d3 = window.d3;
-
-//Todo: move this into a constants.js file
 const COLOR_MAPPING = {
   blue: '#33AADA',
   orange: '#EF7E37',
@@ -18,15 +15,10 @@ const COLOR_MAPPING = {
 export default Ember.Component.extend({
   init() {
     this._super(...arguments);
-    // alert('init!' + this.get('componentId'));
   },
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    // alert('attributes changed' + this.get('componentId'));
-  },
   /**
-   * Maps each metric to a color / class
+   * Maps each metric and event to a color / class
    */
   didReceiveAttrs() {
     this._super(...arguments);
@@ -88,18 +80,22 @@ export default Ember.Component.extend({
 
   enableZoom: false,
 
+  // dd for primary metric
   primaryMetricId: Ember.computed('componentId', function() {
     return this.get('componentId') + '-primary-metric-';
   }),
 
+  // id for related metrics
   relatedMetricId: Ember.computed('componentId', function() {
     return this.get('componentId') + '-related-metric-';
   }),
 
+  // id for dimension
   dimensionId:  Ember.computed('componentId', function() {
     return this.get('componentId') + '-dimension-';
   }),
 
+  // filtered events for graph
   holidayEvents: Ember.computed('events', function() {
     const events = this.get('events');
     const hiddenEvents = ['informed'];
@@ -115,15 +111,15 @@ export default Ember.Component.extend({
 
       return events.map((event) => {
         const {
-          start,
-          end,
+          // start,
+          // end,
           score,
           label
         } = event;
 
-        const scores = (!end || start === end)
-          ? [score, score]
-          : [score];
+        // const scores = (!end || start === end)
+        //   ? [score, score]
+        //   : [score];
         return [label, score];
       });
     }
@@ -189,17 +185,6 @@ export default Ember.Component.extend({
       };
     }
   ),
-
-  //events points
-  //   point: Ember.computed(
-  //   'showGraphLegend',
-  //   function() {
-  //     return {
-  //       show: true,
-  //       r: 10
-  //     };
-  //   }
-  // ),
 
   /**
    * Graph axis config
@@ -493,6 +478,9 @@ export default Ember.Component.extend({
     }
   ),
 
+  /**
+   * Config for tooltip
+   */
   tooltip: {
     format: {
       title: function(d) {
@@ -513,12 +501,19 @@ export default Ember.Component.extend({
   }),
 
   actions: {
+    /**
+     * Handles graph item selection
+     */
     onSelection() {
       this.attrs.onSelection(...arguments);
     },
     onToggle() {
       this.toggleProperty('showGraphLegend');
     },
+
+    /**
+     * Scrolls to the appropriate tab on click
+     */
     scrollToSection() {
       Ember.run.later(() => {
         Ember.$('#root-cause-analysis').get(0).scrollIntoView();

@@ -1,5 +1,7 @@
 {{te-navbar navItems=globalNavItems isGlobalNav=true navClass="te-nav--global"}}
 {{outlet}}
+
+{{!-- placed here because the tooltip is absolutely positioned relative to the body  --}}
 <div id="tooltip" class="analysis-tooltip hidden">
   <ul class="analysis-tooltip__list">
     <li class="analysis-tooltip__list-item"><span>value</span><span id="heading"></span></li>

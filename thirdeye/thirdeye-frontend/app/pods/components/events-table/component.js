@@ -7,6 +7,9 @@ export default Ember.Component.extend({
   start: null,
   end: null,
 
+  /**
+   * Returns event based on the selected tab
+   */
   filteredEvents: Ember.computed(
     'eventsInRange.@each.type',
     'selectedTab',
@@ -21,6 +24,9 @@ export default Ember.Component.extend({
     }
   ),
 
+  /**
+   * Returns events in a range
+   */
   eventsInRange: Ember.computed(
     'events',
     'start',
@@ -39,13 +45,16 @@ export default Ember.Component.extend({
     }
   ),
 
-
+  // Require to display a loader for long rendering
   didUpdateAttrs(...args) {
     Ember.run.later(() => {
       this._super(args);
     });
   },
 
+  /**
+   * Columns required by ember-models-table
+   */
   columns: [
     {
       template: 'custom/checkbox',
@@ -80,6 +89,10 @@ export default Ember.Component.extend({
   ],
 
   actions: {
+    /**
+     * Handles tab selection
+     * @param {String} tab String of the new selected tab
+     */
     onTabChange(tab) {
       const currentTab = this.get('selectedTab');
 
@@ -88,8 +101,12 @@ export default Ember.Component.extend({
       }
     },
 
+    /**
+     * Handles event selectiion
+     * @param {Object} event The new event Object
+     */
     onSelection(event) {
-      this.get('onSelection')(event.urn);
+      this.attrs.onSelection(event.urn);
     }
   }
 });

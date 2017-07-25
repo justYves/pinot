@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import moment from 'moment';
-import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
   queryParams: [
@@ -13,7 +12,6 @@ export default Ember.Controller.extend({
     'analysisEnd'
   ],
   granularities: Ember.computed.reads('model.granularities'),
-  // granularity: Ember.computed.reads('granularities.firstObject'),
   noMatchesMessage: '',
   filters: null,
 
@@ -21,6 +19,7 @@ export default Ember.Controller.extend({
   compareModeOptions: ['WoW', 'Wo2W', 'Wo3W', 'Wo4W'],
   mostRecentTask: null,
   metricFilters: Ember.computed.reads('model.metricFilters'),
+
 
   uiGranularity: Ember.computed('granularity', {
     get() {
@@ -40,10 +39,13 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
+
+    // Handles granularity change
     onGranularityChange(granularity) {
       this.set('uiGranularity', granularity);
     },
 
+    // Set new analysis Date and startDate if applicable
     setNewDate({ start, end }) {
       const analysisStart = moment(start).valueOf();
       const analysisEnd = moment(end).valueOf();
@@ -68,8 +70,11 @@ export default Ember.Controller.extend({
       }
     },
 
+    /**
+     * Handles subchart date change (debounced)
+     */
     setDateParams([start, end]) {
-      Ember.run.debounce(this, this.get('actions.setNewDate'), { start, end }, 1000);
+      Ember.run.debounce(this, this.get('actions.setNewDate'), { start, end }, 2000);
     },
 
     /**

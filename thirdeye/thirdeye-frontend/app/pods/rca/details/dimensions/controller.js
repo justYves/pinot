@@ -19,17 +19,9 @@ export default Ember.Controller.extend({
   dimensionsStart: null,
   dimensionsEnd: null,
 
-  // uiDimension: Ember.computed('dimension', function() {
-  //   get() {
-  //     return this.get('dimensions');
-  //   },
-  //   set(value) {
-
-  //   }
-  // })
-
 
   actions: {
+    // Sets new dimension start and end
     setNewDate({ start, end }) {
       const dimensionsStart = moment(start).valueOf();
       const dimensionsEnd = moment(end).valueOf();
@@ -41,6 +33,9 @@ export default Ember.Controller.extend({
 
     },
 
+    /**
+     * Handles subchart date change (debounced)
+     */
     setDateParams([start, end]) {
       Ember.run.debounce(this, this.get('actions.setNewDate'), { start, end }, 1000);
     },

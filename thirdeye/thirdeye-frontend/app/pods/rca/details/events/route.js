@@ -24,7 +24,9 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    queryParamsDidChange(changedParams, oldParams) {
+    // Dispatches a redux action on query param change
+    // to fetch events in the new date range
+    queryParamsDidChange(changedParams) {
 
       const redux = this.get('redux');
       const {

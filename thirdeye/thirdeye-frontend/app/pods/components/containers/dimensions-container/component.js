@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { connect } from 'ember-redux';
-import { Actions } from 'thirdeye-frontend/actions/dimensions';
 
 
 function select(store) {
@@ -43,9 +42,8 @@ function select(store) {
   };
 }
 
-function actions(dispatch) {
-  return {
-  };
+function actions() {
+  return {};
 }
 
 export default connect(select, actions)(Ember.Component.extend({

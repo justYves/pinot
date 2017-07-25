@@ -37,7 +37,6 @@ function select(store) {
 
   const isSelected = true;
 
-  // to do fix region and put this in reducer
   const uiMainMetric = _.merge({}, metricData, regions);
   const uiRelatedMetric = _.merge({}, relatedMetricEntities, regions);
 
@@ -81,6 +80,9 @@ function select(store) {
 
 function actions(dispatch) {
   return {
+    /**
+     * Ember concurrency task that dispatches new analysis dates
+     */
     dateChangeTask: task(function* ([start, end]) {
       yield timeout(1000);
 
@@ -88,24 +90,39 @@ function actions(dispatch) {
       return [start, end];
     }).restartable(),
 
+    /**
+     * Handles date changes in subchart
+     */
     onDateChange(dates) {
       const task = this.get('actions.dateChangeTask');
 
       return task.perform(dates);
     },
 
+    /**
+     * Handles dimension selection
+     */
     onSelection(name) {
       dispatch(Actions.selectDimension(name));
     },
 
+    /**
+     * Handles event selection
+     */
     onEventSelection(name) {
       dispatch(Actions.selectEvent(name));
     },
 
+    /**
+     * Handles metric selection
+     */
     onMetricSelection(metric) {
       dispatch(Actions.selectMetric(metric));
     },
 
+    /**
+     * Handles deselection of an entity
+     */
     onDeselect(entity) {
       if (this.get('selectedDimensions').includes(entity)) {
         dispatch(Actions.selectDimension(entity));

@@ -15,6 +15,7 @@ const queryParamsConfig = {
 };
 
 export default Ember.Route.extend({
+  // queryParams for rca
   queryParams: {
     startDate: queryParamsConfig,
     endDate: queryParamsConfig,
@@ -27,6 +28,7 @@ export default Ember.Route.extend({
 
   redux: Ember.inject.service(),
 
+  // resets all redux stores' state
   beforeModel(transition) {
     const redux = this.get('redux');
 
@@ -41,7 +43,6 @@ export default Ember.Route.extend({
   },
 
   model(params) {
-    // alert('resetting model');
     const { metricId: id } = params;
     if (!id) { return; }
 
@@ -99,9 +100,8 @@ export default Ember.Route.extend({
   },
 
   setupController(controller, model) {
-    // alert('setting controller');
-
     this._super(controller, model);
+
     const {
       granularity,
       startDate,
@@ -131,32 +131,10 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    onDateChangeTest(dates) {
-      // alert('route action');
-    },
-
     willTransition(transition) {
       if (transition.targetName === 'rca.index') {
         this.refresh();
       }
-    },
-
-    queryParamsDidChange(changedParams, oldParams, removed) {
-      // const params = Object.keys(changedParams);
-
-      // if (params.length === 1 && params[0] ==='granularity') {
-
-      //   // removed = {
-      //   //   analysisStart: undefined,
-      //   //   analysisEnd: undefined,
-      //   //   startDate: undefined,
-      //   //   endDate: undefined
-      //   // };
-      // }
-
-      this._super(changedParams, oldParams, removed);
-
-      return true;
     }
   }
 });

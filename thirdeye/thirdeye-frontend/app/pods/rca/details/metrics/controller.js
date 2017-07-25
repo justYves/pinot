@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
   loading: false,
   splitViewLoading: false,
 
+  // Ember concurrency task that sets new analysis start and end
   dateChangeTask: task(function* ([start, end]) {
     yield timeout(600);
 
@@ -27,6 +28,7 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
+    // Handles subgraph date change
     onDateChange(date) {
       const mostRecentTask = this.get('mostRecentTask');
       mostRecentTask && mostRecentTask.cancel();
