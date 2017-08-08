@@ -26,6 +26,7 @@ Router.map(function() {
     this.route('create-alert');
     this.route('import-metric');
   });
+  this.route('login');
 });
 
 export default Router;
