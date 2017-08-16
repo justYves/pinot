@@ -21,8 +21,18 @@ export default Ember.Controller.extend({
       const dimensionsEnd = moment(end).valueOf();
 
       this.setProperties({
-        dimensionsStart,
         dimensionsEnd,
+        dimensionsStart
+      });
+    },
+
+    onRendering() {
+      this.set('tableIsLoading', false);
+    },
+
+    onToggle(showDetails) {
+      this.setProperties({
+        showDetails,
         tableIsLoading: true
       });
     },
@@ -31,6 +41,7 @@ export default Ember.Controller.extend({
      * Handles subchart date change (debounced)
      */
     setDateParams([start, end]) {
+      this.set('tableIsLoading', true);
       Ember.run.debounce(this, this.get('actions.setNewDate'), { start, end }, 1000);
     },
 

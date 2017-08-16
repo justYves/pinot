@@ -116,7 +116,7 @@
                     end=analysisEnd
                     relatedMetrics=metricList.relatedMetrics
                     showDetails=(eq selectedTab "number")
-                    loading=(mut loading)
+                    stopLoading=(action "onRendering")
                   }}
                 {{/if}}
               </div>

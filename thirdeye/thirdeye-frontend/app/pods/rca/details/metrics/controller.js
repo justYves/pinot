@@ -16,7 +16,6 @@ export default Ember.Controller.extend({
   dateChangeTask: task(function* ([start, end]) {
     yield timeout(600);
 
-    this.set('loading', true);
     let startDate = moment(start).valueOf();
     let endDate = moment(end).valueOf();
 
@@ -31,6 +30,7 @@ export default Ember.Controller.extend({
   actions: {
     // Handles subgraph date change
     onDateChange(date) {
+      this.set('loading', true);
       const mostRecentTask = this.get('mostRecentTask');
       mostRecentTask && mostRecentTask.cancel();
 
@@ -39,6 +39,10 @@ export default Ember.Controller.extend({
       this.set('mostRecentTask', taskInstance);
 
       return date;
+    },
+
+    onRendering() {
+      this.set('loading', false);
     },
 
     /**
