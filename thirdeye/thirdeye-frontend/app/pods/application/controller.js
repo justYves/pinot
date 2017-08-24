@@ -29,5 +29,11 @@ export default Ember.Controller.extend({
       link: 'manage',
       title: 'Manage'
     }
-  ]
+  ],
+
+  actions: {
+    onLogout() {
+      this.send('logout');
+    }
+  }
 });

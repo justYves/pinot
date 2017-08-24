@@ -5,6 +5,7 @@
  */
 import Ember from 'ember';
 import config from '../../../config/environment';
+import fetch from 'fetch';
 
 export default Ember.Component.extend({
 
@@ -14,7 +15,7 @@ export default Ember.Component.extend({
   tagName: 'nav',
 
   /**
-   * Apply property-based class name
+   * Apply property-based class namete
    */
   classNameBindings: ['navClass'],
 
@@ -40,6 +41,14 @@ export default Ember.Component.extend({
      */
     onToggleExpanded() {
       this.toggleProperty('isExpanded');
+    },
+
+    /**
+     * Handler for the log out button
+     */
+    onLogout() {
+      this.send('onToggleExpanded');
+      this.attrs.onLogout();
     }
   }
 });

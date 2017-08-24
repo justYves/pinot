@@ -1,6 +1,5 @@
 .nacho-login-form {
-  display: flex;
-  flex-direction: column;
+  max-width: 160px;
 }
 
 .nacho-login-form__input {
@@ -15,4 +14,28 @@
   padding: 0;
   font-weight: lighter;
   font-size: 15px;
+
+  &::placeholder {
+    color: app-shade(white, 0.55);
+  }
+}
+
+.nacho-login-button {
+  margin-top: 24px;
+  margin-bottom: 50px;
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #FFFFFF;
+  background-color: transparent;
+  padding: 8px;
+  font-size: 15px;
+  color: app-shade(white, 0.85);
+  transition-duration: 167ms;
+  transition-property: background-color,box-shadow,color;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(0,0,0,.05);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.7), inset 0 0 0 1px rgba(255,255,255,.85), inset 0 0 0 1px transparent;
+  }
 }

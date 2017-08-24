@@ -1,4 +1,8 @@
-{{te-navbar navItems=globalNavItems isGlobalNav=true navClass="te-nav--global"}}
+{{te-navbar
+  navItems=globalNavItems 
+  isGlobalNav=true 
+  navClass="te-nav--global"
+  onLogout=(action "onLogout")}}
 {{outlet}}
 
 {{!-- placed here because the tooltip is absolutely positioned relative to the body  --}}

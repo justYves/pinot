@@ -1,4 +1,5 @@
-{{input
+<form id="login-form">
+  {{input
   value=username
   class="nacho-login-form__input"
   placeholder="Username"
@@ -7,9 +8,11 @@
 {{input
   value=password
   class="nacho-login-form__input"
-  placeholder="Username"
-  id="login-username"}}
+  placeholder="Password"
+  id="login-password"
+  type="password"}}
 
-<button {{action "onLogin"}} class="nacho-button--large nacho-login-form__button nacho-button--secondary">
+<button type="submit" form="login-form" value="submit" {{action "onLogin"}} class="nacho-login-button">
   Login
 </button>
+</form>
