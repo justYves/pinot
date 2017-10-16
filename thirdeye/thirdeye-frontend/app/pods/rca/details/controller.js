@@ -24,7 +24,6 @@ export default Ember.Controller.extend({
   metricFilters: Ember.computed.reads('model.metricFilters'),
   subchartStart: 0,
   subchartEnd: 0,
-  predefinedRanges: {},
   shouldReset: false,
 
   /**
@@ -208,6 +207,15 @@ export default Ember.Controller.extend({
       return moment(+end).format(serverDateFormat);
     }
   ),
+
+  predefinedRanges: Ember.computed('maxTime', function() {
+    const maxTime = moment(this.get('maxTime'));
+    return {
+      'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+      'Last 2 Days': [moment().subtract(1, 'days'), maxTime],
+      'Last 7 Days': [moment().subtract(6, 'days'), maxTime]
+    };
+  }),
 
   uiGranularity: Ember.computed(
     'granularity',
