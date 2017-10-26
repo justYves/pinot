@@ -58,6 +58,17 @@
               <arguments>run build -- --prod --output-path=../thirdeye-pinot/src/main/resources/app</arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>ember front end test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>run test</arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -73,6 +84,9 @@
             </goals>
             <configuration>
               <filesets>
+                <fileset>
+                  <directory>dist</directory>
+                </fileset>
                 <fileset>
                   <directory>tmp</directory>
                 </fileset>
