@@ -235,6 +235,7 @@ export default Ember.Component.extend({
    */
   didReceiveAttrs() {
     this._super(...arguments);
+    debugger;
 
     const colors = {};
     const primaryMetric = this.get('primaryMetric');
