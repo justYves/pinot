@@ -1,6 +1,9 @@
 <div class="container">
   <div class="row">
     <h2 class="te-title">Summary</h2>
+    <a {{action "onEntityMappingClick"}} class="thirdeye-link thirdeye-link--secondary">
+      Configure Filters
+    </a>
     <div class="card-container">
       <div class="card-container__body">
         <section class="rca-summary">
@@ -151,3 +154,8 @@
     </div>
   </div>
 </div>
+
+{{modals/entity-mapping-modal
+  showEntityMappingModal=showEntityMappingModal
+  primaryMetric=primaryMetric
+  relatedEntities=model.relatedEntities}}

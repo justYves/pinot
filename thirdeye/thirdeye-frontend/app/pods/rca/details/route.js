@@ -2,8 +2,10 @@ import Ember from 'ember';
 import RSVP from 'rsvp';
 import moment from 'moment';
 import fetch from 'fetch';
-import { Actions } from 'thirdeye-frontend/actions/primary-metric';
+import _ from 'lodash';
+import { checkStatus } from 'thirdeye-frontend/helpers/utils';
 
+import { Actions } from 'thirdeye-frontend/actions/primary-metric';
 import { Actions as MetricsActions } from 'thirdeye-frontend/actions/metrics';
 import { Actions as DimensionsActions } from 'thirdeye-frontend/actions/dimensions';
 import { Actions as EventsActions } from 'thirdeye-frontend/actions/events';
@@ -53,10 +55,28 @@ export default Ember.Route.extend({
     if (!id) { return; }
 
     return RSVP.hash({
-      granularities: fetch(`/data/agg/granularity/metric/${id}`).then(res => res.json()),
-      metricFilters: fetch(`/data/autocomplete/filters/metric/${id}`).then(res => res.json()),
-      maxTime: fetch(`/data/maxDataTime/metricId/${id}`).then(res => res.json()),
-      id
+      granularities: fetch(`/data/agg/granularity/metric/${id}`).then(checkStatus),
+      relatedEntities: fetch(`entityMapping/view/fromURN/thirdeye:metric:${id}`)
+        .then(checkStatus)
+        .then((entities) => {
+          const urnStrings = entities
+            .map((entity) => `${entity.toURN}`)
+            .join(',');
+          return fetch(`rootcause/raw?framework=identity&urns=${urnStrings}`)
+            .then(checkStatus)
+            .then((items) => {
+              return items.map((item) => {
+                const { createdBy } = _.find(entities, {toURN: item.urn});
+
+                item.createdBy = createdBy;
+                return item;
+              });
+            });
+        }),
+      metricFilters: fetch(`/data/autocomplete/filters/metric/${id}`).then(checkStatus),
+      maxTime: fetch(`/data/maxDataTime/metricId/${id}`).then(checkStatus),
+      id,
+      primaryMetric: this.modelFor('rca')
     });
   },
 
@@ -167,7 +187,8 @@ export default Ember.Route.extend({
       subchartEnd,
       subchartStart,
       displayStart,
-      displayEnd
+      displayEnd,
+      primaryMetric
     } = model;
 
     controller.setProperties({
@@ -182,7 +203,8 @@ export default Ember.Route.extend({
       subchartEnd,
       subchartStart,
       displayStart,
-      displayEnd
+      displayEnd,
+      primaryMetric
     });
   },
 

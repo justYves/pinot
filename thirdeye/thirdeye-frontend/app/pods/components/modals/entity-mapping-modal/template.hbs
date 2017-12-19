@@ -1,0 +1,65 @@
+{{#te-modal
+  headerText="Configure Filters for analyzing"
+  subText=primaryMetric.alias
+  cancelButtonText="Cancel"
+  submitButtonText="Add to analysis"
+  isShowingModal=showEntityMappingModal
+  submitAction=(action "onModalSubmit")
+}}
+  <div class="row te-modal__settings">
+    <p class="col-md-2">
+      <span class="te-label te-label--bold te-label--dark">When Analyzing</span>
+    </p>
+    <p class="col-md-10">{{primaryMetric.alias}}</p>
+  </div>
+  <div class="row te-modal__settings">
+    <p class="col-md-2">
+      <span class="te-label te-label--bold te-label--dark">Set filters to</span>
+    </p>
+    <p class="col-md-10 te-modal__filters">
+      {{#power-select
+        triggerClass="te-modal__filter-select"
+        placeholder="Choose a type"
+        disabled=true
+        selected=selectedMappingType
+        options=mappingTypes
+        triggerId="select-mapping-type"
+        renderInPlace=true
+        onchange=(action (mut selectedMappingType))
+        searchEnabled=false
+        as |type|
+      }}
+        {{type}}
+      {{/power-select}}
+      <div class="te-modal__dropdown--expand">
+        {{#power-select 
+          triggerClass="te-modal__filter-select te-modal__filter-select--flushed"
+          selected=selectedEntity
+          disabled=(unless selectedMappingType true false)
+          renderInPlace=true
+          onchange=(action "onMetricChange")
+          search=(action "onSearch")
+          searchPlaceholder=(concat "Searching for a " selectedMappingType)
+          placeholder=(concat "Search for a " selectedMappingType)
+          as |entity|
+        }}
+          {{entity.alias}}
+        {{/power-select}}
+      </div>
+
+      <a class="thirdeye-link thirdeye-link--secondary" {{action "onAddFilter"}}>Add filters</a>
+    </p>
+  </div>
+  <div class="te-modal__table">
+    {{models-table
+      data=relatedEntities
+      customClasses=classes
+      columns=entityColumns
+      filteringIgnoreCase=true
+      showColumnsDropdown=false
+      sortFilterOptions=true
+      pageSize=5
+      showGlobalFilter=false
+      delete="onDeleteEntity"}}
+  </div>
+{{/te-modal}}
