@@ -46,8 +46,14 @@
           {{entity.alias}}
         {{/power-select}}
       </div>
-
-      <a class="thirdeye-link thirdeye-link--secondary" {{action "onAddFilter"}}>Add filters</a>
+      <a class="thirdeye-link thirdeye-link--secondary {{if mappingExists 'thirdeye-link--disabled'}}" {{action "onAddFilter"}}>
+        Add filters
+          {{#if mappingExists}}
+            {{#tooltip-on-element class="te-modal__tooltip"}}
+              This mapping already exists
+            {{/tooltip-on-element}}
+          {{/if}}
+      </a>
     </p>
   </div>
   <div class="te-modal__table">

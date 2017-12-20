@@ -19,7 +19,7 @@ const MAPPING_TYPES = [
 export default Component.extend({
   session: service(),
   selectedMappingType: 'metric',
-  selectedEntity: '',
+  selectedEntity: {},
   mappingTypes: MAPPING_TYPES.map(type => type.toLowerCase()),
   mostRecentSearch: null,
   relatedEntities: null,
@@ -36,16 +36,21 @@ export default Component.extend({
 
   user: computed.reads('session.data.authenticated.name'),
 
+  /**
+   * Checks if the currently selected entity is already in the mapping
+   */
   mappingExists : computed(
-    'selectedEntity',
-    'relatedEntity.@each.alias',
+    'selectedEntity.label',
+    'relatedEntities.@each.alias',
+    'primaryMetric.alias',
     function() {
       const {
-        selectedEntity,
-        relatedEntity
-      } = getProperties(this, 'selectedEntity', 'relatedEntity');
+        selectedEntity: entity,
+        relatedEntities,
+        primaryMetric
+      } = getProperties(this, 'selectedEntity', 'relatedEntities', 'primaryMetric');
 
-      return relatedEntities.some(relatedEntity => relatedEntity.label === entity.label);
+      return [primaryMetric, ...relatedEntities].some(relatedEntity => relatedEntity.label === entity.alias);
     }
   ),
 
@@ -89,7 +94,7 @@ export default Component.extend({
    */
   searchEntities: task(function* (searchText) {
     yield timeout(600);
-    debugger;
+
     let url = `/data/autocomplete/metric?name=${searchText}`;
 
     /**
@@ -129,8 +134,18 @@ export default Component.extend({
       const {
         selectedEntity: entity,
         relatedEntities,
-        user
-      } = getProperties(this, 'selectedEntity', 'relatedEntities', 'user');
+        user,
+        mappingExists
+      } = getProperties(
+        this,
+        'selectedEntity',
+        'relatedEntities',
+        'user',
+        'mappingExists'
+      );
+
+      if (mappingExists) { return; }
+      debugger;
 
       relatedEntities.unshiftObject({
         label: entity.alias,
@@ -140,7 +155,7 @@ export default Component.extend({
         createdBy: user,
         isDeletable: true
       });
-      set(this, 'selectedEntity', null);
+      set(this, 'selectedEntity', {});
     },
 
     /**
@@ -148,6 +163,7 @@ export default Component.extend({
      * @param {Object} metric
      */
     onMetricChange(entity) {
+      debugger;
       set(this, 'selectedEntity', entity);
     },
 
