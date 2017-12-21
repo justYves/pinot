@@ -1,6 +1,6 @@
 {{#te-modal
   headerText="Configure Filters for analyzing"
-  subText=primaryMetric.alias
+  subText=primaryMetric
   cancelButtonText="Cancel"
   submitButtonText="Add to analysis"
   isShowingModal=showEntityMappingModal
@@ -10,7 +10,7 @@
     <p class="col-md-2">
       <span class="te-label te-label--bold te-label--dark">When Analyzing</span>
     </p>
-    <p class="col-md-10">{{primaryMetric.alias}}</p>
+    <p class="col-md-10">{{primaryMetric}}</p>
   </div>
   <div class="row te-modal__settings">
     <p class="col-md-2">
@@ -37,7 +37,7 @@
           selected=selectedEntity
           disabled=(unless selectedMappingType true false)
           renderInPlace=true
-          onchange=(action "onMetricChange")
+          onchange=(action (mut selectedEntity))
           search=(action "onSearch")
           searchPlaceholder=(concat "Searching for a " selectedMappingType)
           placeholder=(concat "Search for a " selectedMappingType)
@@ -48,11 +48,13 @@
       </div>
       <a class="thirdeye-link thirdeye-link--secondary {{if mappingExists 'thirdeye-link--disabled'}}" {{action "onAddFilter"}}>
         Add filters
+        {{#tooltip-on-element class="te-modal__tooltip"}}
           {{#if mappingExists}}
-            {{#tooltip-on-element class="te-modal__tooltip"}}
-              This mapping already exists
-            {{/tooltip-on-element}}
+            This mapping already exists
+          {{else}}
+            Delete mapping
           {{/if}}
+        {{/tooltip-on-element}}
       </a>
     </p>
   </div>

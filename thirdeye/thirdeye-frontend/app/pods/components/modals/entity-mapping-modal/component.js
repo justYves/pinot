@@ -42,7 +42,7 @@ export default Component.extend({
   mappingExists : computed(
     'selectedEntity.label',
     'relatedEntities.@each.alias',
-    'primaryMetric.alias',
+    'primaryMetric',
     function() {
       const {
         selectedEntity: entity,
@@ -50,7 +50,7 @@ export default Component.extend({
         primaryMetric
       } = getProperties(this, 'selectedEntity', 'relatedEntities', 'primaryMetric');
 
-      return [primaryMetric, ...relatedEntities].some(relatedEntity => relatedEntity.label === entity.alias);
+      return (primaryMetric === entity.alias) || relatedEntities.some(relatedEntity => relatedEntity.label === entity.alias);
     }
   ),
 
@@ -155,17 +155,17 @@ export default Component.extend({
         createdBy: user,
         isDeletable: true
       });
-      set(this, 'selectedEntity', {});
+      // set(this, 'selectedEntity', {});
     },
 
-    /**
-     * Action handler for metric search changes
-     * @param {Object} metric
-     */
-    onMetricChange(entity) {
-      debugger;
-      set(this, 'selectedEntity', entity);
-    },
+    // /**
+    //  * Action handler for metric search changes
+    //  * @param {Object} metric
+    //  */
+    // onMetricChange(entity) {
+    //   debugger;
+    //   set(this, 'selectedEntity', entity);
+    // },
 
     /**
      * Performs a search task while cancelling the previous one
