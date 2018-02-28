@@ -20,8 +20,7 @@ const HEATMAP_DROPDOWN = '#select-heatmap-mode';
 const SELECTED_HEATMAP_MODE = '.ember-power-select-selected-item';
 const EVENTS_FILTER_BAR = '.filter-bar';
 const EVENTS_TABLE = '.events-table';
-const ROOTCAUSE_LINK = '#rca-to-rootcause-link';
-const RCA_LINK = '#rootcause-to-rca-link';
+const RCA_TOGGLE = '#rootcause-to-legacy';
 
 moduleForAcceptance('Acceptance | rootcause');
 
@@ -60,12 +59,6 @@ test(`visiting /rootcause with only a metric provided should have correct metric
       'pageViews',
       'selected metric is correct'
     );
-
-    await click(RCA_LINK);
-    assert.equal(
-      currentURL(),
-      '/rootcause?sessionId=1',
-      'link is correct');
   });
 
 test('visiting rootcause page and making changes to the title and comment should create a session with saved changes',
@@ -153,4 +146,12 @@ test('Metrics, Dimensions, and Events tabs exist and should have correct informa
   assert.ok(
     find(EVENTS_TABLE).get(0),
     'events table exists in events tab');
+});
+
+test('links to legacy rca should work', async (assert) => {
+
+  await visit('/rootcause');
+  await click(RCA_TOGGLE);
+
+  assert.ok(currentURL().includes('rca'), currentURL());
 });
