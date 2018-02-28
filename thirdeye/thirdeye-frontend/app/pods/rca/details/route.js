@@ -192,6 +192,10 @@ export default Route.extend({
       if (transition.targetName === 'rca.index') {
         this.refresh();
       }
+    },
+
+    transitionToNewRca(metricId) {
+      this.transitionTo('rootcause', { queryParams: { metricId } });
     }
   }
 });

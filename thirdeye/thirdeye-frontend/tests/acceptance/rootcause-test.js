@@ -20,6 +20,8 @@ const HEATMAP_DROPDOWN = '#select-heatmap-mode';
 const SELECTED_HEATMAP_MODE = '.ember-power-select-selected-item';
 const EVENTS_FILTER_BAR = '.filter-bar';
 const EVENTS_TABLE = '.events-table';
+const ROOTCAUSE_LINK = '#rca-to-rootcause-link';
+const RCA_LINK = '#rootcause-to-rca-link';
 
 moduleForAcceptance('Acceptance | rootcause');
 
@@ -58,6 +60,12 @@ test(`visiting /rootcause with only a metric provided should have correct metric
       'pageViews',
       'selected metric is correct'
     );
+
+    await click(RCA_LINK);
+    assert.equal(
+      currentURL(),
+      '/rootcause?sessionId=1',
+      'link is correct');
   });
 
 test('visiting rootcause page and making changes to the title and comment should create a session with saved changes',

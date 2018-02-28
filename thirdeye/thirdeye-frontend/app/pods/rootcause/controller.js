@@ -966,6 +966,17 @@ export default Controller.extend({
           break;
 
       }
+    },
+
+    onLegacyToggle(urn = '') {
+      later(() => {
+        if (urn.startsWith('thirdeye:metric')) {
+          const id = urn.split(':')[2];
+          this.send('transitionToRcaDetails', id);
+        } else {
+          this.send('transitionToRca');
+        }
+      });
     }
   }
 });

@@ -296,5 +296,24 @@ export default Route.extend(AuthenticatedRouteMixin, {
       setupMode,
       context
     });
+  },
+
+  actions: {
+    transitionToRcaDetails(id) {
+      this.transitionTo('rca.details', id, {
+        queryParams: {
+          startDate: undefined,
+          endDate: undefined,
+          analysisStart: undefined,
+          analysisEnd: undefined,
+          granularity: undefined,
+          filters: JSON.stringify({}),
+          compareMode: 'WoW'
+        }
+      });
+    },
+    transitionToRca() {
+      this.transitionTo('rca');
+    }
   }
 });
